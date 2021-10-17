@@ -1,11 +1,10 @@
-import React from 'react'
-import firebase from "firebase";
-import { auth, db } from '../../firebase';
-import { loading, triggerAuthUser } from '../../myFunctions';
-import UserProfile from '../UserProfile/UserProfile';
+import { useState } from 'react'
+import { auth, db } from '../../lib/firebase';
+import { loading, triggerAuthUser } from '../../lib/myFunctions';
+import UserProfile from '../../lib/UserProfile/UserProfile';
 import { isAccountSavedToDevice } from '../../lib/api';
-import { useState } from 'react';
 import AlertModal from './AlertModal';
+import Image from 'next/image'
 
 function WithGoogle({ defaults }) {
   // const [saveAccountToDevice, setSaveAccountToDevice] = useState(false)
@@ -94,10 +93,9 @@ function WithGoogle({ defaults }) {
   return (<>
     <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} alertMsg={alertMsg} />
 
-    <img
-      onClick={handleSignIn}
-      style={{ margin: '0 5px' }}
-      src="/images/google-icon-16x16.png" alt="Sign in with google" />
+      <div onClick={handleSignIn} style={{ margin: '0 5px' }}>
+    <Image src="/images/google-icon-16x16.svg" width="16px" height="16px" alt="Sign in with google" />
+  </div>
 
 
     {/* {saveAccountToDevice && <div

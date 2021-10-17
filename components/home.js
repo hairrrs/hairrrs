@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image'
-import styles from '../styles/home.module.css'
 import TrendingArticles from './trendingArticles'
 import LatestJobVacancies from './latestJobVacancies'
 
@@ -29,9 +28,9 @@ function Home() {
             </div>
             <div className="flex justify-between items-center" style={{ padding: '15px 0' }}>
                 {catgBox.map((item, index) => (
-                    <div key={index} className={`${styles.catg_box}`}>
+                    <div key={index} className="homeComponent-catg_box">
                         <Image src={item.src} alt="" width="143px" height="164px" />
-                        <div className={styles.catg_box_text}>{item.caption}</div>
+                        <div className="homeComponent-catg_box_text">{item.caption}</div>
                     </div>
                 ))}
             </div>
