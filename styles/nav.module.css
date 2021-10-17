@@ -1,0 +1,27 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 165px;
+  overflow-y: hidden;
+  background: white;
+  display: block;
+}
+
+.navSearch {
+  border: 1px solid #eb004e;
+  padding: 10px 15px;
+}
+.navSearch input {
+  outline: none;
+  border: none;
+  width: 200px;
+  margin-right: 5px;
+}
+
+.topMenu {
+  padding: 10px 25px;
+  background: #eb004e;
+  color: white;
+}

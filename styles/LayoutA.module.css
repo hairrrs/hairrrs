@@ -1,0 +1,12 @@
+.layoutContainer {
+  display: flex;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 165px;
+}
+
+.sideBarProfileImage {
+  border-radius: '50%'
+}
