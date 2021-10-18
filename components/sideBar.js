@@ -26,7 +26,7 @@ export default function SideBar() {
         <div className="flex items-center justify-between">
           <div className="flex items-center" style={{ gap: '1rem' }}>
             <div className="" style={{ position: 'relative', borderRadius: '50%', overflow: 'hidden', background: '#fff', width: "43px", height: "43px" }}>
-              <Image src={user ? user.photoURL : "/images/user.png"} alt="David Blane" width="100%" height="100%" />
+              <Image src={user ? user.photoURL : "/images/user.png"} alt={user ? user.displayName : ""} width="100%" height="100%" />
             </div>
             <div style={{ fontSize: '1.2rem', fontWeight: 600, textDecoration: 'underline' }} className="text-baseColor">{user ? user.displayName : 'Anonymous'}</div>
           </div>
@@ -35,7 +35,7 @@ export default function SideBar() {
             {showMenu && <Menu setShowSwitchAccount={setShowSwitchAccount} setShowMenu={setShowMenu} />}
           </div>
         </div>
-        
+
         <br />
         <div className="flex-column" style={{ gap: '.4rem' }}>
           <Link href="/"><a>Analystics</a></Link>
@@ -63,7 +63,7 @@ const Menu = ({ setShowMenu, setShowSwitchAccount }) => {
         <div onClick={() => { setShowSwitchAccount(true); setShowMenu(false) }}>Switch account</div>
         <div><Link href="/signout"><a onClick={(e) => { e.preventDefault(); signout(); setShowMenu(false) }}>Logout</a></Link></div>
       </> :
-      <Link href="/?authModal=true" as={`${router.pathname}?signin`}><a onClick={() => { setShowMenu(false) }}>login / signup</a></Link>}
+        <Link href="/?authModal=true" as={`${router.pathname}?signin`}><a onClick={() => { setShowMenu(false) }}>login / signup</a></Link>}
     </div>
   )
 }
@@ -79,6 +79,8 @@ const SwithAccount = ({ setShowSwitchAccount }) => {
     //...
   }
 
+  const savedAccounts = JSON.parse(localStorage.getItem('allUsers'));
+
   return (
     <div style={{ position: 'absolute', zIndex: 1, padding: '10px 0', background: 'white', border: '1px solid #d0d0d0', borderRadius: 4, boxShadow: '0 0 15px 1px rgb(199 199 199 / 50%)' }}>
       <i onClick={() => { setShowSwitchAccount(false) }} className="fa fa-times" style={{ position: 'absolute', top: 10, right: 10 }}></i>
@@ -92,20 +94,25 @@ const SwithAccount = ({ setShowSwitchAccount }) => {
           <div>switch to:</div>
           <div className="flex-column" style={{ gap: '.8rem' }}>
 
-            <div className="flex justify-between items-center" style={{ paddingRight: 20 }}>
-              <div onClick={() => { handleSwitchAccount() }} className="flex items-center" style={{ gap: '1rem', cursor: 'pointer' }}>
-                <div style={{ borderRadius: '50%', overflow: 'hidden', width: "35px", height: '35px' }}>
-                  <Image src="/images/user.png" alt="" width="100%" height="100%" />
+            {savedAccounts?.map((account, index) => {
+              // console.log(doc)
+              return (
+                <div key={index} className="flex justify-between items-center" style={{ paddingRight: 20 }}>
+                  <div onClick={() => { handleSwitchAccount(account?.uid) }} className="flex items-center" style={{ gap: '1rem', cursor: 'pointer' }}>
+                    <div style={{ borderRadius: '50%', overflow: 'hidden', width: "35px", height: '35px' }}>
+                      <Image src="/images/user.png" alt="" width="100%" height="100%" />
+                    </div>
+                    <div className="text-baseColor">{account.displayName || account.userName}</div>
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <i onClick={() => { setShowMenu(!showMenu); }} className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                    {showMenu && <div style={{ position: "absolute", top: 0, right: 15, background: '#f7f7f7', padding: '10px 0', width: 150, textAlign: 'center', fontSize: '.8rem' }} className="text-baseColor">
+                      <span onClick={() => { handleRemoveAccountFromDevice() }} style={{ cursor: 'pointer' }}>Remove from device</span>
+                    </div>}
+                  </div>
                 </div>
-                <div className="text-baseColor">Anonymous</div>
-              </div>
-              <div style={{ position: 'relative' }}>
-                <i onClick={() => { setShowMenu(!showMenu); }} className="fa fa-ellipsis-v" aria-hidden="true"></i>
-                {showMenu && <div style={{ position: "absolute", top: 0, right: 15, background: '#f7f7f7', padding: '10px 0', width: 150, textAlign: 'center', fontSize: '.8rem' }} className="text-baseColor">
-                  <span onClick={() => { handleRemoveAccountFromDevice() }} style={{ cursor: 'pointer' }}>Remove from device</span>
-                </div>}
-              </div>
-            </div>
+              )
+            })}
 
           </div>
         </div>

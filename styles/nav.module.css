@@ -7,6 +7,33 @@
   overflow-y: hidden;
   background: white;
   display: block;
+  box-shadow: 0px 4px 15px 2px #f5f5f5;
+}
+
+.headerad {
+  height: 30px
+}
+
+.navLogo {
+  width: 180px;
+  height: 36px;
+}
+
+.mainNav {
+  padding: 15px 80px
+}
+
+@media (max-width: 700px){
+  .mainNav {
+    padding: 15px 20px
+  }
+  .navLogo {
+    width: 120px;
+    height: 29px;
+  }
+  .headerad {
+    height: 30px
+  }
 }
 
 .navSearch {
@@ -22,6 +49,8 @@
 
 .topMenu {
   padding: 10px 25px;
-  background: #eb004e;
-  color: white;
+  color: #eb004e;
+  background: #fcfcfc;
+  gap: 1rem;
+  overflow: auto;
 }

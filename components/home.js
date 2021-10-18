@@ -21,8 +21,8 @@ function Home() {
     return (<>
         <div className="" style={{ background: 'white', padding: '15px', paddingTop: 0 }}>
             <div className="flex">
-                <div className="" style={{ width: '70%' }}><Carousel /></div>
-                <div className="flex justify-center items-center" style={{ width: '30%' }}>
+                <div className="" style={{ width: '100%' }}><Carousel /></div>
+                <div className="sm-hidden flex justify-center items-center" style={{ width: '30%' }}>
                     <Image src="/images/face_of_ohyanga.png" alt="" width="100px" height="50px" />
                 </div>
             </div>
@@ -40,7 +40,7 @@ function Home() {
             <div key={index} className="featuredCatg_wig" style={{ marginBottom: '1.5rem' }}>
                 <div className="featuredCatg_wig-header" style={{ background: '#dcdcdc', color: '#eb004e', fontSize: '1.2rem', fontWeight: 650, padding: '5px 15px' }}>{item.name}</div>
                 <br />
-                <div className="flex flex-wrap gap-1 featuredCatg_wig-body">
+                <div className="flex flex-wrap gap-1 homeComponent-featuredCatg_wig-body">
                     <ProductCard category={item.name} />
                 </div>
                 <br />

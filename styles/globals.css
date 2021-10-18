@@ -89,7 +89,7 @@ input { border: none; outline: none }
   background: #eb004e;
   color: white;
   width: 240px;
-  height: 180px;
+  /* height: 180px; */
   border-radius: 10px;
 }
 .homeComponent-catg_box:last-child {
@@ -99,4 +99,21 @@ input { border: none; outline: none }
   position: absolute;
   bottom: 10px;
   right: 15px;
+}
+
+.homeComponent-featuredCatg_wig-body {
+  padding: 10px
+}
+
+.sm-show{ display: none }
+
+@media (max-width: 700px){
+  .sm-hidden{ display: none }
+  .sm-show{ display: block }
+}
+
+@media (min-width: 700px){
+  .md-flex { display: flex; flex-direction: row !important }
+  .md-grid{ display: grid }
+  .md-show{ display: block }
 }

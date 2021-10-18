@@ -89,7 +89,7 @@ function Signup({ defaults }) {
 
   const handleSaveAccountToDevice = (res) => {
     if (res === 'yes') {
-      // loading('open');
+      loading('open');
       var allUsers = JSON.parse(localStorage.getItem('allUsers'))
       var u = JSON.parse(localStorage.getItem('user'))
       var user = u?.data?.user?.user
@@ -104,7 +104,6 @@ function Signup({ defaults }) {
         if (allUsers && isSavedUsersListOpen()) {
           allUsers.push(cUser[0]);
           localStorage.setItem('allUsers', JSON.stringify(allUsers));
-
         } else {
           localStorage.setItem('allUsers', JSON.stringify(cUser));
         }

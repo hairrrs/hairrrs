@@ -4,12 +4,17 @@ import styles from '../styles/nav.module.css'
 export default function Nav() {
   return (
     <nav className={`${styles.nav}`}>
-      <Image src="/images/headerad.gif" alt="" width="2500" height="50px" />
-      <div className="flex justify-between items-center" style={{ padding: '15px 80px' }}>
+      <div className={styles.headerad}>
+      <img src="/images/headerad.gif" alt="" width="100%" height="100%" className={styles.headeradImg} />
+      </div>
+      <div className={`${styles.mainNav} flex justify-between items-center`}>
         <div className={styles.navLogo}>
-          <Image src="/hairrrs-Logo-original.png" alt="logo" width="180" height="36" />
+          <Image src="/hairrrs-Logo-original.png" alt="logo" width="120" height="30" />
         </div>
-        <div className={`flex justify-between items-center`}>
+        <div className="sm-show" style={{ padding: '5px 10px', border: '1px solid #eb004e', borderRadius: 4, color: '#eb004e', cursor: 'pointer' }}>
+          MENU
+        </div>
+        <div className={`sm-hidden flex justify-between items-center`}>
           <form className={`mx-3 flex items-center ${styles.navSearch}`}>
             <input type="search" name="search" id="search" />
             <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer' }}><i className="fa fa-search" aria-hidden="true" style={{ color: '#eb004e' }}></i></button>
@@ -24,7 +29,7 @@ export default function Nav() {
       <div className={`flex justify-around mt-3 ${styles.topMenu}`} style={{ fontWeight: 600 }}>
         <div>Products</div>
         <div>Business</div>
-        <div>Job Vacancies</div>
+        <div >Jobs</div>
         <div>Articles</div>
       </div>
     </nav>
