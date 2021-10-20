@@ -48,11 +48,11 @@ function Signin() {
 
   const handleSaveAccountToDevice = (res) => {
     if (res === 'yes') {
-      var allUsers = JSON.parse(localStorage.getItem('allUsers'))
-      // console.log(allUsers?.length)
+      var allUsers = JSON.parse(localStorage.getItem('allUsers')) || []
+      console.log(allUsers)
       // console.log(allUsers)
 
-      if (allUsers.length < 4) {
+      if (allUsers?.length < 4) {
         var u = JSON.parse(localStorage.getItem('user'))
         var user = u?.data?.user?.user
         let cUser = [{
