@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import { auth, db } from '../../lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { doc, getDoc } from "firebase/firestore";
@@ -35,7 +36,7 @@ function Signin() {
             setSaveAccountToDevice(true);
             loading('close');
             return;
-          }else{ router.push(`${currentPage}`); loading('close'); }
+          } else { router.push(`${currentPage}`); loading('close'); }
         }
       })
       .catch((error) => {
@@ -72,9 +73,10 @@ function Signin() {
   }
 
   const handleSwitch = async (uid) => {
+    loading('open')
     let res = await handleSwitchAccount(uid);
-    res === 'success' && console.log(res);
-    router.push(`${currentPage}`);
+    // console.log(res);
+    res === 'success' && loading('close'); router.push(`${currentPage}`);
   }
 
   const [showLoginWithSavedAcc, setShowLoginWithSavedAcc] = useState(true)
@@ -101,17 +103,17 @@ function Signin() {
         onClick={() => { setShowLoginWithSavedAcc(false) }}
         style={{ textAlign: 'right', fontSize: 16, fontWeight: 700, cursor: 'pointer' }}>X</div>
 
-      <center><div style={{ fontSize: '18px', fontWeight: 700 }}>Login as</div></center>
-      <div style={{ height: 10 }}></div>
+      <center><div style={{ fontSize: '1.3rem', fontWeight: 700 }}>Login as</div></center>
+      <div style={{ height: 15 }}></div>
 
-      {savedAccounts?.map((doc, index) => {
-        // console.log(doc)
+      {savedAccounts?.map((account, index) => {
+        // console.log(account)
         return (
-          <div key={index} onClick={() => { handleSwitch(doc?.uid) }} className="d-flex align-items-center" style={{ cursor: 'pointer', marginBottom: 10 }}>
-            <img src={doc?.photoURL} alt={doc?.userName}
-              style={{ width: 30, height: 30, borderRadius: '50%' }}
-            />
-            <h3 style={{ marginLeft: 10 }}>{doc?.userName}</h3>
+          <div key={index} onClick={() => { handleSwitch(account?.uid) }} className="flex items-center" style={{ gap: '1rem', cursor: 'pointer', padding: '10px', borderBottom: '1px solid gray' }}>
+            <div style={{ borderRadius: '50%', overflow: 'hidden', width: "35px", height: '35px' }}>
+              <Image src={account ? account?.photoURL : "/images/user.png"} alt={account?.displayName || account?.userName} width="100%" height="100%" />
+            </div>
+            <div className="" style={{ fontWeight: 700, fontSize: '1.2rem' }}>{account?.displayName || account?.userName}</div>
           </div>
         )
       })}

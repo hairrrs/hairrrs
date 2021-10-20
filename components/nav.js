@@ -5,7 +5,7 @@ export default function Nav() {
   return (
     <nav className={`${styles.nav}`}>
       <div className={styles.headerad}>
-      <img src="/images/headerad.gif" alt="" width="100%" height="100%" className={styles.headeradImg} />
+        <img src="/images/headerad.gif" alt="" width="100%" height="100%" className={styles.headeradImg} />
       </div>
       <div className={`${styles.mainNav} flex justify-between items-center`}>
         <div className={styles.navLogo}>
@@ -22,7 +22,7 @@ export default function Nav() {
           <div className="mx-3"><Image src="/images/msg-header.svg" alt="" width="20px" height="20px" /></div>
           <div className="mx-3"><Image src="/images/notification-header.svg" alt="" width="20px" height="20px" /></div>
           <div className="mx-3"><Image src="/images/saved-header.svg" alt="" width="20px" height="20px" /></div>
-          
+
           <div className="mx-3" style={{ padding: '7px 23px', background: '#eb004e', color: 'white', borderRadius: '5px' }}>start selling</div>
         </div>
       </div>

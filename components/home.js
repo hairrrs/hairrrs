@@ -22,7 +22,7 @@ function Home() {
         <div className="" style={{ background: 'white', padding: '15px', paddingTop: 0 }}>
             <div className="flex">
                 <div className="" style={{ width: '100%' }}><Carousel /></div>
-                <div className="sm-hidden flex justify-center items-center" style={{ width: '30%' }}>
+                <div className="sm-hidden flex justify-center items-center" style={{ width: '50%' }}>
                     <Image src="/images/face_of_ohyanga.png" alt="" width="100px" height="50px" />
                 </div>
             </div>
