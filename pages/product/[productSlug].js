@@ -14,7 +14,7 @@ export default function ProductPage({ product }) {
   const DetailsStyle = { marginBottom: 5, fontSize: '1.1rem', fontWeight: 600 }
 
   return (<>
-    <HeadMetadata title={`${product.title} - Hairrrs`} />
+    <HeadMetadata title={`${product?.title} - Hairrrs`} />
 
     <Nav />
 
@@ -22,7 +22,7 @@ export default function ProductPage({ product }) {
       <div className="flex justify-between" style={{ padding: '10px 15px' }}>
         <div>
           <div className="flex flex-wrap" style={{ gap: '.8rem' }}>
-            <div>Home {`>`} Products {`>`} {product && product.category}</div>
+            <div>Home {`>`} Products {`>`} {product && product?.category}</div>
             <div>{productSlug && <>{`>`} <span style={{ color: '#eb004e' }}>{productSlug}</span></>}</div>
           </div>
 
