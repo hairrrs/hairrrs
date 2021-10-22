@@ -1,0 +1,35 @@
+.body{
+  padding: 0 3rem;
+}
+
+.detailsBody {
+  border: 1px solid gray; 
+  border-radius: 5px; 
+  padding: 40px 50px;
+}
+
+.title { 
+  font-size: 1.3rem; 
+  font-weight: 600px
+ }
+
+.price { 
+  font-size: 1.5rem; 
+  font-weight: 800px;
+  color: #eb004e
+ }
+
+@media (max-width: 700px){
+  .body{
+    padding: 0 .2rem;
+  }
+  .detailsBody { padding: 10px }
+  .title { 
+    font-size: 1.1rem; 
+    font-weight: 600px
+   }
+  .price { 
+    font-size: 1.2rem; 
+    font-weight: 750px
+   }
+}

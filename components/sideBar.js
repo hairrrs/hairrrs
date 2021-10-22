@@ -13,7 +13,7 @@ export default function SideBar() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      user.reload();
+      user?.reload();
       setuser(user);
       // console.log(user)
     })
@@ -53,12 +53,13 @@ export default function SideBar() {
   )
 }
 
+const signout = () => { auth.signOut() }
+
 const Menu = ({ setShowMenu, setShowSwitchAccount }) => {
   const router = useRouter();
-  const signout = () => { auth.signOut() }
 
   return (
-    <div className="flex-column" style={{ gap: '.7rem', padding: '10px 15px', background: '#f2f2f27d', position: 'absolute', right: 0, top: 30, width: 155 }}>
+    <div className="flex-column" style={{ gap: '.7rem', padding: '10px 15px', background: '#f2f2f27d', position: 'absolute', right: 0, top: 30, width: 180 }}>
       {auth.currentUser ? <>
         <div onClick={() => { setShowSwitchAccount(true); setShowMenu(false) }}>Switch account</div>
         <div><Link href="/signout"><a onClick={(e) => { e.preventDefault(); signout(); setShowMenu(false) }}>Logout</a></Link></div>
@@ -74,7 +75,14 @@ const SwithAccount = ({ setShowSwitchAccount }) => {
   const handleSwitch = async (accountId) => {
     loading('open');
     let res = await handleSwitchAccount(accountId);
-    res === 'success' && loading('close'); setShowSwitchAccount(false)
+    if(res === 'success'){
+      setTimeout(() => {
+        setShowSwitchAccount(false);
+        loading('close');
+      }, 1000);
+      return;
+    }
+    loading('close');  
   }
 
   const handleRemoveAccountFromDevice = (displayName, accountId) => {

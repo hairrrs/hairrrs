@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import TrendingArticles from './trendingArticles'
 import LatestJobVacancies from './latestJobVacancies'
 
-function Home() {
+const Home = () => {
     const featuredCatg = [
         { name: 'Wig' },
         { name: 'Weavon' },
@@ -26,6 +27,7 @@ function Home() {
                     <Image src="/images/face_of_ohyanga.png" alt="" width="100px" height="50px" />
                 </div>
             </div>
+            
             <div className="flex justify-between items-center" style={{ padding: '15px 0' }}>
                 {catgBox.map((item, index) => (
                     <div key={index} className="homeComponent-catg_box">
@@ -36,15 +38,15 @@ function Home() {
             </div>
         </div>
 
-        {featuredCatg.map((item, index) => (
+        {featuredCatg.map((category, index) => (
             <div key={index} className="featuredCatg_wig" style={{ marginBottom: '1.5rem' }}>
-                <div className="featuredCatg_wig-header" style={{ background: '#dcdcdc', color: '#eb004e', fontSize: '1.2rem', fontWeight: 650, padding: '5px 15px' }}>{item.name}</div>
+                <div className="featuredCatg_wig-header" style={{ background: '#dcdcdc', color: '#eb004e', fontSize: '1.2rem', fontWeight: 650, padding: '5px 15px' }}>{category.name}</div>
                 <br />
                 <div className="flex flex-wrap gap-1 homeComponent-featuredCatg_wig-body">
-                    <ProductCard category={item.name} />
+                    <ProductCard category={category.name} />
                 </div>
                 <br />
-                <span style={{ color: 'red' }}>see more</span>
+                <Link href={`/products/${category.name}`}><a><span style={{ color: 'red' }}>see more</span></a></Link>
             </div>
         ))}
         <br />
@@ -155,10 +157,15 @@ const ProductCard = ({ category }) => {
 
     return (
         <div className="flex">
-            <div style={{ width: '100px', height: '120px', background: '#eb004e' }}></div>
+            <div className="flex justify-center items-center" style={{ width: '100px', height: '120px', background: '#eb004e' }}>
+            <Link href={`/product/${'Title-of-the-item-will-be-placed-here'}`}><a><Image src="/images/0_NEgmVl2J_RRzI9Sr.jpg" alt="" width="100px" height="120px" /></a></Link>
+            </div>
+
             <div style={{ width: '140px', height: '120px', background: '#dcdcdc', padding: '5px', justifyContent: 'space-around' }} className="flex-column">
                 <div>
-                    <div style={{ fontSize: '.9rem', color: '#494949' }}>Title of the item will be placed here</div>
+                    <div>
+                        <Link href={`/product/${'Title-of-the-item-will-be-placed-here'}`}><a style={{ fontSize: '.9rem', color: '#494949' }}>Title of the item will be placed here</a></Link>
+                    </div>
                     <div><strong>N45,000</strong></div>
                 </div>
                 <div><span style={{ padding: '3px 6px', background: '#eb004e', color: 'white', borderRadius: '1px' }}>check <i className="fa fa-caret-right"></i></span></div>

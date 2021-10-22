@@ -76,7 +76,14 @@ function Signin() {
     loading('open')
     let res = await handleSwitchAccount(uid);
     // console.log(res);
-    res === 'success' && loading('close'); router.push(`${currentPage}`);
+    if(res === 'success'){
+      setTimeout(() => {
+        loading('close');
+        router.push(`${currentPage}`);   
+      }, 1000);
+      return;
+    }
+    loading('close');
   }
 
   const [showLoginWithSavedAcc, setShowLoginWithSavedAcc] = useState(true)
@@ -87,7 +94,7 @@ function Signin() {
     <br />
     <br />
 
-    <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} alertMsg={alertMsg} />
+    {alertModal && <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} alertMsg={alertMsg} />}
 
     {showLoginWithSavedAcc && savedAccounts && <div className="loginWithSavedAcc" style={{
       position: 'fixed',

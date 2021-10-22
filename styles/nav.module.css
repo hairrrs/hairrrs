@@ -38,12 +38,13 @@
 
 .navSearch {
   border: 1px solid #eb004e;
-  padding: 10px 15px;
+  /* padding: 10px 15px; */
 }
 .navSearch input {
   outline: none;
   border: none;
   width: 200px;
+  height: 14px;
   margin-right: 5px;
 }
 
