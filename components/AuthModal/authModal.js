@@ -34,23 +34,27 @@ export default function AuthModal() {
 
   const handleSaveAccountToDevice = (res) => {
     if (res === 'yes') {
-      var allUsers = JSON.parse(localStorage.getItem('allUsers'))
-      var u = JSON.parse(localStorage.getItem('user'))
-      var user = u?.data?.user?.user
-      if (user) {
-        let cUser = {
-          uid: user?.uid,
-          displayName: user?.displayName,
-          photoURL: user?.photoURL
-        };
-        // add_cUser_to_list
-        allUsers && isSavedUsersListOpen() ? allUsers.push(cUser) :
-          localStorage.setItem('allUsers', JSON.stringify(cUser));
-
-        allUsers && !isSavedUsersListOpen() && alert('Account full!, you can only have 4 accounts saved');
-
-        setSaveAccountToDevice(false)
-        router.push(`${currentPage}`)
+      try {
+        var allUsers = JSON.parse(localStorage?.getItem('allUsers'))
+        var u = JSON.parse(localStorage?.getItem('user'))
+        var user = u?.data?.user?.user
+        if (user) {
+          let cUser = {
+            uid: user?.uid,
+            displayName: user?.displayName,
+            photoURL: user?.photoURL
+          };
+          // add_cUser_to_list
+          allUsers && isSavedUsersListOpen() ? allUsers.push(cUser) :
+            localStorage?.setItem('allUsers', JSON.stringify(cUser));
+  
+          allUsers && !isSavedUsersListOpen() && alert('Account full!, you can only have 4 accounts saved');
+  
+          setSaveAccountToDevice(false)
+          router.push(`${currentPage}`)
+        }        
+      } catch (error) {
+        console.log(error)
       }
     }
   }

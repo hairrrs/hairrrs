@@ -48,24 +48,28 @@ function Signin() {
 
   const handleSaveAccountToDevice = (res) => {
     if (res === 'yes') {
-      var allUsers = JSON.parse(localStorage.getItem('allUsers')) || []
-      console.log(allUsers)
-      // console.log(allUsers)
-
-      if (allUsers?.length < 4) {
-        var u = JSON.parse(localStorage.getItem('user'))
-        var user = u?.data?.user?.user
-        let cUser = [{
-          uid: user?.uid,
-          userName: user?.userName,
-          // encode => "Buffer.from(str, 'base64')" and decode => "buf.toString('base64')"
-          password: Buffer.from(user?.password, 'base64'),
-          photoURL: user?.photoURL
-        }]
-        allUsers ? allUsers.push(cUser[0]) : allUsers = cUser;
-        let data = allUsers
-        localStorage.setItem('allUsers', JSON.stringify(data));
-      } else { alert('Account full!, you can only have 4 accounts saved') }
+      try {
+        var allUsers = JSON.parse(localStorage?.getItem('allUsers')) || []
+        console.log(allUsers)
+        // console.log(allUsers)
+  
+        if (allUsers?.length < 4) {
+          var u = JSON.parse(localStorage?.getItem('user'))
+          var user = u?.data?.user?.user
+          let cUser = [{
+            uid: user?.uid,
+            userName: user?.userName,
+            // encode => "Buffer.from(str, 'base64')" and decode => "buf.toString('base64')"
+            password: Buffer.from(user?.password, 'base64'),
+            photoURL: user?.photoURL
+          }]
+          allUsers ? allUsers.push(cUser[0]) : allUsers = cUser;
+          let data = allUsers
+          localStorage?.setItem('allUsers', JSON.stringify(data));
+        } else { alert('Account full!, you can only have 4 accounts saved') }        
+      } catch (error) {
+        console.log(error)
+      }
     }
     setSaveAccountToDevice(false)
     router.push(`${currentPage}`);
@@ -87,7 +91,7 @@ function Signin() {
   }
 
   const [showLoginWithSavedAcc, setShowLoginWithSavedAcc] = useState(true)
-  const savedAccounts = JSON.parse(localStorage.getItem('allUsers'));
+  const savedAccounts = JSON.parse(localStorage?.getItem('allUsers'));
 
 
   return (<div style={{ position: 'relative' }}>

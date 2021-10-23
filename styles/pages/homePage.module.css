@@ -1,0 +1,13 @@
+.productCard_a_container {
+  width: 100px;
+  height: 120px;
+  background: #eb004e;
+  overflow: hidden;
+}
+
+.productCard_a_container div:hover,
+.productCard_a_container img:hover 
+.productCard_a_container img {
+  transition: .6s linear;
+  transform: scale(1.3);
+}

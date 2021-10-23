@@ -62,31 +62,35 @@ function WithGoogle({ defaults }) {
 
   // const handleSaveAccountToDevice = (res) => {
   //   if (res === 'yes') {
-  //     loading('open');
-  //     var allUsers = JSON.parse(localStorage.getItem('allUsers'))
-  //     var u = JSON.parse(localStorage.getItem('user'))
-  //     var user = u?.data?.user?.user
-  //     if (user) {
-  //       let cUser = [{
-  //         uid: user?.uid,
-  //         userName: user?.userName,
-  //         photoURL: user?.photoURL
-  //       }];
-  //       // add_cUser_to_list
-  //       if (allUsers && isSavedUsersListOpen()) {
-  //         allUsers.push(cUser[0]);
-  //         localStorage.setItem('allUsers', JSON.stringify(allUsers));
-          
-  //       } else {
-  //         localStorage.setItem('allUsers', JSON.stringify(cUser));
-  //       }
-
-  //       allUsers && !isSavedUsersListOpen() && alert('Account full!, you can only have 4 accounts saved');
-
-  //       loading('close');
-  //       setSaveAccountToDevice(false);
-  //       triggerAuthUser(false);
-  //     }
+    // try {
+      //     loading('open');
+      //     var allUsers = JSON.parse(localStorage?.getItem('allUsers'))
+      //     var u = JSON.parse(localStorage?.getItem('user'))
+      //     var user = u?.data?.user?.user
+      //     if (user) {
+      //       let cUser = [{
+      //         uid: user?.uid,
+      //         userName: user?.userName,
+      //         photoURL: user?.photoURL
+      //       }];
+      //       // add_cUser_to_list
+      //       if (allUsers && isSavedUsersListOpen()) {
+      //         allUsers.push(cUser[0]);
+      //         localStorage?.setItem('allUsers', JSON.stringify(allUsers));
+              
+      //       } else {
+      //         localStorage?.setItem('allUsers', JSON.stringify(cUser));
+      //       }
+    
+      //       allUsers && !isSavedUsersListOpen() && alert('Account full!, you can only have 4 accounts saved');
+    
+      //       loading('close');
+      //       setSaveAccountToDevice(false);
+      //       triggerAuthUser(false);
+      //     }      
+    // } catch (error) {
+    //   console.log(error)
+    // }
   //   }
   // }
 

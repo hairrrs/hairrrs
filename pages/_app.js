@@ -95,5 +95,5 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp
-// console.clear();
-// console.log("...Welcome to Hairrrs.com");
+console.clear();
+console.log("...Welcome to Hairrrs.com");

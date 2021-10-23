@@ -13,107 +13,111 @@ export default function ProductPage({ product }) {
 
   const DetailsStyle = { marginBottom: 5, fontSize: '1.1rem', fontWeight: 600 }
 
-  return (<>
-    <HeadMetadata title={`${product?.title} - Hairrrs`} />
+  if (product) {
+    return (<>
+      <HeadMetadata title={`${product?.title} - Hairrrs`} />
 
-    <Nav />
+      <Nav />
 
-    <LayoutA>
-      <div className="flex justify-between" style={{ padding: '10px 15px' }}>
-        <div>
-          <div className="flex flex-wrap" style={{ gap: '.8rem' }}>
-            <div>Home {`>`} Products {`>`} {product && product?.category}</div>
-            <div>{productSlug && <>{`>`} <span style={{ color: '#eb004e' }}>{productSlug}</span></>}</div>
+      <LayoutA>
+        <div className="flex justify-between" style={{ padding: '10px 15px' }}>
+          <div>
+            <div className="flex flex-wrap" style={{ gap: '.8rem' }}>
+              <div>Home {`>`} Products {`>`} {product && product?.category}</div>
+              <div>{productSlug && <>{`>`} <span style={{ color: '#eb004e' }}>{productSlug}</span></>}</div>
+            </div>
+
+            <div className={style.body}>
+              <br />
+              <div>
+                <Carousel />
+              </div>
+
+              <br />
+              <div className="flex flex-wrap items-center justify-between gap-1">
+                <div className="flex items-center" style={{ gap: '.3rem' }}>
+                  <Image src="/images/views.png" alt="" width="23px" height="14px" />
+                  <div>23,052 Views</div>
+                </div>
+
+                <div className="flex flex-wrap items-center" style={{ gap: '1.3rem' }}>
+                  <div className="flex items-center" style={{ gap: '.3rem', border: '1px solid #eb004e', borderRadius: 5, padding: '5px 10px' }}>
+                    <Image src="/images/Sharebtn.png" alt="" width="18px" height="18px" />
+                    <div>Share</div>
+                  </div>
+                  <div className="flex items-center" style={{ gap: '.3rem', border: '1px solid #eb004e', borderRadius: 5, padding: '5px 10px' }}>
+                    <Image src="/images/savebtn.png" alt="" width="18px" height="18px" />
+                    <div>Save</div>
+                  </div>
+                  <div className="flex items-center" style={{ gap: '.3rem', border: '1px solid #eb004e', borderRadius: 5, padding: '5px 10px' }}>
+                    <Image src="/images/Icon material-flag.png" alt="" width="18px" height="14px" />
+                    <div>Report this product</div>
+                  </div>
+                </div>
+              </div>
+
+              <br />
+              <div className={style.detailsBody}>
+                <div className="flex flex-wrap justify-between">
+                  <div className={style.title}>{product?.title}</div>
+                  <div className={style.price}>{product?.price}</div>
+                </div>
+                <br />
+                <div><hr /></div>
+                <br />
+
+                {/* Details */}
+                <div style={{ color: 'gray' }}>
+                  <p style={DetailsStyle}>Details</p>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure, eligendi excepturi quam labore incidunt asperiores? Ratione temporibus ad accusamus suscipit!</p>
+
+                  <br />
+                  <p style={DetailsStyle}>Posted</p>
+                  <p>{product?.updatedAt}Jan. 24 2020 - 18:34</p>
+
+                  <br />
+                  <p style={DetailsStyle}>Category</p>
+                  <p>{product?.category}</p>
+
+                  <br />
+                  <p style={DetailsStyle}>Type</p>
+                  <p>Afro</p>
+
+                  <br />
+                  <p style={DetailsStyle}>Location</p>
+                  <p>Lagos</p>
+
+                  <br />
+                  <p style={{ marginBottom: 5, fontSize: '1.1rem', fontWeight: 600 }}>Address</p>
+                  <p>Lagos Island (Eko), Lagos State, Nigeria</p>
+                </div>
+
+                <br />
+                <div className="flex flex-wrap justify-between sm-justify-center items-center gap-1">
+                  <span className="flex justify-center items-center" style={{ color: '#eb004e', padding: '5px 10px', border: '1.5px solid #eb004e', fontSize: '.9rem', fontWeight: 600, borderRadius: 5 }}>Chat</span>
+                  <span className="flex justify-center items-center" style={{ color: '#eb004e', padding: '5px 10px', border: '1.5px solid #eb004e', fontSize: '.9rem', fontWeight: 600, borderRadius: 5 }}>Request Call</span>
+                </div>
+
+                <br />
+                <div className="flex justify-center">
+                  <span className="flex justify-center items-center" style={{ color: '#eb004e', padding: '5px 10px', border: '1.5px solid #eb004e', fontSize: '.9rem', fontWeight: 600, borderRadius: 5 }}>Call +23481 0000 0000</span>
+                </div>
+              </div>
+
+              <br />
+              <div>
+                <p>Related Products</p>
+              </div>
+            </div>
           </div>
 
-          <div className={style.body}>
-            <br />
-            <div>
-              <Carousel />
-            </div>
-
-            <br />
-            <div className="flex flex-wrap items-center justify-between gap-1">
-              <div className="flex items-center" style={{ gap: '.3rem' }}>
-                <Image src="/images/views.png" alt="" width="23px" height="14px" />
-                <div>23,052 Views</div>
-              </div>
-
-              <div className="flex flex-wrap items-center" style={{ gap: '1.3rem' }}>
-                <div className="flex items-center" style={{ gap: '.3rem', border: '1px solid #eb004e', borderRadius: 5, padding: '5px 10px' }}>
-                  <Image src="/images/Sharebtn.png" alt="" width="18px" height="18px" />
-                  <div>Share</div>
-                </div>
-                <div className="flex items-center" style={{ gap: '.3rem', border: '1px solid #eb004e', borderRadius: 5, padding: '5px 10px' }}>
-                  <Image src="/images/savebtn.png" alt="" width="18px" height="18px" />
-                  <div>Save</div>
-                </div>
-                <div className="flex items-center" style={{ gap: '.3rem', border: '1px solid #eb004e', borderRadius: 5, padding: '5px 10px' }}>
-                  <Image src="/images/Icon material-flag.png" alt="" width="18px" height="14px" />
-                  <div>Report this product</div>
-                </div>
-              </div>
-            </div>
-
-            <br />
-            <div className={style.detailsBody}>
-              <div className="flex flex-wrap justify-between">
-                <div className={style.title}>{product?.title}</div>
-                <div className={style.price}>{product?.price}</div>
-              </div>
-              <br />
-              <div><hr /></div>
-              <br />
-
-              {/* Details */}
-              <div style={{ color: 'gray' }}>
-                <p style={DetailsStyle}>Details</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure, eligendi excepturi quam labore incidunt asperiores? Ratione temporibus ad accusamus suscipit!</p>
-
-                <br />
-                <p style={DetailsStyle}>Posted</p>
-                <p>{product.updatedAt}Jan. 24 2020 - 18:34</p>
-
-                <br />
-                <p style={DetailsStyle}>Category</p>
-                <p>{product.category}</p>
-
-                <br />
-                <p style={DetailsStyle}>Type</p>
-                <p>Afro</p>
-
-                <br />
-                <p style={DetailsStyle}>Location</p>
-                <p>Lagos</p>
-
-                <br />
-                <p style={{ marginBottom: 5, fontSize: '1.1rem', fontWeight: 600 }}>Address</p>
-                <p>Lagos Island (Eko), Lagos State, Nigeria</p>
-              </div>
-
-              <br />
-              <div className="flex flex-wrap justify-between sm-justify-center items-center gap-1">
-                <span className="flex justify-center items-center" style={{ color: '#eb004e', padding: '5px 10px', border: '1.5px solid #eb004e', fontSize: '.9rem', fontWeight: 600, borderRadius: 5 }}>Chat</span>
-                <span className="flex justify-center items-center" style={{ color: '#eb004e', padding: '5px 10px', border: '1.5px solid #eb004e', fontSize: '.9rem', fontWeight: 600, borderRadius: 5 }}>Request Call</span>
-              </div>
-
-              <br />
-              <div className="flex justify-center">
-                <span className="flex justify-center items-center" style={{ color: '#eb004e', padding: '5px 10px', border: '1.5px solid #eb004e', fontSize: '.9rem', fontWeight: 600, borderRadius: 5 }}>Call +23481 0000 0000</span>
-              </div>
-            </div>
-
-            <br />
-            <div>
-              <p>Related Products</p>
-            </div>
-          </div>
+          <div className="sm-hidden" style={{ marginTop: 20 }}><Seller /></div>
         </div>
-
-        <div className="sm-hidden" style={{ marginTop: 20 }}><Seller /></div>
-      </div>
-    </LayoutA>
-  </>)
+      </LayoutA>
+    </>)
+  } else {
+    return (<><h1>ERRROR 404: NOT FOUND!</h1></>)
+  }
 }
 
 const Seller = () => {
