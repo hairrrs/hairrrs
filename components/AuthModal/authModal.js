@@ -29,7 +29,8 @@ export default function AuthModal() {
     messageNotifications: false,
     emailNotifications: false,
     appAutoUpdate: false,
-    totalEngagement: 0
+    totalEngagement: 0,
+    savedList: []
   }
 
   const handleSaveAccountToDevice = (res) => {

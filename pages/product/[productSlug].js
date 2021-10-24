@@ -1,17 +1,56 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from 'next/image';
 import HeadMetadata from "../../components/HeadMetadata";
 import LayoutA from '../../components/layoutA'
 import Nav from '../../components/nav'
-import { getAllProducts, getProductBySlug } from "../../lib/api";
+import { getAllProducts, getProductBySlug, hasSaved, saveItem, Unsave } from "../../lib/api";
 import style from '../../styles/pages/product.module.css'
+import { auth, db } from "../../lib/firebase";
+import { doc, onSnapshot } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function ProductPage({ product }) {
+  const [authUser, setAuthUser] = useState([]);
+  useEffect(() => {
+    onAuthStateChanged(auth, user => {
+      setAuthUser(user)
+    })
+  }, [])
+
+  const [user, setUser] = useState([]);
+  useEffect(() => {
+    const fetch = async () => {
+      const uid = authUser?.uid
+      if(uid){
+        try {
+          const userRef = doc(db, 'users', uid)
+          onSnapshot(userRef, doc => {
+            setUser({ ...doc.data(), userId: doc.id })
+          });
+        } catch (error) {
+          console.log(error)
+        }
+      }else{ console.log('not authenticated!')}
+    }
+    return fetch();
+  }, [authUser])
+
   const router = useRouter()
   const { productSlug } = router.query
 
-  const DetailsStyle = { marginBottom: 5, fontSize: '1.1rem', fontWeight: 600 }
+  const [hasSavedItem, setHasSavedItem] = useState(false);
+  useEffect(() => {
+    const fetch = async () => {
+      if (user && product) {
+        let res = hasSaved(user?.savedList, product?.id)
+        res === true ? setHasSavedItem(true) : setHasSavedItem(false)
+      }
+    }
+    return fetch()
+  }, [product, user])
+
+  const DetailsStyle = { marginBottom: 5, fontSize: '1.1rem', fontWeight: 600 };
 
   if (product) {
     return (<>
@@ -24,7 +63,7 @@ export default function ProductPage({ product }) {
           <div>
             <div className="flex flex-wrap" style={{ gap: '.8rem' }}>
               <div>Home {`>`} Products {`>`} {product && product?.category}</div>
-              <div>{productSlug && <>{`>`} <span style={{ color: '#eb004e' }}>{productSlug}</span></>}</div>
+              <div>{product && <>{`>`} <span style={{ color: '#eb004e' }}>{product?.title}</span></>}</div>
             </div>
 
             <div className={style.body}>
@@ -34,6 +73,7 @@ export default function ProductPage({ product }) {
               </div>
 
               <br />
+              <br />
               <div className="flex flex-wrap items-center justify-between gap-1">
                 <div className="flex items-center" style={{ gap: '.3rem' }}>
                   <Image src="/images/views.png" alt="" width="23px" height="14px" />
@@ -41,21 +81,40 @@ export default function ProductPage({ product }) {
                 </div>
 
                 <div className="flex flex-wrap items-center" style={{ gap: '1.3rem' }}>
-                  <div className="flex items-center" style={{ gap: '.3rem', border: '1px solid #eb004e', borderRadius: 5, padding: '5px 10px' }}>
+                  <div className={`flex items-center ${style.style_share}`}>
                     <Image src="/images/Sharebtn.png" alt="" width="18px" height="18px" />
                     <div>Share</div>
                   </div>
-                  <div className="flex items-center" style={{ gap: '.3rem', border: '1px solid #eb004e', borderRadius: 5, padding: '5px 10px' }}>
-                    <Image src="/images/savebtn.png" alt="" width="18px" height="18px" />
-                    <div>Save</div>
-                  </div>
-                  <div className="flex items-center" style={{ gap: '.3rem', border: '1px solid #eb004e', borderRadius: 5, padding: '5px 10px' }}>
+                  {hasSavedItem ?
+                    <div className={`flex items-center ${style.style_share}`} onClick={async () => {
+                      if (!user) { return }
+                      if (!product) { return }
+                      let res = await saveItem(user, product?.productId, '', product?.title, `/product/${product?.slug}`, 'product')
+                      res === 'success' && setHasSavedItem(true); return;
+                      alert(res)
+                    }}>
+                      <Image src="/images/savebtn.png" alt="" width="18px" height="18px" />
+                      <div>Save</div>
+                    </div> :
+                    <div className={`flex items-center ${style.style_share}`} style={{ background: '#eb004e', color: 'white' }} onClick={async () => {
+                      if (!user) { return }
+                      if (!product) { return }
+                      let res = await Unsave(user, product?.productId)
+                      res === 'success' && setHasSavedItem(false); return;
+                      alert(res)
+                    }}>
+                      <Image src="/images/savebtn.png" alt="" width="18px" height="18px" />
+                      <div>Unsave{hasSavedItem}</div>
+                    </div>
+                  }
+                  <div className={`flex items-center ${style.style_share}`}>
                     <Image src="/images/Icon material-flag.png" alt="" width="18px" height="14px" />
                     <div>Report this product</div>
                   </div>
                 </div>
               </div>
 
+              <br />
               <br />
               <div className={style.detailsBody}>
                 <div className="flex flex-wrap justify-between">
@@ -105,6 +164,7 @@ export default function ProductPage({ product }) {
               </div>
 
               <br />
+              <br />
               <div>
                 <p>Related Products</p>
               </div>
@@ -150,7 +210,7 @@ const Seller = () => {
 }
 
 const Carousel = () => {
-  var slideIndex = 1;
+  var slideIndex = 0;
   // Next/previous controls
   function plusSlides(n) {
     changeShowSlides(slideIndex += n);
@@ -191,15 +251,15 @@ const Carousel = () => {
       var i;
       var slides = document.getElementsByClassName("mySlides");
       var dots = document.getElementsByClassName("carousel_dot");
-      for (i = 0; i < slides.length; i++) {
+      for (i = 0; i < slides?.length; i++) {
         if (slides[i]) {
           slides[i].style.display = "none";
         }
       }
       slideIndex++;
-      if (slideIndex > slides.length) { slideIndex = 1 }
+      if (slideIndex > slides?.length) { slideIndex = 1 }
 
-      for (i = 0; i < dots.length; i++) {
+      for (i = 0; i < dots?.length; i++) {
         if (dots[i]) {
           dots[i].className = dots[i].className.replace(" carousel_active", "");
         }
@@ -225,10 +285,7 @@ const Carousel = () => {
       {images.map((item, index) => (
         <div key={index + 1} className="mySlides fade">
           {/* <div className="carousel_numbertext">{index+1} / {images.length}</div> */}
-          {// eslint-disable-next-line @next/next/no-img-element
-            // <img src={item.src} alt="" style={{ width: '100%', height: '250px' }} className="carousel_img" />
-          }
-          <Image src={item.src} alt="" width="800px" height="250px" className="carousel_img" />
+          <Image src={item.src} alt="" width="800px" height="500px" className="carousel_img" />
           {/* <div className="carousel_text">Caption Text</div> */}
         </div>
       ))}

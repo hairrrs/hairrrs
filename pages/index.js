@@ -126,7 +126,7 @@ const Carousel = () => {
       if (dots[slideIndex - 1]) {
         dots[slideIndex - 1].className += " carousel_active";
       }
-      setTimeout(showSlides, 5000); // Change image every 5 seconds
+      setTimeout(showSlides, 5000);
     }
   }, [slideIndex])
 
@@ -141,9 +141,7 @@ const Carousel = () => {
       {images.map((item, index) => (
         <div key={index + 1} className="mySlides fade">
           {/* <div className="carousel_numbertext">{index+1} / {images.length}</div> */}
-          {// eslint-disable-next-line @next/next/no-img-element
-            <img src={item.src} alt="" style={{ width: '100%', height: '250px' }} className="carousel_img" />
-          }
+          <Image src={item.src} alt="" width="800px" height="480px" className="carousel_img" />
           {/* <div className="carousel_text">Caption Text</div> */}
         </div>
       ))}
@@ -167,7 +165,7 @@ const ProductCard = ({ category }) => {
     const fetch = async () => {
       const res = await getProductsByCategory(category, 6);
       const serialized = res?.data ? res?.data : []
-      console.log(serialized)
+      // console.log(serialized)
       serialized && setProducts(serialized)
     }
     return fetch()

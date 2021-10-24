@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import AuthModal from '../components/AuthModal/authModal'
+import ReportModal from '../components/reportModal'
 
 Modal.setAppElement('#__next');
 
@@ -56,6 +57,7 @@ function MyApp({ Component, pageProps }) {
       </div>
     </div>
 
+    {router.query.report_modal === "true" && <ReportModal />}
     {/* authModal */}
     <Modal
       isOpen={router.query.authModal === 'true'}
