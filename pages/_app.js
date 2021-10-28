@@ -6,12 +6,28 @@ import Image from 'next/image'
 import Link from 'next/link'
 import AuthModal from '../components/AuthModal/authModal'
 import ReportModal from '../components/reportModal'
+import { useEffect } from 'react'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth, db } from '../lib/firebase'
+import { doc, onSnapshot } from 'firebase/firestore'
+import UserProfile from '../lib/UserProfile/UserProfile'
 
 Modal.setAppElement('#__next');
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const currentPage = router.pathname
+  
+  useEffect(() => {
+    onAuthStateChanged(auth, authUser => {
+      if (authUser.uid) {
+        const userRef = doc(db, 'users', authUser?.uid);
+        onSnapshot(userRef, doc => {
+          UserProfile.setUser({ ...doc.data(), uid: doc.id });
+        });
+      }
+    })
+  }, [])
 
   return (<>
     {/* start selling */}

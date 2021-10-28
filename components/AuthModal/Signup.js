@@ -14,14 +14,14 @@ function Signup({ defaults }) {
   const [saveAccountToDevice, setSaveAccountToDevice] = useState(false)
   const [alertModal, setAlertModal] = useState(false);
   const [alertMsg, setAlertMsg] = useState('')
-  const [content, setContent] = useState({ firstName: '', lastName: '', email: '', userName: '', password: '', Cpassword: '' });
+  const [content, setContent] = useState({ firstName: '', lastName: '', email: '', displayName: '', password: '', Cpassword: '' });
   const onChange = (e) => {
     const { value, name } = e.target;
     setContent(prevState => ({ ...prevState, [name]: value }));
   }
 
   const handleCleanUp = () => {
-    setContent({ firstName: '', lastName: '', email: '', userName: '', password: '', Cpassword: '' })
+    setContent({ firstName: '', lastName: '', email: '', displayName: '', password: '', Cpassword: '' })
   }
 
   // const getGeolocation = async () => {
@@ -36,7 +36,7 @@ function Signup({ defaults }) {
       createUserWithEmailAndPassword(auth, content.email, content.password)
         .then(async (authUser) => {
           updateProfile(authUser.user, {
-            displayName: content.userName,
+            displayName: content.displayName,
             photoURL
           });
 
@@ -48,7 +48,7 @@ function Signup({ defaults }) {
               let d1 = {
                 createdAt: new Date(),
                 updatedAt: new Date(),
-                userName: content.userName,
+                displayName: content.displayName,
                 password: encodePassword,
                 uid: authUser.user.uid,
                 email: authUser.user.email,
@@ -97,7 +97,7 @@ function Signup({ defaults }) {
         if (user) {
           let cUser = [{
             uid: user?.uid,
-            userName: user?.userName,
+            displayName: user?.displayName,
             password: user?.password,
             photoURL: user?.photoURL
           }];
@@ -156,13 +156,13 @@ function Signup({ defaults }) {
           type="email" id="email" placeholder="Email" required />
       </div><br />
 
-      <span>username / trending name</span>
+      <span>displayName / trending name</span>
       <div className="form-control">
         <input
-          name="userName"
-          value={content.userName}
+          name="displayName"
+          value={content.displayName}
           onChange={onChange}
-          type="username" id="username" placeholder="username / trending name" required />
+          type="displayName" id="displayName" placeholder="displayName / trending name" required />
       </div><br />
 
       <span>Password</span>

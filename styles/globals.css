@@ -81,13 +81,14 @@ button{
   z-index: 9;
   display: none;
   place-items: center;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 0.75);
 }
 @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-  #loadingModal {
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 0.5);
+  #loadingModal,
+  #desktopShareMain {
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.2);
   }
 }
 

@@ -7,7 +7,9 @@ export default function ReportModal() {
   const type = router?.query?.type
 
   const closeModal = () => {
-    router.push(currentPage);
+    // console.log(currentPage)
+    // router.push(currentPage);
+    router.back()
   }
   const handleSubmit = (e) => {
     console.log(e)
