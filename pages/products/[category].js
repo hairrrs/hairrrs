@@ -33,7 +33,7 @@ export default function Products({ initialProducts, lastVisibleItem }) {
       }
       const querySnapshot = await getDocs(nextQ).catch(error => console.log(error) );
       let data = querySnapshot?.docs?.map(doc => ({ ...doc.data(), productId: doc.id }))
-      data && setProducts(data)
+      data?.length > 0 ? setProducts(data) : document.querySelector('#seeMore').style.display = 'none';
     }else{
       alert('An error occured, please try again')
     }
@@ -58,7 +58,7 @@ export default function Products({ initialProducts, lastVisibleItem }) {
 
           <br />
           <br />
-          <div className="flex justify-center" style={{ cursor: 'pointer' }} onClick={() => { fetchMore() }}>
+          <div className="flex justify-center" id="seeMore" style={{ cursor: 'pointer' }} onClick={() => { fetchMore() }}>
             <span style={{ color: '#eb004e', padding: '10px 100px', border: '2px solid #eb004e', fontWeight: 600, borderRadius: 5 }}>see more</span>
           </div>
         </div>
@@ -72,13 +72,13 @@ export default function Products({ initialProducts, lastVisibleItem }) {
 const Card = ({ product }) => {
   return (
     <div style={{ width: 140 }}>
-      <div style={{ width: '100%', height: 120, background: '#eb004e', color: 'white' }}><Link href="/"><a>
+      <div style={{ width: '100%', height: 120, background: '#eb004e', color: 'white' }}><Link href={`/product/${product?.slug}`}><a>
         <Image src="/images/0_NEgmVl2J_RRzI9Sr.jpg" alt="" width="140px" height="120" />
       </a></Link></div>
 
       <div style={{ padding: 10, border: '1px solid #e4e4e4', background: '#f8f8f8' }}>
         <div style={{ fontSize: '.7rem', fontWeight: 600 }}>
-          <Link href="#"><a>{product?.title}</a></Link>
+          <Link href={`/product/${product?.slug}`}><a>{product?.title}</a></Link>
         </div>
         <div style={{ fontSize: '.9rem', fontWeight: 600 }}>
           <strong>{product?.price}</strong>

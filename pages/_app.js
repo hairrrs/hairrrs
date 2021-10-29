@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
   
   useEffect(() => {
     onAuthStateChanged(auth, authUser => {
-      if (authUser.uid) {
+      if (authUser?.uid) {
         const userRef = doc(db, 'users', authUser?.uid);
         onSnapshot(userRef, doc => {
           UserProfile.setUser({ ...doc.data(), uid: doc.id });

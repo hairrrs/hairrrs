@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Link from 'next/link';
 import Image from 'next/image';
 import HeadMetadata from "../../components/HeadMetadata";
 import LayoutA from '../../components/layoutA'
 import Nav from '../../components/nav'
 import {
-  getAllProducts, getProductBySlug, hasSaved, saveItem, Unsave, updatePageViewAPI,
-  updateLocalUser, requestcall, deleteRequestcall, hasRequestedCallAPI, getUserById, followAPI, unFollowAPI
+  getAllProducts, getProductBySlug, hasSavedAPI, saveItem, Unsave, updatePageViewAPI,
+  updateLocalUser, requestcall, deleteRequestcall, hasRequestedCallAPI, followAPI, unFollowAPI
 } from "../../lib/api";
 import { getDesc, loading } from "../../lib/myFunctions";
 import style from '../../styles/pages/product.module.css'
@@ -16,6 +15,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import WebShareApi from "../../components/WebShareApi";
+import PostedBy from '../../components/PostedBy';
 
 export default function ProductPage({ product }) {
   const createProduct = {
@@ -51,14 +51,11 @@ export default function ProductPage({ product }) {
     })
   }, [])
 
-  const router = useRouter()
-  const { productSlug } = router.query
-
   const [hasSavedItem, setHasSavedItem] = useState(false);
   useEffect(() => {
     const fetch = async () => {
       if (user && product) {
-        let res = hasSaved(user?.savedList, product?.id)
+        let res = hasSavedAPI(user?.savedList, product?.id)
         if (res === true) {
           setHasSavedItem(true)
         } else {
@@ -278,89 +275,13 @@ export default function ProductPage({ product }) {
             </div>
           </div>
 
-          {product?.seller && <div className="sm-hidden" style={{ marginTop: 20 }}><Seller initialSeller={product?.seller} user={user} /></div>}
+          {product?.seller && <div className="sm-hidden" style={{ marginTop: 20 }}><PostedBy initialOwner={product?.seller} user={user} /></div>}
         </div>
       </LayoutA>
     </>)
   } else {
     return (<><h1>ERROR 404: NOT FOUND!</h1></>)
   }
-}
-
-const Seller = ({ initialSeller, user }) => {
-  const [seller, setSeller] = useState([]);
-  const [totalFollowers, setTotalFollowers] = useState(0);
-  const [hasFollowed, setHasFollowed] = useState(false);
-
-  // setSeller
-  useEffect(() => {
-    const sellerRef = doc(db, 'users', initialSeller?.uid);
-    onSnapshot(sellerRef, doc => {
-      doc.exists && setSeller({ ...doc.data(), uid: doc.id });
-    });
-  }, [initialSeller])
-
-  // setHasFollowed, setTotalFollowers
-  useEffect(() => {
-    if (user) {
-      if (user?.uid !== seller?.uid) {
-        let arr = seller?.followers;
-        arr && setTotalFollowers(arr?.length);
-        let r = arr?.filter(doc => doc?.uid === user?.uid);
-        r?.length > 0 ? setHasFollowed(true) : setHasFollowed(false)
-      }
-    }
-  }, [seller, user])
-
-  const follow = async () => {
-    if (seller && user) {
-      // loading('open');
-      let res = await followAPI(seller, user);
-      res === 'success' && setHasFollowed(true);
-      loading('close');
-    }
-  }
-
-  const unFollow = async () => {
-    if (seller && user) {
-      // loading('open');
-      let res = await unFollowAPI(seller, user);
-      console.log(res)
-      // res === 'success' && setHasFollowed(true);
-      loading('close');
-    }
-  }
-
-  return (
-    <div style={{ width: 250, padding: '20px 20px', boxShadow: 'rgb(0 0 0 / 20%) 0px 0px 4px 0px' }}>
-      <div className="flex items-center justify-center" style={{ background: '#eb004e', color: 'white', padding: '10px 0', borderRadius: 5 }}>Posted by</div>
-
-      <br />
-      <div className="flex-column items-center" style={{ gap: '.8rem', background: '#f3f3f3', borderRadius: 5, padding: '25px 0' }}>
-        <div style={{ width: 50, height: 50, background: '#eb004e', borderRadius: '50%', overflow: 'hidden' }}>
-          {/* <Image src="/" */}
-        </div>
-
-        <div style={{ fontSize: '1rem', fontWeight: 650 }}>{seller?.displayName === user?.displayName ? 'You' : seller?.displayName}</div>
-
-        <div className="flex" style={{ gap: '.6rem', fontSize: '.7rem' }}>
-          {seller?.displayName !== user?.displayName && <div className="button-outline">Message</div>}
-          {seller?.displayName !== user?.displayName && <>
-            {hasFollowed ? <div className="button-solid" onClick={unFollow}>Unfollow</div> :
-              <div className="button-solid" onClick={follow}>Follow</div>}
-          </>}
-          {seller?.displayName === user?.displayName && <div className="button-solid">Following</div>}
-          <div className="button-solid">{totalFollowers}</div>
-        </div>
-      </div>
-
-      <br />
-      <div className="flex justify-center" style={{ color: '#eb004e', padding: '8px 0', width: '100%', border: '1px solid #eb004e', fontSize: '.7rem', fontWeight: 600, borderRadius: 5, gap: '.4rem' }}>
-        <Image src="/images/Icon material-flag.png" alt="" width="18px" height="14px" />
-        <span>Report this business</span>
-      </div>
-    </div>
-  )
 }
 
 const Carousel = () => {
