@@ -33,7 +33,7 @@ const Card = () => {
             <div style={{ width: '75%', padding: 15 }}>
                 <div className=""><strong style={{ fontSize: '.9rem' }}>Title of the article will be here all the time?</strong></div>
                 <div><p style={{ fontSize: '.8rem' }}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, autem. Dolorem ducimus cum molestias esse.</p></div>
-                <div className="md-flex flex-column" style={{ marginTop: '.6rem', gap: '.5rem', fontSize: '.8rem' }}>
+                <div className="md-flex flex-column" style={{ marginTop: '.6rem', gap: '1.2rem', fontSize: '.8rem' }}>
                     <div className="flex">
                         <Image src="/images/Icon material-access-time.png" alt="" width="15px" height="15px" />
                         <div style={{ marginLeft: '8px', }}>Full time</div>

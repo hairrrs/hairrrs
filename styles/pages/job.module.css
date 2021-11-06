@@ -1,0 +1,7 @@
+.style_share{
+  gap: .3rem;
+  border: 1px solid #eb004e;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer
+ }

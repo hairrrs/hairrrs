@@ -190,7 +190,7 @@ export default function ProductPage({ product }) {
                   }
                   <Link href={`/?report_modal=true&itemId=${product?.productId}`}><a className={`flex items-center ${style.style_share}`}>
                     <Image src="/images/Icon material-flag.png" alt="" width="18px" height="14px" />
-                    <div>Report this product</div>
+                    <div>Report</div>
                   </a></Link>
                 </div>
               </div>

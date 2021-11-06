@@ -23,18 +23,18 @@ export default function Products({ initialProducts, lastVisibleItem }) {
     return fetch();
   }, []);
 
-    const fetchMore = async () => {
-      const NlastVisibleItem = JSON.parse(lastVisibleItem)
-      // console.log(NlastVisibleItem)
-    if(NlastVisibleItem){
+  const fetchMore = async () => {
+    const NlastVisibleItem = JSON.parse(lastVisibleItem)
+    // console.log(NlastVisibleItem)
+    if (NlastVisibleItem) {
       var nextQ = query(collection(db, "products"), orderBy('updatedAt', 'desc'), startAfter(NlastVisibleItem), limit(docLimit));
-      if(category && category !== 'all'){
+      if (category && category !== 'all') {
         nextQ = query(collection(db, "products"), where('category', '==', category), orderBy('updatedAt', 'desc'), startAfter(NlastVisibleItem), limit(docLimit));
       }
-      const querySnapshot = await getDocs(nextQ).catch(error => console.log(error) );
+      const querySnapshot = await getDocs(nextQ).catch(error => console.log(error));
       let data = querySnapshot?.docs?.map(doc => ({ ...doc.data(), productId: doc.id }))
       data?.length > 0 ? setProducts(data) : document.querySelector('#seeMore').style.display = 'none';
-    }else{
+    } else {
       alert('An error occured, please try again')
     }
   }
@@ -52,7 +52,7 @@ export default function Products({ initialProducts, lastVisibleItem }) {
           <br />
           <div className="flex flex-wrap" style={{ gap: '1.8rem' }}>
             {products?.map(product => {
-              return ( <div key={product.productId}><Card product={product} /></div> )
+              return (<div key={product.productId}><Card product={product} /></div>)
             })}
           </div>
 
@@ -168,18 +168,18 @@ export const getServerSideProps = async (context) => {
     let res = await getProductsByCategory(category, 25)
     res && products.push(res)
   }
-  const result = products && products[0]?.data ? products[0]?.data : null
-// console.log(products[0]?.lastVisibleItem)
+  const result = products.length > 0 && products[0]?.data ? products[0]?.data : null
+  // console.log(products[0]?.lastVisibleItem)
   // if (!!products?.length > 0) {
-    return {
-      props: {
-        initialProducts: result,
-        lastVisibleItem: products[0]?.lastVisibleItem ? products[0]?.lastVisibleItem : null
-      }
+  return {
+    props: {
+      initialProducts: result,
+      lastVisibleItem: products[0]?.lastVisibleItem ? products[0]?.lastVisibleItem : null
     }
-    // } else {
-    //   return {
-    //     notFound: true
-    //   }
-    // }
+  }
+  // } else {
+  //   return {
+  //     notFound: true
+  //   }
+  // }
 }
