@@ -106,7 +106,7 @@ function MyApp({ Component, pageProps }) {
       <AuthModal />
     </Modal>
     <div id="loadingModal">
-      <Image src="/loader.gif" alt="Loading..." width="200px" height="200px" />
+      {/* <Image src="/loader.gif" alt="Loading..." width="200px" height="200px" /> */}
     </div>
     <Component {...pageProps} />
   </>)

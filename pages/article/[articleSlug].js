@@ -7,19 +7,26 @@ import Nav from '../../components/nav'
 import UserProfile from "../../lib/UserProfile/UserProfile";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
-import { doc, onSnapshot } from "firebase/firestore";
-import { disLikeArticleAPI, getAllArticles, getArticleBySlug, hasSavedAPI, likeArticleAPI, saveItem, Unsave } from '../../lib/api';
+import { collection, doc, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  commentAPI, deleteCommentAPI, disLikeArticleAPI, editDocAPI, getAllArticles,
+  getArticleBySlug, hasSavedAPI, likeArticleAPI, saveItem, Unsave, replyCommentAPI, deleteReplyAPI
+} from '../../lib/api';
 import PostedBy from '../../components/PostedBy';
 import style from '../../styles/pages/article.module.css'
 import WebShareApi from "../../components/WebShareApi";
 import { getDesc, loading } from "../../lib/myFunctions";
+import { useRouter } from "next/router";
 
 
-export default function ArticlePage({ initialArticle }) {
+export default function ArticlePage() {
   const createArticle = {
     likes: [],
     disLikes: [],
   }
+  const router = useRouter()
+  const { articleSlug } = router.query
+
   const [user, setUser] = useState(UserProfile.getUser())
   // console.log(user)
   useEffect(() => {
@@ -33,15 +40,35 @@ export default function ArticlePage({ initialArticle }) {
     })
   }, [])
 
-  const [article, setArticle] = useState(initialArticle);
+  const [article, setArticle] = useState([]);
   useEffect(() => {
-    if(initialArticle){
-      const articleRef = doc(db, 'articles', initialArticle?.articleId);
+    if (articleSlug) {
+      const articleRef = doc(db, 'articles', articleSlug);
       onSnapshot(articleRef, doc => {
         doc.exists && setArticle({ ...doc.data(), articleId: doc.id })
       })
     }
-  }, [initialArticle])
+  }, [articleSlug])
+
+  const [comments, setComments] = useState([])
+  useEffect(() => {
+    const fetch = async () => {
+      if (articleSlug) {
+        try {
+          const commentsRef = collection(db, 'articles', articleSlug, 'comments');
+          const q = query(commentsRef, orderBy('updatedAt', 'desc'));
+          onSnapshot(q, snapshot => {
+            if (!snapshot.empty) {
+              setComments(snapshot?.docs?.map(doc => ({ ...doc.data(), commentId: doc?.id })))
+            }
+          })
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+    return fetch()
+  }, [articleSlug])
 
   const [hasLiked, setHasLiked] = useState(false)
   const [hasDisLiked, setHasDisLiked] = useState(false)
@@ -49,14 +76,13 @@ export default function ArticlePage({ initialArticle }) {
     if (user && article) {
       let likesArr = article?.likes
       let a = likesArr?.filter(doc => doc.uid === user.uid)
-      a?.length > 0 && setHasLiked(true);
+      a?.length > 0 ? setHasLiked(true) : setHasLiked(false);
 
       let disLikesArr = article?.disLikes
       let b = disLikesArr?.filter(doc => doc.uid === user.uid)
-      b?.length > 0 && setHasDisLiked(true);
+      b?.length > 0 ? setHasDisLiked(true) : setHasDisLiked(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [article, user])
 
   const [hasSaved, setHasSaved] = useState(false)
   useEffect(() => {
@@ -90,9 +116,9 @@ export default function ArticlePage({ initialArticle }) {
             </div>
 
             <div className="flex" style={{ gap: '1rem', margin: '20px 0', padding: '0 20px' }}>
-              <div>233 Likes</div>
-              <div>12 Dislikes</div>
-              <div>53 comments</div>
+              <div>{article?.likes?.length} Likes</div>
+              <div>{article?.disLikes?.length} Dislikes</div>
+              <div>{comments?.length} comments</div>
             </div>
 
             <div>
@@ -116,7 +142,7 @@ export default function ArticlePage({ initialArticle }) {
                     onClick={async () => {
                       loading('open');
                       let res = await likeArticleAPI(article?.articleId, article?.likes, article?.disLikes, user)
-                      res === 'success' && setHasLiked(true); 
+                      res === 'success' && setHasLiked(true);
                       hasDisLiked && setHasDisLiked(false);
                       loading('close');
                     }}
@@ -179,53 +205,35 @@ export default function ArticlePage({ initialArticle }) {
               </div>
 
               {/* comment */}
-              <div className="" style={{ gap: '1rem', padding: '10px 15px', border: '1px solid rgb(183 183 183)', borderRadius: 10, width: '100%' }}>
-                <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden' }}>{user?.photoURL && <Image src={user?.photoURL} alt={user?.displayName} width="50px" height="50px" />}</div>
-                <form style={{ marginTop: '20px' }}>
-                  <textarea name="comment" id="comment" placeholder="Write comment" rol="30" col="10" style={{ resize: 'none', border: 'none', outline: 'none' }}></textarea>
-                  <div><input type="submit" value="comment" /></div>
-                </form>
-              </div>
-
-              <br />
-              <div style={{ fontWeight: 600 }}>53 Comments</div>
-
-              {/* comments */}
-              {/* last comment */}
-              <br />
-              <div style={{ padding: '15px 25px', background: "#f1f0f0", borderRadius: 10 }}>
-                <div className="flex" style={{ gap: '1rem', padding: '10px 15px', borderRadius: 10, width: '100%' }}>
-                  <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden' }}>{user?.photoURL && <Image src={user?.photoURL} alt={user?.displayName} width="50px" height="50px" />}</div>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, necessitatibus placeat nisi vitae optio nobis inventore vel fugit quidem mollitia.</p>
+              <div className="flex" style={{ gap: '1rem', padding: '10px 15px', border: '1px solid rgb(183 183 183)', borderRadius: 10, width: '100%' }}>
+                <div>
+                  <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden' }}>
+                    {user?.photoURL && <Image src={user?.photoURL} alt={user?.displayName} width="50px" height="50px" />}
+                  </div>
                 </div>
 
-                <div style={{ padding: '10px 30px', background: 'white', color: "#bbb", margin: '10px 0' }}>View 3 replies</div>
-
-                <div className="flex" style={{ gap: '1rem', padding: '10px 15px', background: 'white', borderRadius: 10, width: '100%' }}>
-                  <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden' }}>{user?.photoURL && <Image src={user?.photoURL} alt={user?.displayName} width="50px" height="50px" />}</div>
-                  <form style={{ marginTop: '20px' }}>
-                    <textarea name="comment" id="comment" placeholder="Write comment" style={{ height: '100px', resize: 'none', border: 'none', outline: 'none', color: "#bbb" }}></textarea>
-                    <div><input type="submit" value="Reply" /></div>
+                <div style={{ marginTop: '10px', width: '90%' }}>
+                  <form onSubmit={async (e) => {
+                    // loading('open');
+                    e.preventDefault();
+                    const commentInput = document.querySelector('#comment');
+                    let res = await commentAPI(user, commentInput?.value, article?.articleId)
+                    if (res === 'success' && commentInput) { commentInput.value = '' }
+                    loading('close');
+                  }}>
+                    <textarea name="comment" id="comment" placeholder="Write comment" style={{ height: '80px', width: '100%', resize: 'none', border: 'none', outline: 'none' }}></textarea>
+                    <div><input type="submit" value="comment" /></div>
                   </form>
                 </div>
               </div>
 
-              {/* other comments */}
               <br />
-              <div style={{ padding: '15px 25px', background: "#f1f0f0", borderRadius: 10 }}>
-                <div className="flex" style={{ gap: '1rem', padding: '10px 15px', borderRadius: 10, width: '100%' }}>
-                  <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden' }}>{user?.photoURL && <Image src={user?.photoURL} alt={user?.displayName} width="50px" height="50px" />}</div>
-                  <div className="flex-column">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, necessitatibus placeat...</p>
-                    <div style={{ color: '#eb004e' }}>View 3 replies</div>
-                  </div>
-                  <div><Image src="/images/Icon feather-chevron-downBLACK.svg" alt="" width="22px" height="12px" /></div>
-                </div>
-              </div>
+              <div style={{ fontWeight: 600 }}>{comments?.length} Comments</div>
 
-              <div>
-                <p style={{ color: '#eb004e' }}>see more</p>
-              </div>
+              {/* comments */}
+              <br />
+              {comments?.length > 0 && <Comments articleId={article?.articleId} allComments={comments} user={user} />}
+
             </div>
 
             <br />
@@ -245,35 +253,291 @@ export default function ArticlePage({ initialArticle }) {
   }
 }
 
-export async function getStaticProps({ params }) {
-  const { articleSlug } = params
-  console.log(articleSlug)
-  const article = await getArticleBySlug(articleSlug).then(res => res);
-  console.log(article)
+const Comments = ({ articleId, allComments, user }) => {
+  const commentPerPage = 3;
+  const [vcpp, setVcpp] = useState(commentPerPage); // visible comments per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentComments, setCurrentComments] = useState([]);
+  const [indexOfLastComments, setIndexOfLastComments] = useState(0);
+  // const [indexOfFirstComments, setIndexOfFirstComments] = useState(0);
+  const [lastComment, setLastComment] = useState(null);
+  const [otherComments, setOtherComments] = useState([]);
 
-  if (!!article?.length > 0) {
-    return {
-      props: {
-        initialArticle: article[0],
-      },
-      revalidate: 1
+  useEffect(() => {
+    setIndexOfLastComments(currentPage * commentPerPage);
+    // setIndexOfFirstComments(indexOfLastComments - commentPerPage);
+  }, [currentPage])
+
+  useEffect(() => {
+    if (allComments) {
+      // const comments = allComments?.slice(indexOfFirstComments, indexOfLastComments)
+      const comments = allComments?.slice(0, indexOfLastComments)
+      comments && setCurrentComments(comments)
     }
-  } else {
-    return {
-      notFound: true
+  }, [allComments, indexOfLastComments])
+
+  useEffect(() => {
+    if (allComments.length > 0) {
+      setLastComment(allComments[0])
     }
-  }
+    if (currentComments.length > 0 && lastComment) {
+      const comment = currentComments?.filter(doc => doc?.commentId !== lastComment?.commentId)
+      setOtherComments(comment)
+      // setOtherComments(currentComments?.slice(1))
+    }
+  }, [allComments, currentComments, lastComment])
+
+
+  return (<>
+    {/* last comment */}
+    {lastComment && <Comment articleId={articleId} comment={lastComment} user={user} openReplyByDefault={true} />}
+
+    {/* other comments */}
+    {otherComments?.map(comment => {
+      if (comment) {
+        return (
+          <div key={comment?.commentId} style={{ margin: '20px 0' }}>
+            <Comment articleId={articleId} comment={comment} user={user} openReplyByDefault={false} />
+          </div>
+        )
+      }
+    })}
+
+    {allComments
+      && allComments?.length > commentPerPage
+      && allComments?.length > currentComments?.length
+      && <div onClick={() => {
+        setCurrentPage(currentPage + 1);
+      }} style={{ color: '#eb004e', cursor: 'pointer' }}>see more</div>}
+
+
+  </>)
 }
 
-export async function getStaticPaths() {
-  const articles = await getAllArticles();
-  return {
-    paths:
-      articles?.data?.map(article => ({
-        params: {
-          articleSlug: article?.slug,
-        },
-      })) || [],
-    fallback: true,
+const Comment = ({ articleId, comment, user, openReplyByDefault }) => {
+  const [docToEdit, setDocToEdit] = useState(null);
+  const [openReplies, setOpenReplies] = useState(false);
+  const [openReplyTextArea, setOpenReplyTextArea] = useState(openReplyByDefault);
+
+  const toggleMenu = (id) => {
+    const menu = document.querySelector(`#threeDotMenu_${id}`)
+    if (menu) {
+      if (menu.style.display === 'none') {
+        menu.style.display = 'flex';
+      } else {
+        menu.style.display = 'none';
+      }
+    }
   }
+
+  return (<>
+    {docToEdit && <Edit articleId={articleId} setDocToEdit={setDocToEdit} docToEdit={docToEdit} />}
+    <div style={{ padding: '15px 25px', background: "#f1f0f0", borderRadius: 10 }}>
+      <div className="md-flex" style={{ gap: '1.2rem', padding: '10px 15px', borderRadius: 10 }}>
+        <div>
+          <div style={{ width: '35px', height: '35px', borderRadius: '50%', overflow: 'hidden', background: '#eb004e' }}>
+            {comment?.user?.photoURL && <Image src={comment?.user?.photoURL} alt={comment?.user?.displayName} width="35px" height="35px" />}
+          </div>
+        </div>
+        <div className="flex justify-between" style={{ width: '100%' }}>
+          <div>{comment?.comment}</div>
+
+          <div style={{ position: 'relative' }}>
+            <div onClick={() => { toggleMenu(comment?.commentId) }}>
+              <Image src="/images/Group 1192.svg" alt="" width="38px" height="7px" />
+            </div>
+
+            <div id={`threeDotMenu_${comment?.commentId}`} className="flex-column" style={{ gap: '1.2rem', display: 'none', position: 'absolute', top: '30px', right: 0, background: '#eee', boxShadow: '#7f7f7f33 0px 0px 4px 0px', padding: '10px 20px' }}>
+              <div 
+              onClick={() => { setOpenReplyTextArea(!openReplyTextArea); toggleMenu(comment?.commentId) }}
+              style={{ cursor: 'pointer'}}>Reply</div>
+
+              {user?.uid !== comment?.user?.uid && <Link href={`/?report_modal=true&itemId=${comment?.commentId}`}><a>
+                Report
+              </a></Link>}
+
+              {user?.uid === comment?.user?.uid && <>
+                <div
+                onClick={() => { setDocToEdit({ ...comment, type: 'comment' }) }} 
+                style={{ cursor: 'pointer'}}>Edit</div>
+
+                <div onClick={async () => {
+                  if (window.confirm('Do you want to delete your comment?')) {
+                    loading('open')
+                    let res = await deleteCommentAPI(articleId, comment?.commentId)
+                    setOpenReplyTextArea(!openReplyTextArea);
+                    loading('close')
+                  }
+                }} style={{ cursor: 'pointer' }}>Delete</div>
+              </>}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        onClick={() => { setOpenReplies(!openReplies); setOpenReplyTextArea(true); }}
+        style={{ padding: '10px 30px', background: 'white', color: "#bbb", margin: '10px 0', cursor: 'pointer'}}>
+        View {comment?.replies?.length} replies
+      </div>
+
+      {openReplies && <Replies user={user} articleId={articleId} commentId={comment?.commentId} replies={comment?.replies} docToEdit={docToEdit} setDocToEdit={setDocToEdit} />}
+
+      {openReplyTextArea && <div className="flex" style={{ gap: '1rem', padding: '10px 15px', background: 'white', borderRadius: 10 }}>
+        <div>
+          <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden' }}>
+            {user?.photoURL && <Image src={user?.photoURL} alt={user?.displayName} width="50px" height="50px" />}
+          </div>
+        </div>
+
+        <div style={{ marginTop: '10px', width: '90%' }}>
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            // loading('open');
+            const replyInput = document.querySelector(`#reply_${comment?.commentId}`);
+            let res = await replyCommentAPI(user, articleId, comment?.commentId, comment, replyInput?.value)
+            if (res === 'success' && replyInput) { replyInput.value = '' }
+            !res && console.log(res);
+            setOpenReplies(true); // setOpenReplyTextArea(false);
+            loading('close');
+          }}>
+            <textarea name="reply" id={`reply_${comment?.commentId}`} placeholder="Reply..." style={{ height: '50px', width: '100%', resize: 'none', border: 'none', outline: 'none' }}></textarea>
+            <div><input type="submit" value="reply" /></div>
+          </form>
+        </div>
+      </div>}
+    </div>
+  </>)
 }
+
+const Replies = ({ user, articleId, commentId, replies}) => {
+  const [docToEdit, setDocToEdit] = useState(null);
+  const toggleMenu = (id) => {
+    const menu = document.querySelector(`#threeDotMenu_${id}`)
+    if (menu) {
+      if (menu.style.display === 'none') {
+        menu.style.display = 'flex';
+      } else {
+        menu.style.display = 'none';
+      }
+    }
+  }
+
+  return (<>
+    {docToEdit && <Edit 
+    articleId={articleId} 
+    setDocToEdit={setDocToEdit} 
+    docToEdit={docToEdit}
+    replies={replies} />}
+    
+    {replies?.map((reply, index) => {
+      return (
+        <div key={index} style={{ padding: '15px 25px', background: "#f1f0f0", borderRadius: 10 }}>
+          <div className="md-flex" style={{ gap: '1.2rem', padding: '10px 15px', borderRadius: 10 }}>
+            <div>
+              <div style={{ width: '35px', height: '35px', borderRadius: '50%', overflow: 'hidden', background: '#eb004e' }}>
+                {reply?.user?.photoURL && <Image src={reply?.user?.photoURL} alt={reply?.user?.displayName} width="35px" height="35px" />}
+              </div>
+            </div>
+
+            <div className="flex justify-between" style={{ width: '100%' }}>
+              <div>{reply?.reply}</div>
+
+              <div style={{ position: 'relative' }}>
+                <div onClick={() => { toggleMenu(reply?.replyId) }}>
+                  <Image src="/images/Group 1192.svg" alt="" width="38px" height="7px" />
+                </div>
+
+                <div id={`threeDotMenu_${reply?.replyId}`} className="flex-column" style={{ gap: '1.2rem', display: 'none', position: 'absolute', top: '30px', right: 0, background: '#eee', boxShadow: '#7f7f7f33 0px 0px 4px 0px', padding: '10px 20px' }}>
+                  {user?.uid !== reply?.user?.uid && <Link href={`/?report_modal=true&itemId=${reply?.replyId}`}><a>
+                    Report
+                  </a></Link>}
+
+                  {user?.uid === reply?.user?.uid && <>
+                    <div 
+                      onClick={() => { setDocToEdit(reply); toggleMenu(reply?.replyId); }}
+                      style={{ cursor: 'pointer'}}>Edit</div>
+
+                    <div onClick={async () => {
+                      if (window.confirm('Do you want to delete your reply to this comment?')) {
+                        loading('open')
+                        let res = await deleteReplyAPI(user, replies, reply)
+                        toggleMenu(reply?.replyId)
+                        loading('close')
+                      }
+                    }} style={{ cursor: 'pointer' }}>Delete</div>
+                  </>}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    })}
+  </>)
+}
+
+const Edit = ({ articleId, docToEdit, setDocToEdit, replies }) => {
+  return (<>
+    <div
+      className="flex justify-center items-center"
+      style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100vh', background: 'rgba(0,0,0,0.4)', zIndex: 2 }}>
+      <div style={{ padding: '20px 40px', background: 'white', color: 'black' }}>
+        <form onSubmit={async (e) => {
+          e.preventDefault();
+          // loading('open');
+          const body = document.querySelector('#editArea').value
+          let res = await editDocAPI(articleId, docToEdit, body, replies);
+          setDocToEdit(null);
+          loading('close')
+        }}>
+          <div>
+            <textarea
+              name="editArea"
+              id="editArea"
+              style={{ width: '100%' }}
+              cols="30" rows="10">
+              {docToEdit?.comment || docToEdit?.reply || ''}
+            </textarea>
+          </div>
+          <div>
+            <input type="submit" value="edit" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </>)
+}
+
+// export async function getStaticProps({ params }) {
+//   const { articleSlug } = params
+//   console.log(articleSlug)
+//   const article = await getArticleBySlug(articleSlug).then(res => res);
+//   console.log(article)
+
+//   if (!!article?.length > 0) {
+//     return {
+//       props: {
+//         initialArticle: article[0],
+//       },
+//       revalidate: 1
+//     }
+//   } else {
+//     return {
+//       notFound: true
+//     }
+//   }
+// }
+
+// export async function getStaticPaths() {
+//   const articles = await getAllArticles();
+//   return {
+//     paths:
+//       articles?.data?.map(article => ({
+//         params: {
+//           articleSlug: article?.slug,
+//         },
+//       })) || [],
+//     fallback: true,
+//   }
+// }
