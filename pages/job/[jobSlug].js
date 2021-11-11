@@ -73,10 +73,10 @@ export default function JobPage() {
             <div style={{ padding: '5px 35px' }}>
               {/* share.... */}
               <div className="flex flex-wrap" style={{ gap: '1.3rem', margin: '30px 0' }}>
-              <Link href={`/?apply=true&jobId=${job?.jobId}`}><a className={`flex items-center ${styles.style_share}`}>
+                {user?.uid !== job?.lister?.uid && <Link href={`/apply?jobTitle=${job?.title}&jobId=${job?.jobId}&l=${job?.lister?.uid}`}><a className={`flex items-center ${styles.style_share}`}>
                   <Image src="/images/Icon material-flag.png" alt="" width="18px" height="14px" />
                   <div>Apply</div>
-                </a></Link>
+                </a></Link>}
                 {hasSaved ?
                   <div
                     onClick={async () => {
@@ -112,7 +112,7 @@ export default function JobPage() {
                   title={job?.title}
                   text={getDesc(job?.description, 60)} />
               </div>
-                
+
               {/* body */}
               <div style={{ padding: '15px' }}>
                 <div><strong>How to Apply</strong></div>
@@ -130,7 +130,7 @@ export default function JobPage() {
                 <br />
                 <div>Details</div>
                 <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda laborum vel placeat, ipsam facilis impedit accusamus numquam? Asperiores sit laborum odio. Vitae nostrum sunt recusandae illo consequuntur iste. Rem, natus?</div>
-                
+
                 <br />
                 <div>Posted</div>
                 <div><strong>{job?.updatedAt}</strong></div>
@@ -161,8 +161,8 @@ export default function JobPage() {
           </div>
         </div>
 
-        {job?.author && <div className="sm-hidden" style={{ marginTop: 20 }}>
-          <PostedBy initialOwner={job?.author} user={user} />
+        {job?.lister && <div className="sm-hidden" style={{ marginTop: 20 }}>
+          <PostedBy initialOwner={job?.lister} user={user} />
         </div>}
       </div>
     </LayoutA>
