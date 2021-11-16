@@ -4,13 +4,13 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import HeadMetadata from "../../components/HeadMetadata";
-import LayoutA from "../../components/layoutA";
-import Nav from "../../components/nav";
-import { auth, db } from "../../lib/firebase";
-import UserProfile from "../../lib/UserProfile/UserProfile";
-import { getUserByDisplayName } from '../../lib/api';
-import { loading } from '../../lib/myFunctions';
+import HeadMetadata from "../../../components/HeadMetadata";
+import LayoutA from "../../../components/layoutA";
+import Nav from "../../../components/nav";
+import { auth, db } from "../../../lib/firebase";
+import UserProfile from "../../../lib/UserProfile/UserProfile";
+import { getUserByDisplayName } from '../../../lib/api';
+import { loading } from '../../../lib/myFunctions';
 
 export default function Profile() {
   const router = useRouter()
@@ -28,6 +28,12 @@ export default function Profile() {
       }
     })
   }, [])
+  const [ownerMode, setOwnerMode] = useState(false)
+  useEffect(() => {
+    if (displayName && currentUser?.displayName === displayName) {
+      setOwnerMode(true);
+    }
+  }, [displayName, currentUser])
   const [user, setUser] = useState([]);
   useEffect(() => {
     const fetch = async () => {
@@ -48,7 +54,7 @@ export default function Profile() {
 
     <LayoutA>
       <div className="flex justify-center items-center" style={{ background: '#eb004e', color: 'white', width: '100%', height: '200px' }}>
-        <div style={{ padding: '5px 10px', background: 'white', color: 'black', marginTop: '-20px' }}>complete updating your profile</div>
+        {ownerMode && <div style={{ padding: '5px 10px', background: 'white', color: 'black', marginTop: '-20px' }}>complete updating your profile</div>}
       </div>
 
       <div className="flex" style={{ gap: '2rem', marginTop: '-50px', alignItems: 'center', padding: '0 45px', marginBottom: '1.5rem' }}>
@@ -76,7 +82,7 @@ export default function Profile() {
         <button>Go premium</button>
         <button>Productions</button>
         <button>Become a Contestant</button>
-        <butthon>Settings</butthon>
+        {ownerMode && <Link href={`/u/${user?.displayName}/edit`}><a>Settings</a></Link>}
       </div>
 
       {/* <br />
@@ -89,7 +95,7 @@ export default function Profile() {
         <div style={{ wdith: '100px', height: '10px', overflow: 'hidden', background: '#eee', padding: '50%' }}></div>
       </div> */}
 
-      
+
       <div className="flex justify-center" style={{ gap: '1.4rem', marginBottom: '1.5rem' }}>
         <div className="flex justify-center items-center" style={{ gap: '1rem', borderRadius: 5, background: '#eb004e', color: 'white', padding: '10px 20px' }}>
           <div>
