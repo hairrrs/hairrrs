@@ -14,6 +14,11 @@ export default function AuthModal() {
   const [page, setPage] = useState('signin');
   const defaults = {
     photoURLmax: '',
+    coverPhotoURL: '',
+    firstName: '',
+    lastName: '',
+    dob: '',
+    gender: '',
     aboutBusiness: '',
     website: '',
     services: '',
@@ -34,6 +39,9 @@ export default function AuthModal() {
     viewedPages: [],
     followers: [],
     following: [],
+    reqVerificationDate: '',
+    docForVerification: '',
+    hasRequestedForAccVerification: '',
   }
 
   const handleSaveAccountToDevice = (res) => {

@@ -135,7 +135,7 @@ function Signup({ defaults }) {
           name="firstName"
           value={content.firstName}
           onChange={onChange}
-          type="firstname" id="firstName" placeholder="First name" required />
+          type="text" id="firstName" placeholder="First name" required />
       </div><br />
 
       <span>Last name</span>
@@ -144,7 +144,7 @@ function Signup({ defaults }) {
           name="lastName"
           value={content.lastName}
           onChange={onChange}
-          type="lastname" id="lastName" placeholder="Last name" required />
+          type="text" id="lastName" placeholder="Last name" required />
       </div><br />
 
       <span>Email</span>
