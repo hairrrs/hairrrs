@@ -53,6 +53,7 @@ button{
   border: 1px solid;
   padding: 6px 10px;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .button-outline:hover,
