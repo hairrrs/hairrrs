@@ -25,7 +25,7 @@ export default function SideBar() {
       <div className="" style={{ boxShadow: '0 0 5px 0 rgba(0, 0, 0, 0.2)', width: '100%', padding: '15px 20px' }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center" style={{ gap: '1rem' }}>
-            <div><Link href={`/u/${user?.displayName}`}><a className="" style={{ position: 'relative', borderRadius: '50%', overflow: 'hidden', background: '#fff', width: "30px", height: "30px" }}>
+            <div><Link href={`/u/${user?.displayName}`}><a style={{ position: 'relative', borderRadius: '50%', overflow: 'hidden', background: '#fff', width: "30px", height: "30px" }}>
               {user?.photoURL && <Image src={user ? user?.photoURL : "/images/user.png"} alt={user ? user.displayName : ""} width="34px" height="34px" />}
             </a></Link></div>
             <div><Link href={`/u/${user?.displayName}`}><a style={{ fontSize: '1.2rem', fontWeight: 600, textDecoration: 'underline' }} className="text-baseColor">{user ? user.displayName : 'Anonymous'}</a></Link></div>
