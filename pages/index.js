@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import Head from 'next/head'
 import Image from 'next/image'
 import LayoutA from '../components/layoutA'
 import Nav from '../components/nav'
@@ -59,8 +58,7 @@ export default function HomePage() {
       <TrendingArticles />
 
       <br />
-      <LatestJobVacancies />
-
+      {/* <LatestJobVacancies /> */}
     </LayoutA>
   </>)
 }

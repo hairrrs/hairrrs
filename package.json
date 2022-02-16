@@ -18,6 +18,7 @@
     "react-device-detect": "^2.1.2",
     "react-dom": "17.0.2",
     "react-modal": "^3.14.3",
+    "react-to-pdf": "^0.0.14",
     "react-web-share": "^1.1.0"
   },
   "devDependencies": {

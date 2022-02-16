@@ -45,6 +45,7 @@ export default function Profile() {
     }
     return fetch()
   }, [displayName])
+  const [showModal, setShowMode] = useState(false)
 
 
   return (<>
@@ -53,9 +54,10 @@ export default function Profile() {
     <Nav />
 
     <LayoutA>
-      <div className="flex justify-center items-center" style={{ background: '#eb004e', color: 'white', width: '100%', height: '200px' }}>
+      {/* <div className="flex justify-center items-center" style={{ background: '#eb004e', color: 'white', width: '100%', height: '200px' }}>
         {ownerMode && <div style={{ padding: '5px 10px', background: 'white', color: 'black', marginTop: '-20px' }}>complete updating your profile</div>}
-      </div>
+      </div> */}
+      <Image src={currentUser?.coverPhotoURL} alt="Cover Photo" width="1000px" height="200px" />
 
       <div className="flex" style={{ gap: '2rem', marginTop: '-50px', alignItems: 'center', padding: '0 45px', marginBottom: '1.5rem' }}>
         <div style={{ position: 'relative' }}>
@@ -75,7 +77,7 @@ export default function Profile() {
       <div className="flex justify-center" style={{ gap: '1.3rem', marginBottom: '1.3rem' }}>
         <button>Beauty company</button>
         <button>Blog</button>
-        <button>Locale</button>
+        <button>Locate</button>
       </div>
 
       <div className="flex justify-center" style={{ gap: '1.3rem', marginBottom: '1.5rem' }}>
@@ -85,17 +87,7 @@ export default function Profile() {
         {ownerMode && <Link href={`/u/${user?.displayName}/edit`}><a>Settings</a></Link>}
       </div>
 
-      {/* <br />
-      <div className="flex flex-wrap justify-around">
-        <div style={{ wdith: '100px', height: '10px', overflow: 'hidden', background: '#eee', padding: '50%' }}></div>
-        <div style={{ wdith: '100px', height: '10px', overflow: 'hidden', background: '#eee', padding: '50%' }}></div>
-        <div style={{ wdith: '100px', height: '10px', overflow: 'hidden', background: '#eee', padding: '50%' }}></div>
-        <div style={{ wdith: '100px', height: '10px', overflow: 'hidden', background: '#eee', padding: '50%' }}></div>
-        <div style={{ wdith: '100px', height: '10px', overflow: 'hidden', background: '#eee', padding: '50%' }}></div>
-        <div style={{ wdith: '100px', height: '10px', overflow: 'hidden', background: '#eee', padding: '50%' }}></div>
-      </div> */}
-
-
+      {/* sell product...... */}
       <div className="flex justify-center" style={{ gap: '1.4rem', marginBottom: '1.5rem' }}>
         <div className="flex justify-center items-center" style={{ gap: '1rem', borderRadius: 5, background: '#eb004e', color: 'white', padding: '10px 20px' }}>
           <div>
@@ -119,25 +111,30 @@ export default function Profile() {
         </div>
       </div>
 
+      {/* Followers...... */}
       <div className="flex-column">
         <div className="flex justify-center" style={{ fontSize: '1.1rem' }}>
-          <div className="flex justify-center items-center"
+          <Link href="#Followers" as="/followers/34023lksdfj9kfk"><a className="flex justify-center items-center"
+            onClick={(e) => { e.preventDefault(); }}
             style={{ width: '300px', height: '120px', background: '#eee', gap: '.8rem' }}>
             <div style={{ fontSize: '35px' }}>{user?.followers?.length}</div>
             <div>Followers</div>
-          </div>
-          <div className="flex justify-center items-center"
+          </a></Link>
+          <Link href="#Following" as="/followers/34023lksdfj9kfk"><a className="flex justify-center items-center"
+            onClick={(e) => { e.preventDefault(); }}
             style={{ width: '300px', height: '120px', background: '#eee', gap: '.8rem' }}>
             <div style={{ fontSize: '35px' }}>{user?.following?.length}</div>
             <div>Following</div>
-          </div>
-          <div className="flex justify-center items-center"
+          </a></Link>
+          <Link href="#Total" as="/followers/34023lksdfj9kfk"><a className="flex justify-center items-center"
+            onClick={(e) => { e.preventDefault(); }}
             style={{ width: '300px', height: '120px', background: '#eee', gap: '.8rem' }}>
             <div style={{ fontSize: '35px' }}>{user?.totalEngagement}</div>
             <div>Total engagement</div>
-          </div>
+          </a></Link>
         </div>
 
+        {/* Products.... */}
         <div className="flex justify-center" style={{ fontSize: '1.1rem', color: 'white' }}>
           <div className="flex-column justify-center items-center"
             style={{ width: '300px', height: '120px', background: 'gray' }}>
@@ -164,5 +161,12 @@ export default function Profile() {
         </div>
       </div>
     </LayoutA>
+    {showModal && <Modal />}
   </>)
+}
+
+const Modal = ({ user }) => {
+  return(<div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.7)', zIndex: '234', display: 'grid', placeItems: 'center' }}>
+  <div style={{ background: 'white', borderRadius: 5, padding: 25 }}>sldkfj</div>
+  </div>)
 }

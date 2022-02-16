@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import { getResume, updateResume } from "../lib/api";
 import { loading } from '../lib/myFunctions';
 import Questions from './questions/Questions';
+import Pdf from "react-to-pdf";
 
 export default function Resume({ handleSubmit, user }) {
   const router = useRouter()
@@ -73,21 +74,24 @@ export default function Resume({ handleSubmit, user }) {
 
   const submit = async () => {
     const data = { uid, name, about, skills, interests, experience, education, contact, email, website }
-    !name && alert("you can't leave the name field empty");
-    !about && alert("you can't leave the about field empty");
-    !skills && alert("you can't leave the skills field empty");
-    !interests && alert("you can't leave the interests field empty");
-    !experience && alert("you can't leave the experience field empty");
-    !education && alert("you can't leave the education field empty");
-    !contact && alert("you can't leave the contact field empty");
-    !email && alert("you can't leave the email field empty");
-    !website && alert("you can't leave the website field empty");
+    !name && alert("You can't leave the name field empty");
+    !about && alert("You can't leave the about field empty");
+    !skills && alert("You can't leave the skills field empty");
+    !interests && alert("You can't leave the interests field empty");
+    !experience && alert("You can't leave the experience field empty");
+    !education && alert("You can't leave the education field empty");
+    !contact && alert("You can't leave the contact field empty");
+    !email && alert("You can't leave the email field empty");
+    !website && alert("You can't leave the website field empty");
     handleSubmit(data);
     setEditMode(false);
   }
 
+  const ref = createRef();
+  // const value = useContext(AppContext);
+
   return (<>
-    <div className="flex" style={{ gap: '1rem' }}>
+    <div ref={ref} className="flex" style={{ gap: '1rem' }}>
       <div className="b-photo-1" style={{
         flexGrow: 0,
         marginRight: '50px', width: '120px', height: '120px', overflow: 'hidden', background: '#eb004e', borderRadius: '50%'
@@ -207,28 +211,35 @@ export default function Resume({ handleSubmit, user }) {
             style={{ width: '100%', padding: '10px 5px', border: '1px solid #eee' }}
           />
         </div>
-
-        <br />
-        <br />
-        <br />
-
-        <div className="flex justify-center align-center" style={{ gap: '1.7rem' }}>
-          {!editMode && cv?.uid === user?.uid && <input
-            onClick={() => { setEditMode(true) }}
-            type="button" value="edit resume" />}
-
-          {editMode && <input
-            onClick={saveEditedCv}
-            type="button" value="save" />}
-
-          {!editMode && currentPage !== '/resume/[userId]' && <input
-            onClick={submit}
-            type="button" value="submit" />}
-
-          {!editMode && currentPage === '/resume/[userId]' && <input type="button" value="download resume" />}
-        </div>
-
       </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <div className="flex justify-center align-center" style={{ gap: '1.7rem' }}>
+      {!editMode && cv?.uid === user?.uid && <input
+        onClick={() => { setEditMode(true) }}
+        type="button" value="edit resume" />}
+
+      {editMode && <input
+        onClick={saveEditedCv}
+        type="button" value="save" />}
+
+      {!editMode && currentPage !== '/resume/[userId]' && <input
+        onClick={submit}
+        type="button" value="submit" />}
+
+      {/* download resume */}
+      
+      {!editMode && currentPage === '/resume/[userId]' && 
+      <Pdf targetRef={ref} filename={`${user?.userName}-${user?.uid}.pdf`}>
+      {({ toPdf }) => (
+        <button onClick={toPdf}>
+          Download Resume
+        </button>
+      )}
+    </Pdf>}
     </div>
   </>)
 }

@@ -1,21 +1,53 @@
 import Image from "next/image"
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getUserById } from "../lib/api";
+import { db } from "../lib/firebase";
 
-export default function LatestJobVacancies({ limit = "18" }) {
+export default function LatestJobVacancies({ docLimit = "18" }) {
+    const [jobs, setJobs] = useState([])
+    useEffect(() => {
+        const fetch = async () => {
+            console.log('Loading new available jobs');
+            const jobsRef = collection(db, "jobs");
+            const q = query(jobsRef, orderBy('updatedAt', 'desc'), limit(docLimit));
+            const documentSnapshots = await getDocs(q).catch(error => { console.log('LatestJobVacancies error:', error) });
+            let data = documentSnapshots.docs.map(doc => ({ ...doc.data(), jobId: doc.id }));
+            // const lastVisibleItem = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+            setJobs(data);
+        }
+        return () => { fetch() }
+    }, [docLimit])
+
+    // console.log(jobs)
 
     return (<>
         <div className="" style={{ background: '#eb004e', color: 'white', textAlign: 'center', padding: '10px' }}><strong>Job vacancies</strong></div>
         <br />
         <div className="flex flex-wrap featuredCatg_wig-body" style={{ gap: '1.2rem', padding: '10px' }}>
-            <Card />
+            {jobs?.map(job => {
+                return <Card key={job.jobId} job={job} />
+            })}
         </div>
         <br />
         <div className="flex justify-center">
-            <span style={{ color: '#eb004e', padding: '10px 100px', border: '2px solid #eb004e', fontWeight: 600, borderRadius: 5 }}>see more</span>
+            <Link href="/"><a style={{ color: '#eb004e', padding: '10px 100px', border: '2px solid #eb004e', fontWeight: 600, borderRadius: 5 }}>see more</a></Link>
         </div>
     </>)
 }
 
-const Card = () => {
+const Card = ({ job }) => {
+    console.log(job)
+    const [author, setAuthor] = useState(null);
+    useEffect(() => {
+        const fetch = async () => {
+            const author = await getUserById(job?.lister?.uid);
+            setAuthor(author);
+        }
+        return () => { fetch() }
+    }, [job])
+
     return (
         <div className="flex" style={{ width: 340, background: '#ececec82' }}>
             <div className="flex justify-center" style={{ width: '25%', paddingTop: 15 }}>
@@ -25,13 +57,13 @@ const Card = () => {
                             <img src="/images/nutless braid.png" alt="" width="100%" height="100%" style={{ borderRadius: '50%' }} />
                         }
                         <div style={{ position: 'absolute', top: '27%', right: -5 }}>
-                            <Image src="/images/tick.png" alt="" width="15px" height="15px" />
+                            {author?.photoURL && <Image src={author?.photoURL} alt={author?.displayName} width="15px" height="15px" />}
                         </div>
                     </div>
                 </>
             </div>
             <div style={{ width: '75%', padding: 15 }}>
-                <div className=""><strong style={{ fontSize: '.9rem' }}>Title of the article will be here all the time?</strong></div>
+                <div className=""><strong style={{ fontSize: '.9rem' }}><Link href={`/article/${job?.slug}`}><a>{job?.title}</a></Link></strong></div>
                 <div><p style={{ fontSize: '.8rem' }}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, autem. Dolorem ducimus cum molestias esse.</p></div>
                 <div className="md-flex flex-column" style={{ marginTop: '.6rem', gap: '1.2rem', fontSize: '.8rem' }}>
                     <div className="flex">
