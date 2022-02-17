@@ -25,7 +25,7 @@ export default function SideBar() {
       <div className="" style={{ boxShadow: '0 0 5px 0 rgba(0, 0, 0, 0.2)', width: '100%', padding: '15px 20px' }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center" style={{ gap: '1rem' }}>
-            <div><Link href={`/u/${user?.displayName}`}><a style={{ position: 'relative', borderRadius: '50%', overflow: 'hidden', background: '#fff', width: "30px", height: "30px" }}>
+            <div style={{ position: 'relative', width: '34px', height: '34px', borderRadius: '50%', overflow: 'hidden', background: '#eb004e', width: "30px", height: "30px" }}><Link href={`/u/${user?.displayName}`}><a>
               {user?.photoURL && <Image src={user ? user?.photoURL : "/images/user.png"} alt={user ? user.displayName : ""} width="34px" height="34px" />}
             </a></Link></div>
             <div><Link href={`/u/${user?.displayName}`}><a style={{ fontSize: '1.2rem', fontWeight: 600, textDecoration: 'underline' }} className="text-baseColor">{user ? user.displayName : 'Anonymous'}</a></Link></div>
@@ -59,7 +59,7 @@ const Menu = ({ setShowMenu, setShowSwitchAccount }) => {
   const router = useRouter();
 
   return (
-    <div className="flex-column" style={{ gap: '.7rem', padding: '10px 15px', background: '#f2f2f27d', position: 'absolute', right: 0, top: 30, width: 180 }}>
+    <div className="flex-column" style={{ gap: '.7rem', padding: '10px 15px', background: '#f2f2f2', position: 'absolute', right: 0, top: 30, width: 180 }}>
       {auth.currentUser ? <>
         <div onClick={() => { setShowSwitchAccount(true); setShowMenu(false) }}>Switch account</div>
         <div><Link href="/signout"><a onClick={(e) => { e.preventDefault(); signout(); setShowMenu(false) }}>Logout</a></Link></div>

@@ -54,11 +54,12 @@ export default function Profile() {
     <Nav />
 
     <LayoutA>
-      {/* <div className="flex justify-center items-center" style={{ background: '#eb004e', color: 'white', width: '100%', height: '200px' }}>
+      {!currentUser?.coverPhotoURL && <div className="flex justify-center items-center" style={{ background: '#eb004e', color: 'white', width: '100%', height: '200px' }}>
         {ownerMode && <div style={{ padding: '5px 10px', background: 'white', color: 'black', marginTop: '-20px' }}>complete updating your profile</div>}
-      </div> */}
+      </div>}
       <Image src={currentUser?.coverPhotoURL} alt="Cover Photo" width="1000px" height="200px" />
 
+      {/* user?.displayName and email */}
       <div className="flex" style={{ gap: '2rem', marginTop: '-50px', alignItems: 'center', padding: '0 45px', marginBottom: '1.5rem' }}>
         <div style={{ position: 'relative' }}>
           <div style={{ width: '150px', height: '150px', overflow: 'hidden', background: '#eee', borderRadius: '50%' }}>
@@ -74,12 +75,14 @@ export default function Profile() {
         </div>
       </div>
 
+      {/* Beauty company..... */}
       <div className="flex justify-center" style={{ gap: '1.3rem', marginBottom: '1.3rem' }}>
         <button>Beauty company</button>
         <button>Blog</button>
         <button>Locate</button>
       </div>
 
+      {/* Go premium..... */}
       <div className="flex justify-center" style={{ gap: '1.3rem', marginBottom: '1.5rem' }}>
         <button>Go premium</button>
         <button>Productions</button>
@@ -114,24 +117,24 @@ export default function Profile() {
       {/* Followers...... */}
       <div className="flex-column">
         <div className="flex justify-center" style={{ fontSize: '1.1rem' }}>
-          <Link href="#Followers" as="/followers/34023lksdfj9kfk"><a className="flex justify-center items-center"
-            onClick={(e) => { e.preventDefault(); }}
-            style={{ width: '300px', height: '120px', background: '#eee', gap: '.8rem' }}>
-            <div style={{ fontSize: '35px' }}>{user?.followers?.length}</div>
-            <div>Followers</div>
-          </a></Link>
-          <Link href="#Following" as="/followers/34023lksdfj9kfk"><a className="flex justify-center items-center"
-            onClick={(e) => { e.preventDefault(); }}
-            style={{ width: '300px', height: '120px', background: '#eee', gap: '.8rem' }}>
-            <div style={{ fontSize: '35px' }}>{user?.following?.length}</div>
-            <div>Following</div>
-          </a></Link>
-          <Link href="#Total" as="/followers/34023lksdfj9kfk"><a className="flex justify-center items-center"
-            onClick={(e) => { e.preventDefault(); }}
-            style={{ width: '300px', height: '120px', background: '#eee', gap: '.8rem' }}>
-            <div style={{ fontSize: '35px' }}>{user?.totalEngagement}</div>
-            <div>Total engagement</div>
-          </a></Link>
+          <div className="flex justify-center items-center" style={{ width: '300px', height: '120px', background: '#eee', gap: '.8rem' }}>
+            <Link href="#Followers" as="/followers/34023lksdfj9kfk"><a>
+              <span style={{ fontSize: '35px', marginRight: '10px' }}>{user?.followers?.length}</span>
+              <span style={{ fontSize: '1.3rem' }}>Follower(s)</span>
+            </a></Link>
+          </div>
+          <div className="flex justify-center items-center" style={{ width: '300px', height: '120px', background: '#eee', gap: '.8rem' }}>
+            <Link href="#Following" as="/following/krtisjsdlksdfj9kfk"><a>
+              <span style={{ fontSize: '35px', marginRight: '10px' }}>{user?.following?.length}</span>
+              <span style={{ fontSize: '1.3rem' }}>Following</span>
+            </a></Link>
+          </div>
+          <div className="flex justify-center items-center" style={{ width: '300px', height: '120px', background: '#eee', gap: '.8rem' }}>
+            <Link href="#Total" as="/total-engagement/sdxv3lksdfj9kfk"><a>
+              <span style={{ fontSize: '35px', marginRight: '10px' }}>{user?.totalEngagement}</span>
+              <span style={{ fontSize: '1.3rem' }}>Total engagement</span>
+            </a></Link>
+          </div>
         </div>
 
         {/* Products.... */}
@@ -166,7 +169,7 @@ export default function Profile() {
 }
 
 const Modal = ({ user }) => {
-  return(<div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.7)', zIndex: '234', display: 'grid', placeItems: 'center' }}>
-  <div style={{ background: 'white', borderRadius: 5, padding: 25 }}>sldkfj</div>
+  return (<div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.7)', zIndex: '234', display: 'grid', placeItems: 'center' }}>
+    <div style={{ background: 'white', borderRadius: 5, padding: 25 }}>sldkfj</div>
   </div>)
 }

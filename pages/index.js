@@ -50,7 +50,7 @@ export default function HomePage() {
       </div>
 
       {/* PRODUCTS BY FEATURED_CATG */}
-      {featuredCatg.map((category, index) => {
+      {featuredCatg?.map((category, index) => {
         return <ProductCard key={index} category={category?.name} />
       })}
 
@@ -58,7 +58,7 @@ export default function HomePage() {
       <TrendingArticles />
 
       <br />
-      {/* <LatestJobVacancies /> */}
+      <LatestJobVacancies />
     </LayoutA>
   </>)
 }
