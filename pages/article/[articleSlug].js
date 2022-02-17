@@ -19,7 +19,8 @@ import { getDesc, loading } from "../../lib/myFunctions";
 import { useRouter } from "next/router";
 
 
-export default function ArticlePage() {
+export default function ArticlePage({ article }) {
+  console.log(article)
   const createArticle = {
     likes: [],
     disLikes: [],
@@ -28,7 +29,7 @@ export default function ArticlePage() {
   const { articleSlug } = router.query
 
   const [user, setUser] = useState(UserProfile.getUser())
-  // console.log(user)
+  // user
   useEffect(() => {
     onAuthStateChanged(auth, authUser => {
       if (authUser?.uid) {
@@ -40,15 +41,15 @@ export default function ArticlePage() {
     })
   }, [])
 
-  const [article, setArticle] = useState([]);
-  useEffect(() => {
-    if (articleSlug) {
-      const articleRef = doc(db, 'articles', articleSlug);
-      onSnapshot(articleRef, doc => {
-        doc.exists && setArticle({ ...doc.data(), articleId: doc.id })
-      })
-    }
-  }, [articleSlug])
+  // const [article, setArticle] = useState([]);
+  // useEffect(() => {
+  //   if (articleSlug) {
+  //     const articleRef = doc(db, 'articles', articleSlug);
+  //     onSnapshot(articleRef, doc => {
+  //       doc.exists && setArticle({ ...doc.data(), articleId: doc.id })
+  //     })
+  //   }
+  // }, [articleSlug])
 
   const [comments, setComments] = useState([])
   useEffect(() => {
@@ -95,7 +96,10 @@ export default function ArticlePage() {
 
   if (article) {
     return (<>
-      <HeadMetadata title={`${article?.title} - Hairrrs`} ogImage={article?.mainImage} />
+      <HeadMetadata
+        title={`${article?.title} - Hairrrs`}
+        ogImage={article?.mainImage}
+      />
 
       <Nav />
 
@@ -348,9 +352,9 @@ const Comment = ({ articleId, comment, user, openReplyByDefault }) => {
             </div>
 
             <div id={`threeDotMenu_${comment?.commentId}`} className="flex-column" style={{ gap: '1.2rem', display: 'none', position: 'absolute', top: '30px', right: 0, background: '#eee', boxShadow: '#7f7f7f33 0px 0px 4px 0px', padding: '10px 20px' }}>
-              <div 
-              onClick={() => { setOpenReplyTextArea(!openReplyTextArea); toggleMenu(comment?.commentId) }}
-              style={{ cursor: 'pointer'}}>Reply</div>
+              <div
+                onClick={() => { setOpenReplyTextArea(!openReplyTextArea); toggleMenu(comment?.commentId) }}
+                style={{ cursor: 'pointer' }}>Reply</div>
 
               {user?.uid !== comment?.user?.uid && <Link href={`/?report_modal=true&itemId=${comment?.commentId}`}><a>
                 Report
@@ -358,8 +362,8 @@ const Comment = ({ articleId, comment, user, openReplyByDefault }) => {
 
               {user?.uid === comment?.user?.uid && <>
                 <div
-                onClick={() => { setDocToEdit({ ...comment, type: 'comment' }) }} 
-                style={{ cursor: 'pointer'}}>Edit</div>
+                  onClick={() => { setDocToEdit({ ...comment, type: 'comment' }) }}
+                  style={{ cursor: 'pointer' }}>Edit</div>
 
                 <div onClick={async () => {
                   if (window.confirm('Do you want to delete your comment?')) {
@@ -377,7 +381,7 @@ const Comment = ({ articleId, comment, user, openReplyByDefault }) => {
 
       <div
         onClick={() => { setOpenReplies(!openReplies); setOpenReplyTextArea(true); }}
-        style={{ padding: '10px 30px', background: 'white', color: "#bbb", margin: '10px 0', cursor: 'pointer'}}>
+        style={{ padding: '10px 30px', background: 'white', color: "#bbb", margin: '10px 0', cursor: 'pointer' }}>
         View {comment?.replies?.length} replies
       </div>
 
@@ -410,7 +414,7 @@ const Comment = ({ articleId, comment, user, openReplyByDefault }) => {
   </>)
 }
 
-const Replies = ({ user, articleId, commentId, replies}) => {
+const Replies = ({ user, articleId, commentId, replies }) => {
   const [docToEdit, setDocToEdit] = useState(null);
   const toggleMenu = (id) => {
     const menu = document.querySelector(`#threeDotMenu_${id}`)
@@ -424,12 +428,12 @@ const Replies = ({ user, articleId, commentId, replies}) => {
   }
 
   return (<>
-    {docToEdit && <Edit 
-    articleId={articleId} 
-    setDocToEdit={setDocToEdit} 
-    docToEdit={docToEdit}
-    replies={replies} />}
-    
+    {docToEdit && <Edit
+      articleId={articleId}
+      setDocToEdit={setDocToEdit}
+      docToEdit={docToEdit}
+      replies={replies} />}
+
     {replies?.map((reply, index) => {
       return (
         <div key={index} style={{ padding: '15px 25px', background: "#f1f0f0", borderRadius: 10 }}>
@@ -454,9 +458,9 @@ const Replies = ({ user, articleId, commentId, replies}) => {
                   </a></Link>}
 
                   {user?.uid === reply?.user?.uid && <>
-                    <div 
+                    <div
                       onClick={() => { setDocToEdit(reply); toggleMenu(reply?.replyId); }}
-                      style={{ cursor: 'pointer'}}>Edit</div>
+                      style={{ cursor: 'pointer' }}>Edit</div>
 
                     <div onClick={async () => {
                       if (window.confirm('Do you want to delete your reply to this comment?')) {
@@ -509,35 +513,34 @@ const Edit = ({ articleId, docToEdit, setDocToEdit, replies }) => {
   </>)
 }
 
-// export async function getStaticProps({ params }) {
-//   const { articleSlug } = params
-//   console.log(articleSlug)
-//   const article = await getArticleBySlug(articleSlug).then(res => res);
-//   console.log(article)
+export async function getStaticProps({ params }) {
+  const { articleSlug } = params
+  const article = await getArticleBySlug(articleSlug).then(res => res);
+  console.log(article)
 
-//   if (!!article?.length > 0) {
-//     return {
-//       props: {
-//         initialArticle: article[0],
-//       },
-//       revalidate: 1
-//     }
-//   } else {
-//     return {
-//       notFound: true
-//     }
-//   }
-// }
+  if (!!article?.length > 0) {
+    return {
+      props: {
+        article: article[0],
+      },
+      revalidate: 1
+    }
+  } else {
+    return {
+      notFound: true
+    }
+  }
+}
 
-// export async function getStaticPaths() {
-//   const articles = await getAllArticles();
-//   return {
-//     paths:
-//       articles?.data?.map(article => ({
-//         params: {
-//           articleSlug: article?.slug,
-//         },
-//       })) || [],
-//     fallback: true,
-//   }
-// }
+export async function getStaticPaths() {
+  const articles = await getAllArticles();
+  return {
+    paths:
+      articles?.data?.map(article => ({
+        params: {
+          articleSlug: article?.slug,
+        },
+      })) || [],
+    fallback: true,
+  }
+}
