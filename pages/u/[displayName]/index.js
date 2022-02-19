@@ -12,9 +12,7 @@ import UserProfile from "../../../lib/UserProfile/UserProfile";
 import { getUserByDisplayName } from '../../../lib/api';
 import { loading } from '../../../lib/myFunctions';
 
-export default function Profile() {
-  const router = useRouter()
-  const { displayName } = router.query;
+function Profile({ displayName, user }) {
   const [currentUser, setCurrentUser] = useState(UserProfile.getUser())
   useEffect(() => {
     onAuthStateChanged(auth, authUser => {
@@ -28,23 +26,13 @@ export default function Profile() {
       }
     })
   }, [])
+  
   const [ownerMode, setOwnerMode] = useState(false)
   useEffect(() => {
     if (displayName && currentUser?.displayName === displayName) {
       setOwnerMode(true);
     }
   }, [displayName, currentUser])
-  const [user, setUser] = useState([]);
-  useEffect(() => {
-    const fetch = async () => {
-      loading('open')
-      let res = await getUserByDisplayName(displayName)
-      let r = res?.docs?.map(doc => ({ ...doc.data(), uid: doc.id }))
-      r?.length > 0 && setUser(r[0])
-      loading('close')
-    }
-    return fetch()
-  }, [displayName])
   const [showModal, setShowMode] = useState(false)
 
 
@@ -57,7 +45,7 @@ export default function Profile() {
       {!currentUser?.coverPhotoURL && <div className="flex justify-center items-center" style={{ background: '#eb004e', color: 'white', width: '100%', height: '200px' }}>
         {ownerMode && <div style={{ padding: '5px 10px', background: 'white', color: 'black', marginTop: '-20px' }}>complete updating your profile</div>}
       </div>}
-      <Image src={currentUser?.coverPhotoURL} alt="Cover Photo" width="1000px" height="200px" />
+      {currentUser?.coverPhotoURL && <Image src={currentUser?.coverPhotoURL} alt="Cover Photo" width="1000px" height="200px" />}
 
       {/* user?.displayName and email */}
       <div className="flex" style={{ gap: '2rem', marginTop: '-50px', alignItems: 'center', padding: '0 45px', marginBottom: '1.5rem' }}>
@@ -173,3 +161,21 @@ const Modal = ({ user }) => {
     <div style={{ background: 'white', borderRadius: 5, padding: 25 }}>sldkfj</div>
   </div>)
 }
+
+export const getServerSideProps = async (context) => {
+  const { displayName } = context.params;
+  var user = [];
+  let res = await getUserByDisplayName(displayName)
+  let r = res?.docs?.map(doc => ({ ...doc.data(), uid: doc.id }))
+  if(r?.length > 0){
+    user = r[0]
+  }
+
+  return {
+    props: {
+      displayName, user
+    }, // will be passed to the page component as props
+  }
+}
+
+export default Profile

@@ -888,7 +888,7 @@ const Verify = ({ user }) => {
                 const userRef = doc(db, "users", auth.currentUser.uid);
 
                 await updateDoc(userRef, {
-                  reqVerificationDate: new Date(),
+                  reqVerificationDate: (new Date()).toString(),
                   docForVerification: url,
                   hasRequestedForAccVerification: true
                 })

@@ -20,7 +20,6 @@ import { useRouter } from "next/router";
 
 
 export default function ArticlePage({ article }) {
-  console.log(article)
   const createArticle = {
     likes: [],
     disLikes: [],
@@ -129,115 +128,117 @@ export default function ArticlePage({ article }) {
               <Image src="/images/0_NEgmVl2J_RRzI9Sr.jpg" alt={article?.title} width="1000px" height="600px" />
             </div>
 
-            <div style={{ padding: '5px 35px' }}>
+            <div>
               {/* body */}
-              <div style={{ fontSize: '1.4rem', fontWeight: 300, letterSpacing: '1px' }}>{article?.body}</div>
+              <p style={{ fontSize: '16px', marginTop: 5, lineHeight: '26px', color: '#333', fontWeight: 400 }}>{article?.body}</p>
 
-              {/* share.... */}
-              <div className="flex flex-wrap" style={{ gap: '1.3rem', margin: '30px 0' }}>
-                {hasLiked ?
-                  <div
-                    className="flex items-center"
-                    style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#eb004e', color: 'white' }}>
-                    <Image src="/images/Icon feather-thumbs-up.png" alt="like" width="20px" height="20px" />
-                    <div className="likes_count">{article?.likes?.length}</div>
-                  </div> :
-                  <div
-                    onClick={async () => {
-                      loading('open');
-                      let res = await likeArticleAPI(article?.articleId, article?.likes, article?.disLikes, user)
-                      res === 'success' && setHasLiked(true);
-                      hasDisLiked && setHasDisLiked(false);
-                      loading('close');
-                    }}
-                    className="flex items-center"
-                    style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#d0d0d0' }}>
-                    <Image src="/images/Icon feather-thumbs-up.png" alt="like" width="20px" height="20px" />
-                    <div className="likes_count">{article?.likes?.length}</div>
+              <div style={{ padding: '5px 35px' }}>
+                {/* share.... */}
+                <div className="flex flex-wrap" style={{ gap: '1.3rem', margin: '30px 0' }}>
+                  {hasLiked ?
+                    <div
+                      className="flex items-center"
+                      style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#eb004e', color: 'white' }}>
+                      <Image src="/images/Icon feather-thumbs-up.png" alt="like" width="20px" height="20px" />
+                      <div className="likes_count">{article?.likes?.length}</div>
+                    </div> :
+                    <div
+                      onClick={async () => {
+                        loading('open');
+                        let res = await likeArticleAPI(article?.articleId, article?.likes, article?.disLikes, user)
+                        res === 'success' && setHasLiked(true);
+                        hasDisLiked && setHasDisLiked(false);
+                        loading('close');
+                      }}
+                      className="flex items-center"
+                      style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#d0d0d0' }}>
+                      <Image src="/images/Icon feather-thumbs-up.png" alt="like" width="20px" height="20px" />
+                      <div className="likes_count">{article?.likes?.length}</div>
+                    </div>
+                  }
+
+                  {hasDisLiked ?
+                    <div
+                      className="flex items-center"
+                      style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#eb004e', color: 'white' }}>
+                      <Image src="/images/Icon feather-thumbs-down.png" alt="dislike" width="20px" height="20px" />
+                      <div className="disLikes_count">{article?.disLikes?.length}</div>
+                    </div> :
+                    <div
+                      onClick={async () => {
+                        loading('open');
+                        let res = await disLikeArticleAPI(article?.articleId, article?.likes, article?.disLikes, user)
+                        res === 'success' && setHasDisLiked(true);
+                        hasLiked && setHasLiked(false);
+                        loading('close');
+                      }}
+                      className="flex items-center"
+                      style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#d0d0d0' }}>
+                      <Image src="/images/Icon feather-thumbs-down.png" alt="dislike" width="20px" height="20px" />
+                      <div className="disLikes_count">{article?.disLikes?.length}</div>
+                    </div>
+                  }
+
+                  {hasSaved ?
+                    <div
+                      onClick={async () => {
+                        loading('open');
+                        let res = await Unsave(user, article?.articleId)
+                        res === 'success' && setHasSaved(false);
+                        loading('close');
+                      }}
+                      className="flex items-center"
+                      style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#eb004e', color: 'white' }}>
+                      <Image src="/images/savebtn.png" alt="save" width="20px" height="20px" />
+                      <div>Unsave</div>
+                    </div> :
+                    <div
+                      onClick={async () => {
+                        loading('open');
+                        let res = await saveItem(user, article?.articleId, article?.mainImage, getDesc(article?.body, 60), `/article/${article?.slug}`, 'article');
+                        res === 'success' && setHasSaved(true);
+                        loading('close');
+                      }}
+                      className="flex items-center"
+                      style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#d0d0d0' }}>
+                      <Image src="/images/savebtn.png" alt="save" width="20px" height="20px" />
+                      <div>Save</div>
+                    </div>
+                  }
+                  <WebShareApi url={`https://hairrrs.vercel.app/article/${article?.slug}`} title={article?.title} text={getDesc(article?.body, 60)} />
+                </div>
+
+                {/* comment */}
+                <div className="flex" style={{ gap: '1rem', padding: '10px 15px', border: '1px solid rgb(183 183 183)', borderRadius: 10, width: '100%' }}>
+                  <div>
+                    <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden' }}>
+                      {user?.photoURL && <Image src={user?.photoURL} alt={user?.displayName} width="50px" height="50px" />}
+                    </div>
                   </div>
-                }
 
-                {hasDisLiked ?
-                  <div
-                    className="flex items-center"
-                    style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#eb004e', color: 'white' }}>
-                    <Image src="/images/Icon feather-thumbs-down.png" alt="dislike" width="20px" height="20px" />
-                    <div className="disLikes_count">{article?.disLikes?.length}</div>
-                  </div> :
-                  <div
-                    onClick={async () => {
-                      loading('open');
-                      let res = await disLikeArticleAPI(article?.articleId, article?.likes, article?.disLikes, user)
-                      res === 'success' && setHasDisLiked(true);
-                      hasLiked && setHasLiked(false);
+                  <div style={{ marginTop: '10px', width: '90%' }}>
+                    <form onSubmit={async (e) => {
+                      // loading('open');
+                      e.preventDefault();
+                      const commentInput = document.querySelector('#comment');
+                      let res = await commentAPI(user, commentInput?.value, article?.articleId)
+                      if (res === 'success' && commentInput) { commentInput.value = '' }
                       loading('close');
-                    }}
-                    className="flex items-center"
-                    style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#d0d0d0' }}>
-                    <Image src="/images/Icon feather-thumbs-down.png" alt="dislike" width="20px" height="20px" />
-                    <div className="disLikes_count">{article?.disLikes?.length}</div>
-                  </div>
-                }
-
-                {hasSaved ?
-                  <div
-                    onClick={async () => {
-                      loading('open');
-                      let res = await Unsave(user, article?.articleId)
-                      res === 'success' && setHasSaved(false);
-                      loading('close');
-                    }}
-                    className="flex items-center"
-                    style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#eb004e', color: 'white' }}>
-                    <Image src="/images/savebtn.png" alt="save" width="20px" height="20px" />
-                    <div>Unsave</div>
-                  </div> :
-                  <div
-                    onClick={async () => {
-                      loading('open');
-                      let res = await saveItem(user, article?.articleId, article?.mainImage, getDesc(article?.body, 60), `/article/${article?.slug}`, 'article');
-                      res === 'success' && setHasSaved(true);
-                      loading('close');
-                    }}
-                    className="flex items-center"
-                    style={{ gap: '.5rem', cursor: 'pointer', padding: '5px 10px', borderRadius: 5, background: '#d0d0d0' }}>
-                    <Image src="/images/savebtn.png" alt="save" width="20px" height="20px" />
-                    <div>Save</div>
-                  </div>
-                }
-                <WebShareApi url={`https://hairrrs.vercel.app/article/${article?.slug}`} title={article?.title} text={getDesc(article?.body, 60)} />
-              </div>
-
-              {/* comment */}
-              <div className="flex" style={{ gap: '1rem', padding: '10px 15px', border: '1px solid rgb(183 183 183)', borderRadius: 10, width: '100%' }}>
-                <div>
-                  <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden' }}>
-                    {user?.photoURL && <Image src={user?.photoURL} alt={user?.displayName} width="50px" height="50px" />}
+                    }}>
+                      <textarea name="comment" id="comment" placeholder="Write comment" style={{ height: '80px', width: '100%', resize: 'none', border: 'none', outline: 'none' }}></textarea>
+                      <div><input type="submit" value="comment" /></div>
+                    </form>
                   </div>
                 </div>
 
-                <div style={{ marginTop: '10px', width: '90%' }}>
-                  <form onSubmit={async (e) => {
-                    // loading('open');
-                    e.preventDefault();
-                    const commentInput = document.querySelector('#comment');
-                    let res = await commentAPI(user, commentInput?.value, article?.articleId)
-                    if (res === 'success' && commentInput) { commentInput.value = '' }
-                    loading('close');
-                  }}>
-                    <textarea name="comment" id="comment" placeholder="Write comment" style={{ height: '80px', width: '100%', resize: 'none', border: 'none', outline: 'none' }}></textarea>
-                    <div><input type="submit" value="comment" /></div>
-                  </form>
-                </div>
+                <br />
+                <div style={{ fontWeight: 600 }}>{comments?.length} Comments</div>
+
+                {/* comments */}
+                <br />
+                {comments?.length > 0 && <Comments articleId={article?.articleId} allComments={comments} user={user} />}
+
               </div>
-
-              <br />
-              <div style={{ fontWeight: 600 }}>{comments?.length} Comments</div>
-
-              {/* comments */}
-              <br />
-              {comments?.length > 0 && <Comments articleId={article?.articleId} allComments={comments} user={user} />}
-
             </div>
 
             <br />
