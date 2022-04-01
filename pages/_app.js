@@ -1,33 +1,23 @@
 import '../styles/globals.css'
 import '../styles/carousel.css'
-import Modal from 'react-modal'
+import { AuthContextProvider } from '../context/AuthContext'
 import { useRouter } from 'next/router'
+import ProtectedRoute from '../components/ProtectedRoute'
+
+import Modal from 'react-modal'
 import Image from 'next/image'
 import Link from 'next/link'
 import AuthModal from '../components/AuthModal/authModal'
 import ReportModal from '../components/reportModal'
-import { useEffect } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth, db } from '../lib/firebase'
-import { doc, onSnapshot } from 'firebase/firestore'
-import UserProfile from '../lib/UserProfile/UserProfile'
+import HeadMetadata from '../components/HeadMetadata'
 
 Modal.setAppElement('#__next');
+
+const noAuthRequired = ['/', '/login', '/signup']
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const currentPage = router.pathname
-  
-  useEffect(() => {
-    onAuthStateChanged(auth, authUser => {
-      if (authUser?.uid) {
-        const userRef = doc(db, 'users', authUser?.uid);
-        onSnapshot(userRef, doc => {
-          UserProfile.setUser({ ...doc.data(), uid: doc.id });
-        });
-      }
-    })
-  }, [])
 
   return (<>
     {/* start selling */}
@@ -74,6 +64,7 @@ function MyApp({ Component, pageProps }) {
     </div>
 
     {router.query.report_modal === "true" && <ReportModal />}
+    
     {/* authModal */}
     <Modal
       isOpen={router.query.authModal === 'true'}
@@ -105,13 +96,28 @@ function MyApp({ Component, pageProps }) {
     >
       <AuthModal />
     </Modal>
+
+   
     <div id="loadingModal">
       {/* <Image src="/loader.gif" alt="Loading..." width="200px" height="200px" /> */}
     </div>
-    <Component {...pageProps} />
+
+    <HeadMetadata />
+
+    <AuthContextProvider>
+      {noAuthRequired.includes(router.pathname) ? (
+        <Component {...pageProps} />
+      ) : (
+        <ProtectedRoute>
+          <Component {...pageProps} />
+        </ProtectedRoute>
+      )}
+    </AuthContextProvider>
   </>)
 }
 
 export default MyApp
-console.clear();
-console.log("...Welcome to Hairrrs.com");
+
+// export default MyApp
+// console.clear();
+// console.log("...Welcome to Hairrrs.com");

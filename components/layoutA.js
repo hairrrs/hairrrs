@@ -4,8 +4,14 @@ import SideBar from './sideBar'
 export default function LayoutA({ children }) {
   return (
     <div className={styles.layoutContainer}>
-      <div className="sm-hidden"><SideBar /></div>
-      <main className="" style={{ maxHeight: '72vh', width: '100vw', overflowY: 'auto', paddingBottom: '20px' }}>{children}</main>
+      <SideBar />
+      <main className="" style={{
+        // maxHeight: '72vh',
+        // width: '100vw', 
+        // overflowY: 'auto', 
+        // paddingBottom: '20px'
+        background: 'white'
+      }}>{children}</main>
     </div>
   )
 }

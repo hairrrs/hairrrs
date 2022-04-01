@@ -1,15 +1,12 @@
+import styles from '../styles/pages/homePage.module.css'
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import LayoutA from '../components/layoutA'
-import Nav from '../components/nav'
-import HeadMetadata from '../components/HeadMetadata'
 import Link from 'next/link'
+import Image from 'next/image'
+import Nav from '../components/nav';
+import LayoutA from '../components/layoutA'
 import TrendingArticles from '../components/trendingArticles'
 import LatestJobVacancies from '../components/latestJobVacancies'
 import { getProductsByCategory } from '../lib/api'
-import styles from '../styles/pages/homePage.module.css'
-// import { db } from "../lib/firebase";
-// import { collection, query, orderBy, where, getDocs, limit } from "firebase/firestore";
 
 export default function HomePage() {
   const featuredCatg = [
@@ -26,12 +23,9 @@ export default function HomePage() {
   ]
 
   return (<>
-    <HeadMetadata />
-
     <Nav />
-
     <LayoutA>
-      <div className="" style={{ background: 'white', padding: '15px', paddingTop: 0 }}>
+      <div>
         <div className="flex">
           <div className="" style={{ width: '100%' }}><Carousel /></div>
           <div className="sm-hidden flex justify-center items-center" style={{ width: '50%' }}>
@@ -39,7 +33,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="flex justify-between items-center" style={{ padding: '15px 0' }}>
+        <div className="flex justify-between items-center" style={{ paddingTop: 15 }}>
           {catgBox.map((item, index) => (
             <div key={index} className="homeComponent-catg_box">
               <Image src={item.src} alt="" width="143px" height="164px" />
@@ -62,6 +56,58 @@ export default function HomePage() {
     </LayoutA>
   </>)
 }
+
+
+
+
+
+
+
+
+
+
+// import { useEffect, useState } from 'react'
+// import Image from 'next/image'
+// import LayoutA from '../components/layoutA'
+// import Nav from '../components/nav'
+// import HeadMetadata from '../components/HeadMetadata'
+
+// import TrendingArticles from '../components/trendingArticles'
+// import LatestJobVacancies from '../components/latestJobVacancies'
+// import { getProductsByCategory } from '../lib/api'
+// import styles from '../styles/pages/homePage.module.css'
+// // import { db } from "../lib/firebase";
+// // import { collection, query, orderBy, where, getDocs, limit } from "firebase/firestore";
+
+// export default function HomePage() {
+//   const featuredCatg = [
+//     { name: 'Wig' },
+//     { name: 'Weavon' },
+//     { name: 'Gadgets' },
+//     { name: 'Extras' }
+//   ]
+//   const catgBox = [
+//     { src: '/images/product-img.png', caption: 'Products' },
+//     { src: '/images/business-img.png', caption: 'Businesses' },
+//     { src: '/images/job-vacancy-img.png', caption: 'Job vacancies' },
+//     { src: '/images/article-img.png', caption: 'Articles' }
+//   ]
+
+//   return (<>
+//     <HeadMetadata />
+
+//     <Nav />
+
+
+
+
+
+
+
+
+
+//   </>)
+// }
 
 const Carousel = () => {
   var slideIndex = 1;
@@ -158,12 +204,17 @@ const Carousel = () => {
 }
 
 const ProductCard = ({ category }) => {
-  const [products, setProducts] = useState([])
+  // const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([
+    
+  ])
+  
   useEffect(() => {
     const fetch = async () => {
       const res = await getProductsByCategory(category, 6);
+      console.log('res-data', res.data)
       const serialized = res?.data ? res?.data : []
-      // console.log(serialized)
+      console.log('serialized', serialized)
       serialized && setProducts(serialized)
     }
     return fetch()
@@ -172,13 +223,19 @@ const ProductCard = ({ category }) => {
   if (!!products.length > 0) {
     return (
       <div className="featuredCatg_wig" style={{ marginBottom: '1.5rem' }}>
-        <div className="featuredCatg_wig-header" style={{ background: '#dcdcdc', color: '#eb004e', fontSize: '1.2rem', fontWeight: 650, padding: '5px 15px' }}>{category}</div>
+        <div className="featuredCatg_wig-header" style={{
+          // background: '#dcdcdc', 
+          marginTop: 15,
+          color: '#eb004e', 
+          fontSize: '1.2rem', 
+          fontWeight: 650, 
+          padding: '5px 15px'
+        }}>{category}</div>
         <br />
         <div className="flex flex-wrap gap-1 homeComponent-featuredCatg_wig-body">
 
           {/* <ProductCard /> */}
           {products?.map(product => {
-
             return (
               <div key={product?.slug} className="flex" style={{ borderBottom: '1px solid #eb004e' }}>
                 <Link href={`/product/${product?.slug}`}><a className={`flex justify-center items-center ${styles.productCard_a_container}`}>

@@ -1,10 +1,9 @@
 .layoutContainer {
-  display: flex;
-  max-width: 100vw;
-  max-height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  margin-top: 165px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-column-gap: 15px;
+  background: rgb(218, 218, 218);
+  padding: 15px
 }
 
 .sideBarProfileImage {
