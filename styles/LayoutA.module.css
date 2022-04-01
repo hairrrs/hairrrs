@@ -1,8 +1,10 @@
 .layoutContainer {
+  width: 100vw;
+  overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr;
   grid-column-gap: 15px;
-  background: rgb(218, 218, 218);
+  /* background: rgb(218, 218, 218); */
   padding: 15px
 }
 
@@ -11,4 +13,7 @@
 }
 
 @media (min-width: 768px) {
+  .layoutContainer {
+    grid-template-columns: 1fr 4fr;
+  }
 }

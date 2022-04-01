@@ -25,7 +25,6 @@ export default function HomePage() {
   return (<>
     <Nav />
     <LayoutA>
-      <div>
         <div className={styles.carouselWrapper}>
           <Carousel />
           <div className="sm-hidden flex justify-center items-center" style={{ padding: '0 1rem'}}>
@@ -36,7 +35,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="flex justify-between items-center" style={{ paddingTop: 15 }}>
+        <div className="sm-hidden flex justify-between items-center" style={{ paddingTop: 15 }}>
           {catgBox.map((item, index) => (
             <div key={index} className="homeComponent-catg_box">
               <Image src={item.src} alt="" width="143px" height="164px" />
@@ -44,18 +43,17 @@ export default function HomePage() {
             </div>
           ))}
         </div>
-      </div>
 
       {/* PRODUCTS BY FEATURED_CATG */}
       {featuredCatg?.map((category, index) => {
         return <ProductCard key={index} category={category?.name} />
       })}
 
-      <br />
-      <TrendingArticles />
+      {/* <br />
+      <TrendingArticles /> */}
 
-      <br />
-      <LatestJobVacancies />
+      {/* <br />
+      <LatestJobVacancies /> */}
     </LayoutA>
   </>)
 }

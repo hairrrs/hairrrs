@@ -17,10 +17,12 @@
   overflow: hidden;
 }
 
+.carousel_img {
+  width: 300px
+}
+
 @media (min-with: 768px){
   .carouselWrapper {
-    display: grid;
     grid-template-columns: 4fr 3fr;
-    overflow: hidden;
   }
 }
