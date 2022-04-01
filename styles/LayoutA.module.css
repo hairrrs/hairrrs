@@ -1,6 +1,6 @@
 .layoutContainer {
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 4fr;
   grid-column-gap: 15px;
   background: rgb(218, 218, 218);
   padding: 15px
@@ -8,4 +8,7 @@
 
 .sideBarProfileImage {
   border-radius: '50%'
+}
+
+@media (min-width: 768px) {
 }

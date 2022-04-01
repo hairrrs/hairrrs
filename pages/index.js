@@ -26,10 +26,13 @@ export default function HomePage() {
     <Nav />
     <LayoutA>
       <div>
-        <div className="flex">
-          <div className="" style={{ width: '100%' }}><Carousel /></div>
-          <div className="sm-hidden flex justify-center items-center" style={{ width: '50%' }}>
-            <Image src="/images/face_of_ohyanga.png" alt="" width="100px" height="50px" />
+        <div className={styles.carouselWrapper}>
+          <Carousel />
+          <div className="sm-hidden flex justify-center items-center" style={{ padding: '0 1rem'}}>
+            {
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src="/images/face_of_ohyanga.png" alt="" />
+            }
           </div>
         </div>
 
@@ -56,58 +59,6 @@ export default function HomePage() {
     </LayoutA>
   </>)
 }
-
-
-
-
-
-
-
-
-
-
-// import { useEffect, useState } from 'react'
-// import Image from 'next/image'
-// import LayoutA from '../components/layoutA'
-// import Nav from '../components/nav'
-// import HeadMetadata from '../components/HeadMetadata'
-
-// import TrendingArticles from '../components/trendingArticles'
-// import LatestJobVacancies from '../components/latestJobVacancies'
-// import { getProductsByCategory } from '../lib/api'
-// import styles from '../styles/pages/homePage.module.css'
-// // import { db } from "../lib/firebase";
-// // import { collection, query, orderBy, where, getDocs, limit } from "firebase/firestore";
-
-// export default function HomePage() {
-//   const featuredCatg = [
-//     { name: 'Wig' },
-//     { name: 'Weavon' },
-//     { name: 'Gadgets' },
-//     { name: 'Extras' }
-//   ]
-//   const catgBox = [
-//     { src: '/images/product-img.png', caption: 'Products' },
-//     { src: '/images/business-img.png', caption: 'Businesses' },
-//     { src: '/images/job-vacancy-img.png', caption: 'Job vacancies' },
-//     { src: '/images/article-img.png', caption: 'Articles' }
-//   ]
-
-//   return (<>
-//     <HeadMetadata />
-
-//     <Nav />
-
-
-
-
-
-
-
-
-
-//   </>)
-// }
 
 const Carousel = () => {
   var slideIndex = 1;
@@ -180,12 +131,16 @@ const Carousel = () => {
     { src: '/images/signin img.png' }
   ]
 
-  return (<>
+  return (<div>
     <div className="slideshow-container">
       {images.map((item, index) => (
         <div key={index + 1} className="mySlides fade">
           {/* <div className="carousel_numbertext">{index+1} / {images.length}</div> */}
-          <Image src={item.src} alt="" width="800px" height="480px" className="carousel_img" />
+
+          {// eslint-disable-next-line @next/next/no-img-element
+            <img src={item.src} alt="" width="100%" className="carousel_img" />
+          }
+
           {/* <div className="carousel_text">Caption Text</div> */}
         </div>
       ))}
@@ -200,15 +155,15 @@ const Carousel = () => {
         <span key={index} className="carousel_dot" onClick={() => { currentSlide(index + 1) }}></span>
       ))}
     </div>
-  </>)
+  </div>)
 }
 
 const ProductCard = ({ category }) => {
   // const [products, setProducts] = useState([])
   const [products, setProducts] = useState([
-    
+
   ])
-  
+
   useEffect(() => {
     const fetch = async () => {
       const res = await getProductsByCategory(category, 6);
@@ -226,9 +181,9 @@ const ProductCard = ({ category }) => {
         <div className="featuredCatg_wig-header" style={{
           // background: '#dcdcdc', 
           marginTop: 15,
-          color: '#eb004e', 
-          fontSize: '1.2rem', 
-          fontWeight: 650, 
+          color: '#eb004e',
+          fontSize: '1.2rem',
+          fontWeight: 650,
           padding: '5px 15px'
         }}>{category}</div>
         <br />

@@ -6,8 +6,21 @@
 }
 
 .productCard_a_container div:hover,
-.productCard_a_container img:hover 
-.productCard_a_container img {
+.productCard_a_container img:hover .productCard_a_container img {
   transition: .6s linear;
   transform: scale(1.3);
+}
+
+.carouselWrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+}
+
+@media (min-with: 768px){
+  .carouselWrapper {
+    display: grid;
+    grid-template-columns: 4fr 3fr;
+    overflow: hidden;
+  }
 }
