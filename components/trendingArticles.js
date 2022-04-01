@@ -23,7 +23,7 @@ export default function TrendingArticles({ docLimit = "18" }) {
     if (articles?.length>0){ 
         return (<>
         {articles?.length>0 && <>
-            <div className="" style={{ background: '#eb004e', color: 'white', textAlign: 'center', padding: '10px' }}><strong>Trending Articles</strong></div>
+            <div style={{ background: '#eb004e', color: 'white', textAlign: 'center', padding: '10px' }}><strong>Trending Articles</strong></div>
             <br />
 
 

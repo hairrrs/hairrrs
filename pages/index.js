@@ -49,8 +49,8 @@ export default function HomePage() {
         return <ProductCard key={index} category={category?.name} />
       })}
 
-      {/* <br />
-      <TrendingArticles /> */}
+      <br />
+      <TrendingArticles docLimit={3} />
 
       {/* <br />
       <LatestJobVacancies /> */}
