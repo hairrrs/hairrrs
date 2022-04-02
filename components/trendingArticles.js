@@ -1,4 +1,5 @@
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import styles from '../styles/components/trendingArticles.module.css';
 import Image from "next/image"
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -49,23 +50,28 @@ const Card = ({ article }) => {
     const [author, setAuthor] = useState(null);
     useEffect(() => {
         const fetch = async () => {
-            const res = await getUserById(article?.author?.uid);
-            setAuthor(res);
+            console.log(article?.author)
+            var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+
+            if(width > 768){
+                const res = await getUserById(article?.author?.uid);
+                setAuthor(res);
+            }
         }
         return fetch()
     }, [article])
 
     return (
-        <div style={{ width: 300 }}>
+        <div className={styles.cardWrapper}>
             {/* mainImage, author displayName... */}
             <div style={{ background: '#eb004e', gap: '1rem', height: 140, position: 'relative' }}>
-                <Link href={`u/${author?.displayName}`}><a className="flex items-center" style={{ position: 'absolute', top:20, left: 20 }}>
-                    {/* <div className="" style={{ borderRadius: '50%', background: '#fff', width: "43px", height: "43px" }}>
+                <Link href={`u/${article?.author?.displayName}`}><a className="flex items-center" style={{ position: 'absolute', top:20, left: 20 }}>
+                    <div className="sm-hidden" style={{ borderRadius: '50%', background: '#fff', width: "43px", height: "43px" }}>
                         {// eslint-disable-next-line @next/next/no-img-element
-                            <img src={author?.photoURL} alt={author?.displayName} width="100%" height="100%" style={{ borderRadius: '50%' }} />
+                            <img src={author?.photoURL} alt={article?.author?.displayName} width="100%" height="100%" style={{ borderRadius: '50%' }} />
                         }
-                    </div> */}
-                    <div style={{ padding: '5px 10px', fontSize: '.7rem', borderRadius: 5, marginLeft: 12, background: '#fff' }}><strong>{author?.displayName}</strong></div>
+                    </div>
+                    <div style={{ padding: '5px 10px', fontSize: '.7rem', borderRadius: 5, marginLeft: 12, background: '#fff' }}><strong>{article?.author?.displayName}</strong></div>
                 </a></Link>
                 {article?.mainImage && <>
                 {

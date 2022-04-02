@@ -30,11 +30,17 @@ p { margin: 15px 0 }
 .mx-3 { margin-left: 1.8rem; margin-right: 1.8rem }
 .mt-3 { margin-top: 1rem !important }
 
-* {
+html, body, * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
+
+/* body {
+  border: 1px solid;
+} */
+
+
 
 nav .fa {
   font-size: 1.4rem;

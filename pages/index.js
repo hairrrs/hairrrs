@@ -1,3 +1,4 @@
+import React from "react";
 import styles from '../styles/pages/homePage.module.css'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -7,6 +8,7 @@ import LayoutA from '../components/layoutA'
 import TrendingArticles from '../components/trendingArticles'
 import LatestJobVacancies from '../components/latestJobVacancies'
 import { getProductsByCategory } from '../lib/api'
+import MyCarousel from "../components/carousel";
 
 export default function HomePage() {
   const featuredCatg = [
@@ -24,68 +26,16 @@ export default function HomePage() {
 
   return (<>
     <Nav />
+
     <LayoutA>
-      {/* <div className={styles.carouselWrapper}>
-          <Carousel />
-          <div className="sm-hidden flex justify-center items-center" style={{ padding: '0 1rem'}}>
-            {
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src="/images/face_of_ohyanga.png" alt="" />
-            }
-          </div>
-        </div> */}
       <div className="container-fluid">
         <div className="row">
-          <div className="col-12 col-md-7 col-lg-8">
-            <div id="carouselExampleDark" className="carousel carousel-dark slide" data-bs-ride="carousel">
-              <div className="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              </div>
-              <div className="carousel-inner">
-                <div className="carousel-item active" data-bs-interval="1000">
-                  {
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src="/images/img-01.png" className="d-block w-100" alt="..." />
-                  }
-                  <div className="carousel-caption d-none d-md-block">
-                    <h5>First slide label</h5>
-                    <p>Some representative placeholder content for the first slide.</p>
-                  </div>
-                </div>
-                <div className="carousel-item" data-bs-interval="1000">
-                  {
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src="/images/nutless braid.png" className="d-block w-100" alt="..." />
-                  }
-                  <div className="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
-                  </div>
-                </div>
-                <div className="carousel-item" data-bs-interval="1000">
-                  {
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src="/images/signin img.png" className="d-block w-100" alt="..." />
-                  }
-                  <div className="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
-                  </div>
-                </div>
-              </div>
-              <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Next</span>
-              </button>
+          <div className="col-12 col-md-7 col-lg-8 p-0">
+            <div className={styles.MyCarousel}>
+              <MyCarousel />
             </div>
           </div>
-          <div className="col-12 col-md-5 col-lg-4 flex justify-center items-center my-5 my-md-0" style={{ padding: '0 1rem'}}>
+          <div className="col-12 col-md-5 col-lg-4 flex justify-center items-center my-5 my-md-0" style={{ padding: '0 1rem' }}>
             {
               // eslint-disable-next-line @next/next/no-img-element
               <img src="/images/face_of_ohyanga.png" alt="" width="200px" />
@@ -94,14 +44,14 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="sm-hidden flex justify-between items-center" style={{ paddingTop: 15 }}>
+      {/* <div className="sm-hidden flex justify-between items-center" style={{ paddingTop: 15 }}>
         {catgBox.map((item, index) => (
           <div key={index} className="homeComponent-catg_box">
             <Image src={item.src} alt="" width="143px" height="164px" />
             <div className="homeComponent-catg_box_text">{item.caption}</div>
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* PRODUCTS BY FEATURED_CATG */}
       {featuredCatg?.map((category, index) => {

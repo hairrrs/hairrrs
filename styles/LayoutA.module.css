@@ -1,6 +1,4 @@
 .layoutContainer {
-  width: 100vw;
-  overflow: hidden;
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: 15px;

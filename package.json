@@ -19,7 +19,8 @@
     "react-dom": "17.0.2",
     "react-modal": "^3.14.3",
     "react-to-pdf": "^0.0.14",
-    "react-web-share": "^1.1.0"
+    "react-web-share": "^1.1.0",
+    "reactstrap": "^9.0.1"
   },
   "devDependencies": {
     "eslint": "7.32.0",

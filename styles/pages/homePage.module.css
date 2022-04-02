@@ -11,6 +11,10 @@
   transform: scale(1.3);
 }
 
+.MyCarousel img {
+  height: 400px;
+}
+
 /* .carouselWrapper {
   display: grid;
   grid-template-columns: 1fr;
