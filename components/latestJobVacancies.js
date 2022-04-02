@@ -1,3 +1,4 @@
+import styles from '../styles/components/latestJobVacancy.module.css'
 import Image from "next/image"
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import Link from "next/link";
@@ -21,24 +22,25 @@ export default function LatestJobVacancies({ docLimit = "18" }) {
 
     // console.log(jobs)
 
-    if(jobs?.length>0){
+    if (jobs?.length > 0) {
         return (<>
-        {jobs?.length>0 && <>
-            <div className="" style={{ background: '#eb004e', color: 'white', textAlign: 'center', padding: '10px' }}><strong>Job vacancies</strong></div>
-            <br />
-            <div className="flex flex-wrap featuredCatg_wig-body" style={{ gap: '1.2rem', padding: '10px' }}>
-                {jobs?.map(job => {
-                    return <Card key={job.jobId} job={job} />
-                })}
-            </div>
-            <br />
-            <div className="flex justify-center">
-                <Link href="/"><a style={{ color: '#eb004e', padding: '10px 100px', border: '2px solid #eb004e', fontWeight: 600, borderRadius: 5 }}>see more</a></Link>
-            </div>
-        </>}
-    </>)
-    }else{
-        return(<>
+            {jobs?.length > 0 && <>
+                <div className="" style={{ background: '#eb004e', color: 'white', textAlign: 'center', padding: '10px' }}><strong>Job vacancies</strong></div>
+                <br />
+
+                <div className="flex flex-wrap featuredCatg_wig-body" style={{ gap: '1.2rem', padding: '10px' }}>
+                    {jobs?.map(job => {
+                        return <Card key={job.jobId} job={job} />
+                    })}
+                </div>
+                <br />
+                <div className="flex justify-center">
+                    <Link href="/"><a style={{ color: '#eb004e', padding: '10px 100px', border: '2px solid #eb004e', fontWeight: 600, borderRadius: 5 }}>see more</a></Link>
+                </div>
+            </>}
+        </>)
+    } else {
+        return (<>
             <h6>Loading Latest Job Vacancy</h6>
         </>)
     }
@@ -47,28 +49,31 @@ export default function LatestJobVacancies({ docLimit = "18" }) {
 const Card = ({ job }) => {
     const [author, setAuthor] = useState(null);
     useEffect(() => {
+        var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+        
         const fetch = async () => {
-            const author = await getUserById(job?.lister?.uid);
-            setAuthor(author);
+            if(width > 768){
+                const author = await getUserById(job?.lister?.uid);
+                setAuthor(author);
+                console.log(author);
+            }
         }
         return fetch()
     }, [job])
 
     return (
-        <div className="flex" style={{ width: 340, background: '#ececec82' }}>
-            <div className="flex justify-center" style={{ width: '25%', paddingTop: 15 }}>
-                <>
-                    <div className="" style={{ position: 'relative', borderRadius: '50%', background: '#fff', width: "43px", height: "43px" }}>
-                        {// eslint-disable-next-line @next/next/no-img-element
-                            <img src="/images/nutless braid.png" alt="" width="100%" height="100%" style={{ borderRadius: '50%' }} />
-                        }
-                        <div style={{ position: 'absolute', top: '27%', right: -5 }}>
-                            {author?.photoURL && <Image src={author?.photoURL} alt={author?.displayName} width="15px" height="15px" />}
-                        </div>
+        <div className={`flex ${styles.cardWrapper}`}>
+            <div className="flex justify-center sm-hidden" style={{ width: '25%', paddingTop: 15 }}>
+                <div className="" style={{ position: 'relative', borderRadius: '50%', background: '#fff', width: "43px", height: "43px" }}>
+                    {// eslint-disable-next-line @next/next/no-img-element
+                        <img src="/images/nutless braid.png" alt="" width="100%" height="100%" style={{ borderRadius: '50%' }} />
+                    }
+                    <div style={{ position: 'absolute', top: '27%', right: -5 }}>
+                        {author?.photoURL && <Image src={author?.photoURL} alt={author?.displayName} width="15px" height="15px" />}
                     </div>
-                </>
+                </div>
             </div>
-            <div style={{ width: '75%', padding: 15 }}>
+            <div style={{ padding: 15 }}>
                 <div className=""><strong style={{ fontSize: '.9rem' }}><Link href={`/article/${job?.slug}`}><a>{job?.title}</a></Link></strong></div>
                 <div><p style={{ fontSize: '.8rem' }}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, autem. Dolorem ducimus cum molestias esse.</p></div>
                 <div className="md-flex flex-column" style={{ marginTop: '.6rem', gap: '1.2rem', fontSize: '.8rem' }}>

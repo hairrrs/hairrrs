@@ -25,7 +25,7 @@ export default function HomePage() {
   return (<>
     <Nav />
     <LayoutA>
-        <div className={styles.carouselWrapper}>
+      {/* <div className={styles.carouselWrapper}>
           <Carousel />
           <div className="sm-hidden flex justify-center items-center" style={{ padding: '0 1rem'}}>
             {
@@ -33,16 +33,75 @@ export default function HomePage() {
               <img src="/images/face_of_ohyanga.png" alt="" />
             }
           </div>
-        </div>
-
-        <div className="sm-hidden flex justify-between items-center" style={{ paddingTop: 15 }}>
-          {catgBox.map((item, index) => (
-            <div key={index} className="homeComponent-catg_box">
-              <Image src={item.src} alt="" width="143px" height="164px" />
-              <div className="homeComponent-catg_box_text">{item.caption}</div>
+        </div> */}
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-12 col-md-7 col-lg-8">
+            <div id="carouselExampleDark" className="carousel carousel-dark slide" data-bs-ride="carousel">
+              <div className="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              </div>
+              <div className="carousel-inner">
+                <div className="carousel-item active" data-bs-interval="1000">
+                  {
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src="/images/img-01.png" className="d-block w-100" alt="..." />
+                  }
+                  <div className="carousel-caption d-none d-md-block">
+                    <h5>First slide label</h5>
+                    <p>Some representative placeholder content for the first slide.</p>
+                  </div>
+                </div>
+                <div className="carousel-item" data-bs-interval="1000">
+                  {
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src="/images/nutless braid.png" className="d-block w-100" alt="..." />
+                  }
+                  <div className="carousel-caption d-none d-md-block">
+                    <h5>Second slide label</h5>
+                    <p>Some representative placeholder content for the second slide.</p>
+                  </div>
+                </div>
+                <div className="carousel-item" data-bs-interval="1000">
+                  {
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src="/images/signin img.png" className="d-block w-100" alt="..." />
+                  }
+                  <div className="carousel-caption d-none d-md-block">
+                    <h5>Third slide label</h5>
+                    <p>Some representative placeholder content for the third slide.</p>
+                  </div>
+                </div>
+              </div>
+              <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Previous</span>
+              </button>
+              <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Next</span>
+              </button>
             </div>
-          ))}
+          </div>
+          <div className="col-12 col-md-5 col-lg-4 flex justify-center items-center my-5 my-md-0" style={{ padding: '0 1rem'}}>
+            {
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src="/images/face_of_ohyanga.png" alt="" width="200px" />
+            }
+          </div>
         </div>
+      </div>
+
+      <div className="sm-hidden flex justify-between items-center" style={{ paddingTop: 15 }}>
+        {catgBox.map((item, index) => (
+          <div key={index} className="homeComponent-catg_box">
+            <Image src={item.src} alt="" width="143px" height="164px" />
+            <div className="homeComponent-catg_box_text">{item.caption}</div>
+          </div>
+        ))}
+      </div>
 
       {/* PRODUCTS BY FEATURED_CATG */}
       {featuredCatg?.map((category, index) => {
@@ -52,109 +111,13 @@ export default function HomePage() {
       <br />
       <TrendingArticles docLimit={3} />
 
-      {/* <br />
-      <LatestJobVacancies /> */}
+      <br />
+      <LatestJobVacancies />
     </LayoutA>
   </>)
 }
 
-const Carousel = () => {
-  var slideIndex = 1;
-  // Next/previous controls
-  function plusSlides(n) {
-    changeShowSlides(slideIndex += n);
-  }
 
-  // Thumbnail image controls
-  function currentSlide(n) {
-    changeShowSlides(slideIndex = n);
-  }
-
-  function changeShowSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("carousel_dot");
-    if (n > slides.length) { slideIndex = 1 }
-    if (n < 1) { slideIndex = slides.length }
-    for (i = 0; i < slides.length; i++) {
-      if (slides[i]) {
-        slides[i].style.display = "none";
-      }
-    }
-    for (i = 0; i < dots.length; i++) {
-      if (dots[i]) {
-        dots[i].className = dots[i].className.replace(" carousel_active", "");
-      }
-    }
-    if (slides[slideIndex - 1]) {
-      slides[slideIndex - 1].style.display = "block";
-    }
-    if (dots[slideIndex - 1]) {
-      dots[slideIndex - 1].className += " carousel_active";
-    }
-  }
-
-  useEffect(() => {
-    showSlides(slideIndex);
-    function showSlides() {
-      var i;
-      var slides = document.getElementsByClassName("mySlides");
-      var dots = document.getElementsByClassName("carousel_dot");
-      for (i = 0; i < slides.length; i++) {
-        if (slides[i]) {
-          slides[i].style.display = "none";
-        }
-      }
-      slideIndex++;
-      if (slideIndex > slides.length) { slideIndex = 1 }
-
-      for (i = 0; i < dots.length; i++) {
-        if (dots[i]) {
-          dots[i].className = dots[i].className.replace(" carousel_active", "");
-        }
-      }
-      if (slides[slideIndex - 1]) {
-        slides[slideIndex - 1].style.display = "block";
-      }
-      if (dots[slideIndex - 1]) {
-        dots[slideIndex - 1].className += " carousel_active";
-      }
-      setTimeout(showSlides, 5000);
-    }
-  }, [slideIndex])
-
-  const images = [
-    { src: '/images/img-01.png' },
-    { src: '/images/nutless braid.png' },
-    { src: '/images/signin img.png' }
-  ]
-
-  return (<div>
-    <div className="slideshow-container">
-      {images.map((item, index) => (
-        <div key={index + 1} className="mySlides fade">
-          {/* <div className="carousel_numbertext">{index+1} / {images.length}</div> */}
-
-          {// eslint-disable-next-line @next/next/no-img-element
-            <img src={item.src} alt="" width="100%" className="carousel_img" />
-          }
-
-          {/* <div className="carousel_text">Caption Text</div> */}
-        </div>
-      ))}
-
-      {/* Next and previous buttons */}
-      <i style={{ cursor: 'pointer' }} className="carousel_prev" onClick={() => { plusSlides(-1) }}>&#10094;</i>
-      <i style={{ cursor: 'pointer' }} className="carousel_next" onClick={() => { plusSlides(1) }}>&#10095;</i>
-    </div>
-
-    <div style={{ textAlign: 'center', background: '#eb004e', paddingTop: 10 }}>
-      {images.map((item, index) => (
-        <span key={index} className="carousel_dot" onClick={() => { currentSlide(index + 1) }}></span>
-      ))}
-    </div>
-  </div>)
-}
 
 const ProductCard = ({ category }) => {
   // const [products, setProducts] = useState([])
@@ -165,9 +128,7 @@ const ProductCard = ({ category }) => {
   useEffect(() => {
     const fetch = async () => {
       const res = await getProductsByCategory(category, 6);
-      console.log('res-data', res.data)
-      const serialized = res?.data ? res?.data : []
-      console.log('serialized', serialized)
+      const serialized = res?.data ? res?.data : null
       serialized && setProducts(serialized)
     }
     return fetch()
@@ -214,8 +175,109 @@ const ProductCard = ({ category }) => {
 
         </div>
         <br />
-        <Link href={`/products/${category}`}><a><span style={{ color: 'red' }}>see more</span></a></Link>
+        <Link href={`/products/${category}`}><a><span style={{ color: '#eb004e', marginLeft: 10 }}>see more</span></a></Link>
       </div>
     )
   } else { return (<></>) }
 }
+
+
+
+
+// const Carousel = () => {
+//   var slideIndex = 1;
+//   // Next/previous controls
+//   function plusSlides(n) {
+//     changeShowSlides(slideIndex += n);
+//   }
+
+//   // Thumbnail image controls
+//   function currentSlide(n) {
+//     changeShowSlides(slideIndex = n);
+//   }
+
+//   function changeShowSlides(n) {
+//     var i;
+//     var slides = document.getElementsByClassName("mySlides");
+//     var dots = document.getElementsByClassName("carousel_dot");
+//     if (n > slides.length) { slideIndex = 1 }
+//     if (n < 1) { slideIndex = slides.length }
+//     for (i = 0; i < slides.length; i++) {
+//       if (slides[i]) {
+//         slides[i].style.display = "none";
+//       }
+//     }
+//     for (i = 0; i < dots.length; i++) {
+//       if (dots[i]) {
+//         dots[i].className = dots[i].className.replace(" carousel_active", "");
+//       }
+//     }
+//     if (slides[slideIndex - 1]) {
+//       slides[slideIndex - 1].style.display = "block";
+//     }
+//     if (dots[slideIndex - 1]) {
+//       dots[slideIndex - 1].className += " carousel_active";
+//     }
+//   }
+
+//   useEffect(() => {
+//     showSlides(slideIndex);
+//     function showSlides() {
+//       var i;
+//       var slides = document.getElementsByClassName("mySlides");
+//       var dots = document.getElementsByClassName("carousel_dot");
+//       for (i = 0; i < slides.length; i++) {
+//         if (slides[i]) {
+//           slides[i].style.display = "none";
+//         }
+//       }
+//       slideIndex++;
+//       if (slideIndex > slides.length) { slideIndex = 1 }
+
+//       for (i = 0; i < dots.length; i++) {
+//         if (dots[i]) {
+//           dots[i].className = dots[i].className.replace(" carousel_active", "");
+//         }
+//       }
+//       if (slides[slideIndex - 1]) {
+//         slides[slideIndex - 1].style.display = "block";
+//       }
+//       if (dots[slideIndex - 1]) {
+//         dots[slideIndex - 1].className += " carousel_active";
+//       }
+//       setTimeout(showSlides, 5000);
+//     }
+//   }, [slideIndex])
+
+//   const images = [
+//     { src: '/images/img-01.png' },
+//     { src: '/images/nutless braid.png' },
+//     { src: '/images/signin img.png' }
+//   ]
+
+//   return (<div>
+//     <div className="slideshow-container">
+//       {images.map((item, index) => (
+//         <div key={index + 1} className="mySlides fade">
+//           {/* <div className="carousel_numbertext">{index+1} / {images.length}</div> */}
+
+//           {// eslint-disable-next-line @next/next/no-img-element
+//             <img src={item.src} alt="" width="100%" className="carousel_img" />
+//           }
+
+//           {/* <div className="carousel_text">Caption Text</div> */}
+//         </div>
+//       ))}
+
+//       {/* Next and previous buttons */}
+//       <i style={{ cursor: 'pointer' }} className="carousel_prev" onClick={() => { plusSlides(-1) }}>&#10094;</i>
+//       <i style={{ cursor: 'pointer' }} className="carousel_next" onClick={() => { plusSlides(1) }}>&#10095;</i>
+//     </div>
+
+//     <div style={{ textAlign: 'center', background: '#eb004e', paddingTop: 10 }}>
+//       {images.map((item, index) => (
+//         <span key={index} className="carousel_dot" onClick={() => { currentSlide(index + 1) }}></span>
+//       ))}
+//     </div>
+//   </div>)
+// }

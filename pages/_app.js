@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import '../styles/carousel.css'
+import Script from "next/script";
 import { AuthContextProvider } from '../context/AuthContext'
 import { useRouter } from 'next/router'
 import ProtectedRoute from '../components/ProtectedRoute'
@@ -64,7 +65,7 @@ function MyApp({ Component, pageProps }) {
     </div>
 
     {router.query.report_modal === "true" && <ReportModal />}
-    
+
     {/* authModal */}
     <Modal
       isOpen={router.query.authModal === 'true'}
@@ -97,12 +98,15 @@ function MyApp({ Component, pageProps }) {
       <AuthModal />
     </Modal>
 
-   
+
     <div id="loadingModal">
       {/* <Image src="/loader.gif" alt="Loading..." width="200px" height="200px" /> */}
     </div>
 
     <HeadMetadata />
+    <Script
+      id="bootstrap-cdn"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" />
 
     <AuthContextProvider>
       {noAuthRequired.includes(router.pathname) ? (

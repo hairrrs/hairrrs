@@ -9,7 +9,7 @@ export default function Nav() {
     const handleScroll = () => {
       // setScrollY(window.scrollY);
       let nav = document.querySelector('nav');
-      if (nav && window.scrollY > 200) {
+      if (nav && window.scrollY > 100) {
         nav.classList.add("sticky")
       } else {
         nav.classList.remove("sticky")

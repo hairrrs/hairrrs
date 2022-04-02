@@ -1,0 +1,10 @@
+.cardWrapper {
+  /* width: 300px; */
+  background: #ececec82;
+}
+
+@media (min-width: 768px){
+  .cardWrapper {
+    width: 340px;
+  }
+}
