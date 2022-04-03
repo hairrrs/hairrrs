@@ -44,14 +44,14 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* <div className="sm-hidden flex justify-between items-center" style={{ paddingTop: 15 }}>
+      <div className="sm-hidden flex justify-between items-center" style={{ paddingTop: 15 }}>
         {catgBox.map((item, index) => (
           <div key={index} className="homeComponent-catg_box">
             <Image src={item.src} alt="" width="143px" height="164px" />
             <div className="homeComponent-catg_box_text">{item.caption}</div>
           </div>
         ))}
-      </div> */}
+      </div>
 
       {/* PRODUCTS BY FEATURED_CATG */}
       {featuredCatg?.map((category, index) => {
@@ -70,10 +70,7 @@ export default function HomePage() {
 
 
 const ProductCard = ({ category }) => {
-  // const [products, setProducts] = useState([])
-  const [products, setProducts] = useState([
-
-  ])
+  const [products, setProducts] = useState([])
 
   useEffect(() => {
     const fetch = async () => {
@@ -121,7 +118,6 @@ const ProductCard = ({ category }) => {
               </div>
             )
           })}
-          {/* <ProductCard /> */}
 
         </div>
         <br />
@@ -130,104 +126,3 @@ const ProductCard = ({ category }) => {
     )
   } else { return (<></>) }
 }
-
-
-
-
-// const Carousel = () => {
-//   var slideIndex = 1;
-//   // Next/previous controls
-//   function plusSlides(n) {
-//     changeShowSlides(slideIndex += n);
-//   }
-
-//   // Thumbnail image controls
-//   function currentSlide(n) {
-//     changeShowSlides(slideIndex = n);
-//   }
-
-//   function changeShowSlides(n) {
-//     var i;
-//     var slides = document.getElementsByClassName("mySlides");
-//     var dots = document.getElementsByClassName("carousel_dot");
-//     if (n > slides.length) { slideIndex = 1 }
-//     if (n < 1) { slideIndex = slides.length }
-//     for (i = 0; i < slides.length; i++) {
-//       if (slides[i]) {
-//         slides[i].style.display = "none";
-//       }
-//     }
-//     for (i = 0; i < dots.length; i++) {
-//       if (dots[i]) {
-//         dots[i].className = dots[i].className.replace(" carousel_active", "");
-//       }
-//     }
-//     if (slides[slideIndex - 1]) {
-//       slides[slideIndex - 1].style.display = "block";
-//     }
-//     if (dots[slideIndex - 1]) {
-//       dots[slideIndex - 1].className += " carousel_active";
-//     }
-//   }
-
-//   useEffect(() => {
-//     showSlides(slideIndex);
-//     function showSlides() {
-//       var i;
-//       var slides = document.getElementsByClassName("mySlides");
-//       var dots = document.getElementsByClassName("carousel_dot");
-//       for (i = 0; i < slides.length; i++) {
-//         if (slides[i]) {
-//           slides[i].style.display = "none";
-//         }
-//       }
-//       slideIndex++;
-//       if (slideIndex > slides.length) { slideIndex = 1 }
-
-//       for (i = 0; i < dots.length; i++) {
-//         if (dots[i]) {
-//           dots[i].className = dots[i].className.replace(" carousel_active", "");
-//         }
-//       }
-//       if (slides[slideIndex - 1]) {
-//         slides[slideIndex - 1].style.display = "block";
-//       }
-//       if (dots[slideIndex - 1]) {
-//         dots[slideIndex - 1].className += " carousel_active";
-//       }
-//       setTimeout(showSlides, 5000);
-//     }
-//   }, [slideIndex])
-
-//   const images = [
-//     { src: '/images/img-01.png' },
-//     { src: '/images/nutless braid.png' },
-//     { src: '/images/signin img.png' }
-//   ]
-
-//   return (<div>
-//     <div className="slideshow-container">
-//       {images.map((item, index) => (
-//         <div key={index + 1} className="mySlides fade">
-//           {/* <div className="carousel_numbertext">{index+1} / {images.length}</div> */}
-
-//           {// eslint-disable-next-line @next/next/no-img-element
-//             <img src={item.src} alt="" width="100%" className="carousel_img" />
-//           }
-
-//           {/* <div className="carousel_text">Caption Text</div> */}
-//         </div>
-//       ))}
-
-//       {/* Next and previous buttons */}
-//       <i style={{ cursor: 'pointer' }} className="carousel_prev" onClick={() => { plusSlides(-1) }}>&#10094;</i>
-//       <i style={{ cursor: 'pointer' }} className="carousel_next" onClick={() => { plusSlides(1) }}>&#10095;</i>
-//     </div>
-
-//     <div style={{ textAlign: 'center', background: '#eb004e', paddingTop: 10 }}>
-//       {images.map((item, index) => (
-//         <span key={index} className="carousel_dot" onClick={() => { currentSlide(index + 1) }}></span>
-//       ))}
-//     </div>
-//   </div>)
-// }

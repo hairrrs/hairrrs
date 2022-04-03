@@ -50,7 +50,6 @@ const Card = ({ article }) => {
     const [author, setAuthor] = useState(null);
     useEffect(() => {
         const fetch = async () => {
-            console.log(article?.author)
             var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
 
             if(width > 768){

@@ -6,16 +6,68 @@
   z-index: 5;
 }
 
-.navLogo {
-  /* width: 180px; */
-  /* height: 36px; */
-}
+/* .navLogo {
+  width: 180px;
+  height: 36px;
+} */
 
 .mainNav {
   padding: 15px 80px
 }
 
-@media (max-width: 700px){
+.mobileMenuTrigger {
+  padding: 5px 10px;
+  cursor: pointer
+}
+
+.navSearch {
+  border-bottom: 1px solid gray;
+}
+.navSearch input {
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 14px;
+  padding: 0;
+  margin: 0;
+  padding: 0 10px;
+  margin-right: 5px;
+}
+
+.topMenu {
+  padding: 10px 25px;
+  color: #eb004e;
+  background: #fcfcfc;
+  gap: 1rem;
+  overflow: auto;
+}
+
+
+.mobileMenu {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  width: 100%;
+  z-index: 99999999999999999;
+}
+
+.menucont {
+  width: 90%;
+  margin: auto;
+  background: white;
+  box-shadow: 0 0 15px 5px #dddddd;
+  padding: 10px;
+}
+
+@media (min-width: 768px){
+  .navSearch {
+    border: 1px solid gray;
+  }
+  .navSearch input {
+    width: 200px;
+  }
+}
+@media (max-width: 768px){
   .mainNav {
     padding: 15px 20px
   }
@@ -26,24 +78,4 @@
   .headerad {
     height: 30px
   }
-}
-
-.navSearch {
-  border: 1px solid gray;
-  /* padding: 10px 15px; */
-}
-.navSearch input {
-  outline: none;
-  border: none;
-  width: 200px;
-  height: 14px;
-  margin-right: 5px;
-}
-
-.topMenu {
-  padding: 10px 25px;
-  color: #eb004e;
-  background: #fcfcfc;
-  gap: 1rem;
-  overflow: auto;
 }

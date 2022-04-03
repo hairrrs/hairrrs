@@ -1,7 +1,10 @@
+@import "https://cssicon.space/css/icons.css";
+
 html,
 body {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
   /* background: rgb(208, 208, 208); */
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -11,6 +14,21 @@ body {
   top: 0;
   left: 0;
   width: 100%
+}
+
+.icon, .icon:before, .icon:after, .icon i, .icon i:before, .icon i:after { 
+  transition: all 0.4s ease;
+}
+.menu.icon {
+  color: #000;
+  margin-left: -17px !important;
+  margin-top: 4px !important;
+  width: 11px !important;
+}
+.close.icon {
+  color: #000;
+  margin-left: -17px !important;
+  margin-top: -4px !important;
 }
 
 .text-baseColor { 
@@ -30,7 +48,7 @@ p { margin: 15px 0 }
 .mx-3 { margin-left: 1.8rem; margin-right: 1.8rem }
 .mt-3 { margin-top: 1rem !important }
 
-html, body, * {
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
