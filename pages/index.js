@@ -3,7 +3,8 @@ import styles from '../styles/pages/homePage.module.css'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import Nav from '../components/nav';
+// import Nav from '../components/nav';
+import Nav2 from '../components/Nav2';
 import LayoutA from '../components/layoutA'
 import TrendingArticles from '../components/trendingArticles'
 import LatestJobVacancies from '../components/latestJobVacancies'
@@ -25,7 +26,8 @@ export default function HomePage() {
   ]
 
   return (<>
-    <Nav />
+    {/* <Nav /> */}
+    <Nav2 />
 
     <LayoutA>
       <div className="container-fluid">
@@ -44,14 +46,14 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="sm-hidden flex justify-between items-center" style={{ paddingTop: 15 }}>
+      {/* <div className="sm-hidden flex justify-between items-center" style={{ paddingTop: 15 }}>
         {catgBox.map((item, index) => (
           <div key={index} className="homeComponent-catg_box">
             <Image src={item.src} alt="" width="143px" height="164px" />
             <div className="homeComponent-catg_box_text">{item.caption}</div>
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* PRODUCTS BY FEATURED_CATG */}
       {featuredCatg?.map((category, index) => {

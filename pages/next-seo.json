@@ -1,0 +1,32 @@
+{
+  "title": "Hairrrs",
+  "titleTemplate": "%s | Hairrrs",
+  "description": "Everything Hair!",
+  "favicon": "/favicon.ico",
+  "additionalMetaTags": [
+    {"property": "author", "content": "Hairrrs"},
+    {
+      "property": "keywords",
+      "content": ""
+    }
+  ],
+  "twitter": {
+    "cardType": "summary",
+    "handle": "innogistblog",
+    "site": "https://www.innogistblog.com"
+  },
+  "openGraph": {
+    "type": "website",
+    "site_name": "https://www.innogistblog.com",
+    "profile": {
+      "firstName": "Hairrrs"
+    },
+    "images": [
+      {
+        "url": "/images/og.jpg",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  }
+}

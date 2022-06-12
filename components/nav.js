@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
+// import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/nav.module.css'
-import { useAuth } from '../context/AuthContext'
+// import { useAuth } from '../context/AuthContext'
 import SwitchAccount from './switchAccount'
 import SwitchMenu from './switchMenu'
+import {useTheme} from 'next-themes'
+import { FaRegCaretSquareDown } from 'react-icons/fa';
+import { BsFillBellFill } from 'react-icons/bs';
+import { MdDarkMode, MdOutlineDarkMode } from 'react-icons/md';
 
 export default function Nav() {
-  const { user } = useAuth();
-  console.log(user)
+  const {theme, setTheme} = useTheme()
+  // const { user } = useAuth();
+  // console.log(user)
 
   // const [scrollY, setScrollY] = useState(0);
   useEffect(() => {
@@ -45,7 +50,7 @@ export default function Nav() {
   const [showMenu, setShowMenu] = useState(false)
   const [showSwitchAccount, setShowSwitchAccount] = useState(false)
 
-  return (
+  return (<>
 
     <nav className={`nav ${styles.nav}`}>
 
@@ -189,5 +194,6 @@ export default function Nav() {
         <div>Articles</div>
       </div>
     </nav>
-  )
+  
+  </>)
 }

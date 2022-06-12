@@ -5,21 +5,21 @@ import { UncontrolledCarousel } from "reactstrap";
 export default function MyCarousel() {
   const items = [
     {
-      src: "/images/img-01.png",
+      src: "/images/0_NEgmVl2J_RRzI9Sr.jpg",
       altText: "Slide 1",
       caption: "",
       header: "",
       key: "1",
     },
     {
-      src: "/images/nutless braid.png",
+      src: "/images/0_NEgmVl2J_RRzI9Sr.jpg",
       altText: "Slide 2",
       caption: "",
       header: "",
       key: "2",
     },
     {
-      src: "/images/signin img.png",
+      src: "/images/0_NEgmVl2J_RRzI9Sr.jpg",
       altText: "Slide 3",
       caption: "",
       header: "",

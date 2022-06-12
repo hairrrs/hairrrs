@@ -147,8 +147,8 @@ function Signin() {
           onChange={onChange}
           type="password" id="password" placeholder="Password" />
       </div>
-      <div>Lost password? <span onClick={() => { setTogglePassRest(true) }} style={{ color: 'brown', cursor: 'pointer' }}>click here</span></div>
-      <button>Sign in</button>
+      <div className="text-sm my-1">Lost password? <span onClick={() => { setTogglePassRest(true) }} style={{ color: 'brown', cursor: 'pointer' }}>click here</span></div>
+      <button className="default-btn">Sign in</button>
     </form>
 
 

@@ -11,6 +11,7 @@ import Link from 'next/link'
 import AuthModal from '../components/AuthModal/authModal'
 import ReportModal from '../components/reportModal'
 import HeadMetadata from '../components/HeadMetadata'
+import {ThemeProvider} from 'next-themes'
 
 Modal.setAppElement('#__next');
 
@@ -77,7 +78,8 @@ function MyApp({ Component, pageProps }) {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(255, 255, 255, 0.75)'
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+          zIndex: 50,
         },
         content: {
           position: 'absolute',
@@ -91,7 +93,8 @@ function MyApp({ Component, pageProps }) {
           WebkitOverflowScrolling: 'touch',
           borderRadius: '4px',
           outline: 'none',
-          padding: '20px'
+          padding: '20px',
+          width: 300
         }
       }}
     >
@@ -113,7 +116,9 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       ) : (
         <ProtectedRoute>
-          <Component {...pageProps} />
+          <ThemeProvider attribute="class">
+            <Component {...pageProps} />
+          </ThemeProvider>
         </ProtectedRoute>
       )}
     </AuthContextProvider>

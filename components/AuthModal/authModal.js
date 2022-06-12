@@ -72,10 +72,12 @@ export default function AuthModal() {
   }
 
   return (<>
-    <div className="flex justify-around">
-      <div className="flex-column items-center">
-        <div className="">
-          <Image src="/hairrrs-Logo-original.png" width="150px" height="50px" alt="logo" />
+    {/* <div className="flex justify-around">
+
+    </div> */}
+      <div>
+        <div>
+          <Image src="/hairrrs-Logo-original.png" width="150px" height="40px" alt="logo" />
         </div>
 
         {page === 'signin' && <div> {<Signin />} </div>}
@@ -86,7 +88,7 @@ export default function AuthModal() {
           />
         </div>}
 
-        <br />
+        {/* <br />
         <div>or</div>
         <br />
 
@@ -94,10 +96,10 @@ export default function AuthModal() {
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <span>Sign up with</span>
 
-          {/* <WithGoogle defaults={defaults} handleSaveAccountToDevice={handleSaveAccountToDevice} />
+          <WithGoogle defaults={defaults} handleSaveAccountToDevice={handleSaveAccountToDevice} />
 
-          <WithFb defaults={defaults} handleSaveAccountToDevice={handleSaveAccountToDevice} /> */}
-        </div>
+          <WithFb defaults={defaults} handleSaveAccountToDevice={handleSaveAccountToDevice} />
+        </div> */}
 
         <br />
 
@@ -110,12 +112,9 @@ export default function AuthModal() {
           style={{ cursor: 'pointer', color: 'brown' }}>Sign up</span></div>}
       </div>
 
-
-      {/* authUser-sideImg */}
-      <div className="authUser-sideImg">
+      {/* <div className="authUser-sideImg">
         <Image src="/images/signup img.png" width="300px" height="300px" alt="signup img" />
-      </div>
-    </div>
+      </div> */}
 
 
 
