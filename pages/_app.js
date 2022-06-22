@@ -11,7 +11,7 @@ import Link from 'next/link'
 import AuthModal from '../components/AuthModal/authModal'
 import ReportModal from '../components/reportModal'
 import HeadMetadata from '../components/HeadMetadata'
-import {ThemeProvider} from 'next-themes'
+import { ThemeProvider } from 'next-themes'
 
 Modal.setAppElement('#__next');
 
@@ -113,10 +113,12 @@ function MyApp({ Component, pageProps }) {
 
     <AuthContextProvider>
       {noAuthRequired.includes(router.pathname) ? (
-        <Component {...pageProps} />
+        <ThemeProvider enableSystem={true} attribute="class">
+          <Component {...pageProps} />
+        </ThemeProvider>
       ) : (
         <ProtectedRoute>
-          <ThemeProvider attribute="class">
+          <ThemeProvider enableSystem={true} attribute="class">
             <Component {...pageProps} />
           </ThemeProvider>
         </ProtectedRoute>

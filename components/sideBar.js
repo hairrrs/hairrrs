@@ -19,7 +19,7 @@ export default function SideBar() {
         fontWeight: 600,
         fontSize: '1.2rem',
         position: 'relative',
-        background: 'white',
+        // background: 'white',
         boxShadow: '0 0 5px 0 rgba(0, 0, 0, 0.2)',
       }}
     >
@@ -33,7 +33,7 @@ export default function SideBar() {
             height: '48px',
             borderRadius: '50%',
             overflow: 'hidden',
-            background: 'black',
+            // background: 'black',
             marginBottom: '.5rem'
           }}>
             <Link href={`/u/${user?.displayName}`}><a>
@@ -48,7 +48,7 @@ export default function SideBar() {
                 {showMenu && <SwitchMenu user={user} setShowSwitchAccount={setShowSwitchAccount} setShowMenu={setShowMenu} />}
               </div>}
           </div>
-          <div className="flex flex-col" style={{ gap: '.7rem', padding: '10px 15px', background: '#f2f2f2', fontFamily: 'Montserrat Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif', fontSize: '.8rem' }}>
+          <div className="flex flex-col" style={{ gap: '.7rem', padding: '10px 15px', background: '#EB004E', color: 'white', fontFamily: 'Montserrat Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif', fontSize: '.8rem' }}>
             {!user &&
               <Link href="/?authModal=true" as={`${router.pathname}?signin`}><a onClick={() => { setShowMenu(false) }}>Login / Register</a></Link>
             }

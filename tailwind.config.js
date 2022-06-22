@@ -1,60 +1,12 @@
 module.exports = {
-  purge: {
-    enabled: true,
-    // content: ['./src/**/*.tsx'],
-  },
-  darkMode: 'class',
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-  ],
+  mode: "jit",
+  content: ['./src/**/*.html', "./components/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
-    typography: (theme) => ({
-      dark: {
-        css: {
-          color: 'white',
-        },
-      },
-    }),
-    extend: {
-      colors: {
-        primary: "var(--primary)",
-        secondary: "var(--secondary)",
-        main: "var(--main)",
-        baseColor: '#EB004E',
-        background: "var(--background)",
-        header: "var(--header)",
-        accent: "var(--accent)",
-      },
-    },
+    extend: {},
   },
-  variants: {},
-  plugins: [require('@tailwindcss/typography')],
-}
-
-
-
-
-
-// module.exports = {
-//   darkMode: 'class',
-//   purge: ['./src/**/*.js'],
-//   content: [
-//     './pages/**/*.{js,ts,jsx,tsx}',
-//     './components/**/*.{js,ts,jsx,tsx}',
-//   ],
-//   theme: {
-//     typography: (theme) => ({}),
-//     extend: {
-      // colors: {
-      //   primary: "var(--primary)",
-      //   secondary: "var(--secondary)",
-      //   main: "var(--main)",
-      //   background: "var(--background)",
-      //   header: "var(--header)",
-      //   accent: "var(--accent)",
-      // },
-//     },
-//   },
-//   plugins: [require('@tailwindcss/typography')],
-// }
+  variants: {
+    extend: {},
+  },
+  plugins: []
+};

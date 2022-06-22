@@ -65,12 +65,12 @@ const Card = ({ article }) => {
             {/* mainImage, author displayName... */}
             <div style={{ background: '#eb004e', gap: '1rem', height: 140, position: 'relative' }}>
                 <Link href={`u/${article?.author?.displayName}`}><a className="flex items-center" style={{ position: 'absolute', top:20, left: 20 }}>
-                    <div className="sm-hidden" style={{ borderRadius: '50%', background: '#fff', width: "43px", height: "43px" }}>
+                    <div className="sm-hidden bg-white w-[43px] h-[43px]" style={{ borderRadius: '50%' }}>
                         {// eslint-disable-next-line @next/next/no-img-element
                             <img src={author?.photoURL} alt={article?.author?.displayName} width="100%" height="100%" style={{ borderRadius: '50%' }} />
                         }
                     </div>
-                    <div style={{ padding: '5px 10px', fontSize: '.7rem', borderRadius: 5, marginLeft: 12, background: '#fff' }}><strong>{article?.author?.displayName}</strong></div>
+                    <div className="bg-white text-black py-1 px-2 text-xs rounded-md ml-3"><strong>{article?.author?.displayName}</strong></div>
                 </a></Link>
                 {article?.mainImage && <>
                 {
@@ -79,7 +79,8 @@ const Card = ({ article }) => {
                 }
                 </>}
             </div>
-            <div className="" style={{ padding: '10px', background: '#fff', boxShadow: 'rgb(0 0 0 / 12%) 0px 1px 7px 0px' }}>
+            
+            <div className="bg-white text-black p-[10px]" style={{ boxShadow: 'rgb(0 0 0 / 12%) 0px 1px 7px 0px' }}>
                 <div className=""><strong><Link href={`/article/${article?.slug}`}><a>{article?.title}</a></Link></strong></div>
                 <div className="flex">
                     <div className="">
@@ -91,15 +92,15 @@ const Card = ({ article }) => {
                         <div className="flex" style={{ gap: '2rem' }}>
                             <div>likes: {article?.likes?.length}</div>
                             <div>dislikes: {article?.disLikes?.length}</div>
-                            <div>chat</div>
+                            {/* <div>chat</div> */}
                         </div>
                     </div>
-                    <div className="flex-column" style={{ justifyContent: 'flex-end' }}>
+                    <div className="flex-col" style={{ justifyContent: 'flex-end' }}>
                         <div className="" aria-hidden="true">
-                            <Image src="/images/Icon awesome-share-alt.png" alt="" width="30px" height="30px" />
+                            <Image src="/images/Icon awesome-share-alt.png" alt="" width="40px" height="40px" />
                         </div>
                         <div className="mt-3" aria-hidden="true">
-                            <Image src="/images/Icon awesome-chevron-circlee-down.png" alt="" width="30px" height="30px" />
+                            <Image src="/images/Icon awesome-chevron-circlee-down.png" alt="" width="40px" height="40px" />
                         </div>
                     </div>
                 </div>

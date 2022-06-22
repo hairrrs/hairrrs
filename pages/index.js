@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 // import Nav from '../components/nav';
-import Nav2 from '../components/Nav2';
+import Nav from '../components/Nav';
 import LayoutA from '../components/layoutA'
 import TrendingArticles from '../components/trendingArticles'
 import LatestJobVacancies from '../components/latestJobVacancies'
@@ -26,8 +26,7 @@ export default function HomePage() {
   ]
 
   return (<>
-    {/* <Nav /> */}
-    <Nav2 />
+    <Nav />
 
     <LayoutA>
       <div className="container-fluid">
@@ -37,7 +36,7 @@ export default function HomePage() {
               <MyCarousel />
             </div>
           </div>
-          <div className="col-12 col-md-5 col-lg-4 flex justify-center items-center my-5 my-md-0" style={{ padding: '0 1rem' }}>
+          <div className="col-12 col-md-5 col-lg-4 flex justify-center items-center my-5 my-md-0 px-4">
             {
               // eslint-disable-next-line @next/next/no-img-element
               <img src="/images/face_of_ohyanga.png" alt="" width="200px" />
@@ -94,21 +93,21 @@ const ProductCard = ({ category }) => {
           fontWeight: 650,
           padding: '5px 15px'
         }}>{category}</div>
-        <br />
-        <div className="flex flex-wrap gap-1 homeComponent-featuredCatg_wig-body">
 
-          {/* <ProductCard /> */}
+        <br />
+
+        <div className="flex flex-wrap gap-1 homeComponent-featuredCatg_wig-body">
           {products?.map(product => {
             return (
-              <div key={product?.slug} className="flex" style={{ borderBottom: '1px solid #eb004e' }}>
+              <div key={product?.slug} className="flex">
                 <Link href={`/product/${product?.slug}`}><a className={`flex justify-center items-center ${styles.productCard_a_container}`}>
-                  {product?.mainImage && <Image src={`/images/${product?.mainImage}`} alt={product?.title} width="100px" height="120px" />}
+                  {product?.mainImage && <Image src={`/images/${product?.mainImage}`} alt={product?.title} width="200px" height="120px" />}
                 </a></Link>
 
-                <div style={{ width: '140px', height: '120px', background: '#dcdcdc', padding: '5px', justifyContent: 'space-around' }} className="flex-column">
+                <div className="flex flex-col justify-around p-1 bg-[#dcdcdc] text-sm text-black h-[120px] w-[140px]">
                   <div>
                     <div>
-                      <Link href={`/product/${product?.slug}`}><a style={{ fontSize: '.9rem', color: '#494949' }}>{product?.title}</a></Link>
+                      <Link href={`/product/${product?.slug}`}><a className="text-black" style={{ fontSize: '.9rem' }}>{product?.title}</a></Link>
                     </div>
                     <div><strong>{product?.price}</strong></div>
                   </div>
@@ -120,9 +119,10 @@ const ProductCard = ({ category }) => {
               </div>
             )
           })}
-
         </div>
+
         <br />
+
         <Link href={`/products/${category}`}><a><span style={{ color: '#eb004e', marginLeft: 10 }}>see more</span></a></Link>
       </div>
     )

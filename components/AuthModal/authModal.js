@@ -45,7 +45,7 @@ export default function AuthModal() {
   }
 
   const handleSaveAccountToDevice = (res) => {
-    if (res === 'yes') {
+    if (res === 'yes' && localStorage) {
       try {
         var allUsers = JSON.parse(localStorage?.getItem('allUsers'))
         var u = JSON.parse(localStorage?.getItem('user'))

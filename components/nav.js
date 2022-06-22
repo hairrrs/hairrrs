@@ -1,199 +1,75 @@
-import { useEffect, useState } from 'react'
-// import Image from 'next/image'
-import Link from 'next/link'
-import styles from '../styles/nav.module.css'
-// import { useAuth } from '../context/AuthContext'
-import SwitchAccount from './switchAccount'
-import SwitchMenu from './switchMenu'
-import {useTheme} from 'next-themes'
+import Link from 'next/link';
+import { useState } from 'react'
+import { useTheme } from 'next-themes'
+
+import Search from "./Search";
+import MobileMenu from './MobileMenu';
+
 import { FaRegCaretSquareDown } from 'react-icons/fa';
 import { BsFillBellFill } from 'react-icons/bs';
 import { MdDarkMode, MdOutlineDarkMode } from 'react-icons/md';
+import { HiMenuAlt4 } from 'react-icons/hi';
 
-export default function Nav() {
-  const {theme, setTheme} = useTheme()
-  // const { user } = useAuth();
-  // console.log(user)
-
-  // const [scrollY, setScrollY] = useState(0);
-  useEffect(() => {
-    const handleScroll = () => {
-      // setScrollY(window.scrollY);
-      let nav = document.querySelector('nav');
-      if (nav && window.scrollY > 100) {
-        nav.classList.add("sticky")
-      } else {
-        nav.classList.remove("sticky")
-      }
-    };
-
-    // just trigger this so that the initial state 
-    // is updated as soon as the component is mounted
-    // related: https://stackoverflow.com/a/63408216
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+export default function Nav2() {
+  const { theme, setTheme } = useTheme()
+  const [showMobileMenu, setShowMobileMenu] = useState(true);
 
   const handleMenuClick = () => {
     console.log('clicked!')
     setShowMobileMenu(!showMobileMenu);
   }
 
-  const [showMenu, setShowMenu] = useState(false)
-  const [showSwitchAccount, setShowSwitchAccount] = useState(false)
+
 
   return (<>
+    {
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src="/images/headerad.gif" alt="" width="100%" height="100%" />
+    }
 
-    <nav className={`nav ${styles.nav}`}>
+    {showMobileMenu && <MobileMenu handleMenuClick={handleMenuClick} />}
 
-
-
-
-
-      {showMobileMenu && <div className={`sm-show ${styles.mobileMenu}`}>
-        <div className={styles.menucont}>
-          <div style={{
-            display: 'grid',
-            placeItems: 'center',
-            margin: '20px 0'
-          }}>
-            <i className="close icon menuIcon" onClick={handleMenuClick}></i>
-          </div>
-          <form className={`flex items-center ${styles.navSearch}`}>
-            <input type="search" name="search" id="search" placeholder="search" />
-            <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer' }}><i className="fa fa-search" style={{ color: '#eb004e' }}></i></button>
-          </form>
-
-          <div className={`flex justify-between items-center mt-3`}>
-            <div className="mx-3">
-              {
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src="/images/msg-header.svg" alt="" width="20px" height="20px" />
-              }
-            </div>
-            <div className="mx-3">
-              {
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src="/images/notification-header.svg" alt="" width="20px" height="20px" />
-              }
-            </div>
-            <div className="mx-3">
-              {
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src="/images/saved-header.svg" alt="" width="20px" height="20px" />
-              }
-            </div>
-
-            <div
-              onClick={() => { document.querySelector('#startSelling').style.display = 'flex' }}
-              style={{ padding: '7px 23px', background: '#eb004e', color: 'white', borderRadius: '5px', cursor: 'pointer' }}>start selling</div>
-          </div>
-
-          <div className="container-fluid my-5" style={{ position: 'relative' }}>
-            {showSwitchAccount && <SwitchAccount user={user} setShowSwitchAccount={setShowSwitchAccount} />}
-            <div className="row items-center">
-              <div className="col-3">
-                {
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={user ? user?.photoURL : "/images/user.png"} alt="" style={{ width: 60, height: 60, borderRadius: '50%' }} />
-                }
-              </div>
-              <div className="col-3 d-flex items-center" style={{ position: 'relative' }}>
-                <span style={{ textTransform: 'uppercase', fontWeight: 800, color: '#eb004e', marginRight: 10 }}>{user?.displayName}</span>
-                <i onClick={() => { setShowMenu(!showMenu) }} className="fa fa-angle-down text-baseColor"></i>
-                {showMenu && <SwitchMenu user={user} setShowSwitchAccount={setShowSwitchAccount} setShowMenu={setShowMenu} />}
-              </div>
-            </div>
-          </div>
-
-          <div className="row justify-center " style={{ display: 'grid' }}>
-            <span>
-              <span>Analystics</span>
-              <span style={{ margin: '0 10px' }}>|</span>
-              <span>Products</span>
-            </span>
-            <div>
-              <span>Articles</span>
-              <span style={{ margin: '0 10px' }}>|</span>
-              <span>Job vacancies</span>
-            </div>
-          </div>
-
-          <div className="mt-5 text-center">
-            @ hairrrs.com
-          </div>
-        </div>
-      </div>}
-
-
-
-
-
-      <div className={styles.headerad}>
-        {
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src="/images/headerad.gif" alt="" width="100%" height="100%" className={styles.headeradImg} />
-        }
+    <header className="flex items-center justify-between sticky top-0 drop-shadow-md hover:drop-shadow-xl dark:shadow-white px-3 md:px-20 py-2 z-10
+    dark:bg-black bg-white
+    ">
+      <div>
+        <Link href="/"><a>
+          {
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/hairrrs-Logo-original.png" alt="logo" width="100" />
+          }
+        </a></Link>
       </div>
-      <div className={`${styles.mainNav} flex justify-between items-center`}>
-        <div className={styles.navLogo}>
-          <Link href="/"><a>
-            {
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src="/hairrrs-Logo-original.png" alt="logo" width="120" height="30" />
-            }
-          </a></Link>
-        </div>
-        <div className={`${styles.mobileMenuTrigger} sm-show`}>
-          <i className="fa fa-bars pt-2" onClick={handleMenuClick}></i>
-          {/* <i className="menu icon menuIcon" onClick={(e) => { handleMenuClick(e, 'show')}}></i> */}
-        </div>
-        <div className={`sm-hidden flex justify-between items-center`}>
-          <form className={`mx-3 flex items-center ${styles.navSearch}`}>
-            <input type="search" name="search" id="search" placeholder="search" />
-            <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer' }}><i className="fa fa-search" style={{ color: '#eb004e' }}></i></button>
-          </form>
-          <div className="mx-3">
-            {
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src="/images/msg-header.svg" alt="" width="20px" height="20px" />
-            }
-          </div>
-          <div className="mx-3">
-            {
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src="/images/notification-header.svg" alt="" width="20px" height="20px" />
-            }
-          </div>
-          <div className="mx-3">
-            {
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src="/images/saved-header.svg" alt="" width="20px" height="20px" />
-            }
-          </div>
-
-          <div className="mx-3"
-            onClick={() => { document.querySelector('#startSelling').style.display = 'flex' }}
-            style={{ padding: '7px 23px', background: '#eb004e', color: 'white', borderRadius: '5px', cursor: 'pointer' }}>start selling</div>
+      <div className={` sm-show`}>
+        <div onClick={handleMenuClick}>
+          <HiMenuAlt4 />
         </div>
       </div>
-
-
-      <div className={`flex justify-around mt-3 ${styles.topMenu}`} style={{ fontWeight: 600 }}>
-        <div>Products</div>
-        <div>Business</div>
-        <div >Jobs</div>
-        <div>Articles</div>
+      <div className="flex items-center sm-hidden">
+        <div className="mr-16">
+          <Search />
+        </div>
+        <div className={`mr-16 cursor-pointer relative`}>
+          <FaRegCaretSquareDown size="1.3em" />
+          <span style={{ position: 'absolute', top: -5, right: -10, fontSize: '.6em', background: 'var(--main-color)', color: 'white', width: 18, height: 18, borderRadius: '50%', display: 'grid', placeItems: 'center' }}>7</span>
+        </div>
+        <div className={`mr-10 cursor-pointer relative`}>
+          <BsFillBellFill size="1.3em" />
+          <span style={{ position: 'absolute', top: -5, right: -10, fontSize: '.6em', background: 'var(--main-color)', color: 'white', width: 18, height: 18, borderRadius: '50%', display: 'grid', placeItems: 'center' }}>7</span>
+        </div>
+        <div className={`mr-10 mt-1`}>
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+            {theme === 'dark' ? <MdDarkMode size="1.3em" /> : <MdOutlineDarkMode size="1.3em" />}
+          </button>
+        </div>
+        <div className="default-btn cursor-pointer" onClick={() => { document.querySelector('#startSelling').style.display = 'flex' }}>start selling</div>
       </div>
-    </nav>
-  
+    </header>
+    <div className="flex items-center justify-evenly bg-[#EB004E] text-white p-1 py-2">
+      <div className="cursor-pointer">Products</div>
+      <div className="cursor-pointer">Businesses</div>
+      <div className="cursor-pointer">Job Vacancies</div>
+      <div className="cursor-pointer">Articles</div>
+    </div>
   </>)
 }
