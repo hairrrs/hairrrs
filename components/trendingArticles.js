@@ -65,10 +65,8 @@ const Card = ({ article }) => {
             {/* mainImage, author displayName... */}
             <div style={{ background: '#eb004e', gap: '1rem', height: 140, position: 'relative' }}>
                 <Link href={`u/${article?.author?.displayName}`}><a className="flex items-center" style={{ position: 'absolute', top:20, left: 20 }}>
-                    <div className="sm-hidden bg-white w-[43px] h-[43px]" style={{ borderRadius: '50%' }}>
-                        {// eslint-disable-next-line @next/next/no-img-element
-                            <img src={author?.photoURL} alt={article?.author?.displayName} width="100%" height="100%" style={{ borderRadius: '50%' }} />
-                        }
+                    <div className="sm-hidden bg-white w-[43px] h-[43px] overflow-hidden rounded-[50%]">
+                        <Image src={author?.photoURL} alt={article?.author?.displayName} width="43" height="43px" />
                     </div>
                     <div className="bg-white text-black py-1 px-2 text-xs rounded-md ml-3"><strong>{article?.author?.displayName}</strong></div>
                 </a></Link>
