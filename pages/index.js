@@ -71,7 +71,11 @@ export default function HomePage() {
 
 
 const ProductCard = ({ category }) => {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([
+    {title: 'Title of the item will be placed here', slug: 'title-of-the-item-will-be-placed-here', mainImage: '', price: 'N17,500'},
+    {title: 'Title of the item will be placed here', slug: 'title-of-the-item-will-be-placed-here', mainImage: '', price: 'N17,500'},
+    {title: 'Title of the item will be placed here', slug: 'title-of-the-item-will-be-placed-here', mainImage: '', price: 'N17,500'},
+  ])
 
   useEffect(() => {
     const fetch = async () => {
@@ -79,7 +83,7 @@ const ProductCard = ({ category }) => {
       const serialized = res?.data ? res?.data : null
       serialized && setProducts(serialized)
     }
-    return fetch()
+    // return fetch()
   }, [category])
 
   if (!!products.length > 0) {
@@ -96,7 +100,7 @@ const ProductCard = ({ category }) => {
 
         <br />
 
-        <div className="flex flex-wrap gap-1 homeComponent-featuredCatg_wig-body">
+        <div className="flex flex-wrap gap-5 homeComponent-featuredCatg_wig-body">
           {products?.map(product => {
             return (
               <div key={product?.slug} className="flex">

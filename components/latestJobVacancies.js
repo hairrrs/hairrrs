@@ -1,4 +1,3 @@
-import styles from '../styles/components/latestJobVacancy.module.css'
 import Image from "next/image"
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import Link from "next/link";
@@ -6,8 +5,15 @@ import { useEffect, useState } from "react";
 import { getUserById } from "../lib/api";
 import { db } from "../lib/firebase";
 
+import { AiOutlineClockCircle } from 'react-icons/ai';
+import { MdLocationSearching } from 'react-icons/md';
+
 export default function LatestJobVacancies({ docLimit = "18" }) {
-    const [jobs, setJobs] = useState([])
+    const [jobs, setJobs] = useState([
+        { jobId: 'se409sdkle', title: 'Sample job', slug: 'sample-job', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, autem. Dolorem ducimus cum molestias esse.', type: 'Full time', location: 'Lagoes/Nigeria', promotion: 'Gold promotion', lister: { uid: 'slk39834kdlju' } },
+        { jobId: 'se409sdkle', title: 'Sample job', slug: 'sample-job', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, autem. Dolorem ducimus cum molestias esse.', type: 'Full time', location: 'Lagoes/Nigeria', promotion: 'Gold promotion', lister: { uid: 'slk39834kdlju' } },
+        { jobId: 'se409sdkle', title: 'Sample job', slug: 'sample-job', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, autem. Dolorem ducimus cum molestias esse.', type: 'Full time', location: 'Lagoes/Nigeria', promotion: 'Gold promotion', lister: { uid: 'slk39834kdlju' } },
+    ])
     useEffect(() => {
         const fetch = async () => {
             const jobsRef = collection(db, "jobs");
@@ -15,9 +21,9 @@ export default function LatestJobVacancies({ docLimit = "18" }) {
             const documentSnapshots = await getDocs(q).catch(error => { console.log('LatestJobVacancies error:', error) });
             let data = documentSnapshots.docs.map(doc => ({ ...doc.data(), jobId: doc.id }));
             // const lastVisibleItem = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-            setJobs(data);
+            data && setJobs(data);
         }
-        return fetch()
+        // return fetch()
     }, [docLimit])
 
     // console.log(jobs)
@@ -28,7 +34,7 @@ export default function LatestJobVacancies({ docLimit = "18" }) {
                 <div className="" style={{ background: '#eb004e', color: 'white', textAlign: 'center', padding: '10px' }}><strong>Job vacancies</strong></div>
                 <br />
 
-                <div className="flex flex-wrap featuredCatg_wig-body" style={{ gap: '1.2rem', padding: '10px' }}>
+                <div className="flex flex-wrap justify-center featuredCatg_wig-body" style={{ gap: '1.2rem', padding: '10px' }}>
                     {jobs?.map(job => {
                         return <Card key={job.jobId} job={job} />
                     })}
@@ -47,49 +53,43 @@ export default function LatestJobVacancies({ docLimit = "18" }) {
 }
 
 const Card = ({ job }) => {
-    const [author, setAuthor] = useState(null);
+    const [author, setAuthor] = useState({ photoURL: '/images/nutless braid.png', displayName: 'cent' });
     useEffect(() => {
         var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
-        
+
         const fetch = async () => {
-            if(width > 768){
+            if (width > 768) {
                 const author = await getUserById(job?.lister?.uid);
-                setAuthor(author);
-                console.log(author);
+                author && setAuthor(author);
             }
         }
-        return fetch()
+        // return fetch()
     }, [job])
 
     return (
-        <div className={`flex ${styles.cardWrapper}`}>
-            <div className="flex justify-center sm-hidden" style={{ width: '25%', paddingTop: 15 }}>
+        <div className={`bg-[#ececec82] md:w-[300px] p-4`}>
+            <div className="flex gap-3 items-center">
                 <div className="" style={{ position: 'relative', borderRadius: '50%', background: '#fff', width: "43px", height: "43px" }}>
-                    {// eslint-disable-next-line @next/next/no-img-element
-                        <img src="/images/nutless braid.png" alt="" width="100%" height="100%" style={{ borderRadius: '50%' }} />
-                    }
-                    <div style={{ position: 'absolute', top: '27%', right: -5 }}>
-                        {author?.photoURL && <Image src={author?.photoURL} alt={author?.displayName} width="15px" height="15px" />}
+                    <div className="rounded-[50%] overflow-hidden w-[43px] h-[43px]">
+                        {author?.photoURL && <Image src={author?.photoURL} alt={author?.displayName} width="43px" height="43px" />}
                     </div>
+                </div>
+                <strong style={{ fontSize: '.9rem' }}><Link href={`/article/${job?.slug}`}><a>{job?.title}</a></Link></strong>
+            </div>
+            <div><p style={{ fontSize: '.8rem' }}>{job?.description}</p></div>
+            <div className="md-flex flex-col" style={{ marginTop: '.6rem', gap: '.8rem', fontSize: '.8rem' }}>
+                <div className="flex gap-1 items-center">
+                    <div><AiOutlineClockCircle color="#eb004e" size="18px" /></div>
+                    <div>{job?.type}</div>
+                </div>
+                <div className="flex gap-1 items-center">
+                    <div><MdLocationSearching color="#eb004e" size="18px" /></div>
+                    <div>{job?.location}</div>
                 </div>
             </div>
-            <div style={{ padding: 15 }}>
-                <div className=""><strong style={{ fontSize: '.9rem' }}><Link href={`/article/${job?.slug}`}><a>{job?.title}</a></Link></strong></div>
-                <div><p style={{ fontSize: '.8rem' }}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, autem. Dolorem ducimus cum molestias esse.</p></div>
-                <div className="md-flex flex-column" style={{ marginTop: '.6rem', gap: '1.2rem', fontSize: '.8rem' }}>
-                    <div className="flex">
-                        <Image src="/images/Icon material-access-time.png" alt="" width="15px" height="15px" />
-                        <div style={{ marginLeft: '8px', }}>Full time</div>
-                    </div>
-                    <div className="flex">
-                        <Image src="/images/Icon material-location-searching.png" alt="" width="15px" height="15px" />
-                        <div style={{ marginLeft: '8px', }}>Lagoes/Nigeria</div>
-                    </div>
-                </div>
-                <div style={{ marginTop: '15px', marginBottom: '3px' }}>
-                    <span style={{ background: '#ffd100', color: 'white', borderRadius: '5px', padding: '3px 20px', fontSize: '.8rem', fontWeight: 600 }}>Gold promotion</span>
-                </div>
-            </div>
+            {job?.promotion && <div style={{ marginTop: '15px', marginBottom: '3px' }}>
+                <span style={{ background: '#ffd100', color: 'white', borderRadius: '5px', padding: '3px 20px', fontSize: '.8rem', fontWeight: 600 }}>{job?.promotion}</span>
+            </div>}
         </div>
     )
 }

@@ -24,7 +24,7 @@ export default function SideBar() {
       }}
     >
       {showSwitchAccount && <SwitchAccount user={user} setShowSwitchAccount={setShowSwitchAccount} />}
-      
+
       <div className="" style={{ width: '100%', padding: '15px 20px' }}>
         <div className="flex flex-col items-center justify-center">
           <div style={{
@@ -41,12 +41,12 @@ export default function SideBar() {
             </a></Link>
           </div>
           <div className="flex items-center" style={{ gap: '.5rem' }}>
-              <div><Link href={`/u/${user?.displayName}`}><a style={{ fontSize: '1.2rem', fontWeight: 800 }} className="text-baseColor">{user ? user.displayName : 'Anonymous'}</a></Link></div>
-              
-              {user && <div style={{ position: 'relative', cursor: 'pointer' }}>
-                <i onClick={() => { setShowMenu(!showMenu) }} style={{ fontSize: '25px', marginTop: '5px' }} className="fa fa-angle-down text-baseColor" aria-hidden="true"></i>
-                {showMenu && <SwitchMenu user={user} setShowSwitchAccount={setShowSwitchAccount} setShowMenu={setShowMenu} />}
-              </div>}
+            <div><Link href={`/u/${user?.displayName}`}><a style={{ fontSize: '1.2rem', fontWeight: 800 }} className="text-baseColor">{user ? user.displayName : 'Anonymous'}</a></Link></div>
+
+            {user && <div style={{ position: 'relative', cursor: 'pointer' }}>
+              <i onClick={() => { setShowMenu(!showMenu) }} style={{ fontSize: '25px', marginTop: '5px' }} className="fa fa-angle-down text-baseColor" aria-hidden="true"></i>
+              {showMenu && <SwitchMenu user={user} setShowSwitchAccount={setShowSwitchAccount} setShowMenu={setShowMenu} />}
+            </div>}
           </div>
           <div className="flex flex-col" style={{ gap: '.7rem', padding: '10px 15px', background: '#EB004E', color: 'white', fontFamily: 'Montserrat Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif', fontSize: '.8rem' }}>
             {!user &&
@@ -56,12 +56,18 @@ export default function SideBar() {
         </div>
 
         <br /><br /><br />
-        <div className="flex flex-col items-center" style={{ gap: '1.4rem', fontWeight: 700 }}>
+        {user ? <div className={`flex flex-col items-center`} style={{ gap: '1.4rem', fontWeight: 700 }}>
           <Link href="/"><a>Analystics</a></Link>
           <Link href="/"><a>Products</a></Link>
           <Link href="/"><a>Job vacancies</a></Link>
           <Link href="/"><a>Articles</a></Link>
-        </div>
+        </div> :
+          <div className={`flex flex-col items-center`} style={{ gap: '1.4rem', fontWeight: 700 }}>
+            <span className="cursor-not-allowed" title="Login/Signup">Analystics</span>
+            <span className="cursor-not-allowed" title="Login/Signup">Products</span>
+            <span className="cursor-not-allowed" title="Login/Signup">Job vacancies</span>
+            <span className="cursor-not-allowed" title="Login/Signup">Articles</span>
+          </div>}
 
         {/* <br />
         <div className="text-center" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
