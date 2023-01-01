@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 // import Nav from '../components/nav';
-import Nav from '../components/Nav';
+import Nav2 from '../components/nav';
 import LayoutA from '../components/layoutA'
 import TrendingArticles from '../components/trendingArticles'
 import LatestJobVacancies from '../components/latestJobVacancies'
@@ -26,7 +26,7 @@ export default function HomePage() {
   ]
 
   return (<>
-    <Nav />
+    <Nav2 />
 
     <LayoutA>
       <div className="container-fluid">
